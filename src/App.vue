@@ -59,7 +59,7 @@ onMounted(async () => {
   <header class="nav">
     <div class="wrap navwrap">
       <a class="brand" href="#topo" aria-label="hicode">
-        <span class="logo" aria-hidden="true">⟳</span> hicode
+        <span class="logo" aria-hidden="true">⟳</span> hicode<span class="beta">beta</span>
       </a>
       <nav class="navlinks" aria-label="Navegação principal">
         <a href="#sobre">O que é</a>
@@ -175,6 +175,7 @@ onMounted(async () => {
 .brand { color: var(--tx); font-weight: 700; font-size: 18px; }
 .brand:hover { text-decoration: none; }
 .logo { color: var(--acc); }
+.beta { margin-left: 7px; font-size: 11px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: var(--mut); background: var(--panel2); border: 1px solid var(--bd); border-radius: 999px; padding: 1px 6px; vertical-align: middle; }
 .navlinks { display: flex; align-items: center; gap: 18px; }
 .navlinks a { color: var(--mut); font-size: 14px; }
 .navlinks a:hover { color: var(--tx); text-decoration: none; }
