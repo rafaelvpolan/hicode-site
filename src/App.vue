@@ -1,11 +1,20 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
 const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
 const stars = ref<number | null>(null)
 const loadingStars = ref(true)
+const showScrollTop = ref(false)
+
+function onScroll() {
+  showScrollTop.value = window.scrollY > 300
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const pipeline = [
   { k: 'Executar', d: 'a tarefa vira um resultado funcional mínimo' },
@@ -39,6 +48,8 @@ function fmtStars(n: number): string {
 }
 
 onMounted(async () => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+
   try {
     const r = await fetch('https://api.github.com/repos/rafaelvpolan/hicode')
     if (r.ok) {
@@ -50,6 +61,10 @@ onMounted(async () => {
   } finally {
     loadingStars.value = false
   }
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll)
 })
 </script>
 
@@ -156,6 +171,13 @@ onMounted(async () => {
     </section>
   </main>
 
+  <button
+    v-show="showScrollTop"
+    class="scroll-top"
+    aria-label="Voltar ao topo"
+    @click="scrollToTop"
+  >↑</button>
+
   <footer class="foot">
     <div class="wrap footwrap">
       <span>⟳ <strong>hicode</strong> — gerenciador de projetos autônomo</span>
@@ -236,4 +258,7 @@ onMounted(async () => {
 .foot a { color: var(--mut); }
 .dim a:hover { color: var(--tx); }
 .made { margin: 16px 0 0; text-align: center; color: var(--mut); font-size: 12px; opacity: .6; }
+
+.scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: 30; width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--bd); background: var(--panel2); color: var(--tx); font-size: 18px; cursor: pointer; display: grid; place-items: center; transition: border-color .15s ease, transform .06s ease; }
+.scroll-top:hover { border-color: var(--acc); transform: translateY(-2px); }
 </style>
