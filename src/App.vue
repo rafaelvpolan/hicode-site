@@ -56,7 +56,10 @@ onMounted(async () => {
 <template>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-  <header class="nav">
+  <div class="topbar">
+    <div class="test-banner" role="status" aria-live="polite">versao de testes</div>
+
+    <header class="nav">
     <div class="wrap navwrap">
       <a class="brand" href="#topo" aria-label="hicode">
         <span class="logo" aria-hidden="true">⟳</span> hicode<span class="beta">beta</span>
@@ -71,6 +74,7 @@ onMounted(async () => {
       </nav>
     </div>
   </header>
+  </div>
 
   <main id="conteudo">
     <section id="topo" class="hero">
@@ -168,10 +172,13 @@ onMounted(async () => {
 <style scoped>
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; width: 100%; }
 
+.topbar { position: sticky; top: 0; z-index: 20; }
+.test-banner { background: var(--gold); color: #0d1117; font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; text-align: center; padding: 7px 0; }
+
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 12px; top: 12px; background: var(--acc); color: #fff; padding: 8px 12px; border-radius: 8px; z-index: 50; }
 
-.nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px); background: rgba(13,17,23,.72); border-bottom: 1px solid var(--bd); }
+.nav { backdrop-filter: blur(10px); background: rgba(13,17,23,.72); border-bottom: 1px solid var(--bd); }
 .navwrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .brand { color: var(--tx); font-weight: 700; font-size: 18px; }
 .brand:hover { text-decoration: none; }
