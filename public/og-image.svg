@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0d1117"/>
+  <rect x="1" y="1" width="1198" height="628" rx="0" fill="none" stroke="#21262d" stroke-width="2"/>
+  <rect x="80" y="220" width="56" height="56" rx="14" fill="#0d1117" stroke="#2f81f7" stroke-width="2"/>
+  <path d="M93 228v40M93 248h17a8 8 0 0 1 8 8v12" fill="none" stroke="#2f81f7" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="118" cy="232" r="6" fill="#3fb950"/>
+  <text x="154" y="261" font-family="system-ui,-apple-system,sans-serif" font-size="52" font-weight="700" fill="#e6edf3">hicode</text>
+  <text x="80" y="330" font-family="system-ui,-apple-system,sans-serif" font-size="24" fill="#8b949e">Gerenciador de projetos autônomo com IA</text>
+  <text x="80" y="370" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#8b949e">executar → preview → aprovar → PR → deploy</text>
+  <text x="80" y="430" font-family="system-ui,-apple-system,sans-serif" font-size="16" fill="#3fb950">open source · MIT · github.com/rafaelvpolan/hicode</text>
+</svg>

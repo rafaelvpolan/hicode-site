@@ -65,7 +65,7 @@ onMounted(async () => {
         <a href="#sobre">O que é</a>
         <a href="#pipeline">Pipeline</a>
         <a href="#open">Open source</a>
-        <a class="ghbtn" :href="repoUrl" target="_blank" rel="noopener">
+        <a class="ghbtn" :href="repoUrl" target="_blank" rel="noopener noreferrer">
           ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
         </a>
       </nav>
@@ -76,16 +76,16 @@ onMounted(async () => {
     <section id="topo" class="hero">
       <div class="wrap">
         <p class="badge">open source · MIT</p>
-        <h1>Você não prompta os agentes.<br /><span class="grad">Você desenha o loop que os prompta.</span></h1>
+        <h1>Prompts resolvem tarefas.<br /><span class="grad">Loops inteligentes constroem sistemas.</span></h1>
         <p class="sub">
           <strong>hicode</strong> é um gerenciador de projetos autônomo com IA. Cada tarefa vira um
           card que percorre <em>executar → preview → aprovar → PR → deploy</em> — com agentes
           especializados fazendo o trabalho e um gate adversarial garantindo a qualidade.
         </p>
         <div class="cta">
-          <a class="btn primary" :href="repoUrl" target="_blank" rel="noopener">Ver no GitHub →</a>
-          <a class="btn" :href="starUrl" target="_blank" rel="noopener">⭐ Dar uma estrela</a>
-          <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener">💖 Apoiar</a>
+          <a class="btn primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">Ver no GitHub →</a>
+          <a class="btn" :href="starUrl" target="_blank" rel="noopener noreferrer">⭐ Dar uma estrela</a>
+          <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Apoiar</a>
         </div>
         <p class="starline" aria-live="polite">
           <template v-if="loadingStars">Carregando estrelas…</template>
@@ -136,17 +136,17 @@ onMounted(async () => {
             se puder, <strong>apoiar o desenvolvimento</strong>.
           </p>
           <div class="cta">
-            <a class="btn primary" :href="starUrl" target="_blank" rel="noopener">
+            <a class="btn primary" :href="starUrl" target="_blank" rel="noopener noreferrer">
               ⭐ Star <span v-if="!loadingStars && stars !== null">· {{ fmtStars(stars) }}</span>
             </a>
-            <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener">💖 Doar / Sponsor</a>
-            <a class="btn" :href="repoUrl" target="_blank" rel="noopener">Contribuir no repo</a>
+            <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Doar / Sponsor</a>
+            <a class="btn" :href="repoUrl" target="_blank" rel="noopener noreferrer">Contribuir no repo</a>
           </div>
         </div>
         <aside class="starcard" aria-label="Estrelas no GitHub">
           <span class="big">{{ loadingStars ? '…' : (stars === null ? '★' : fmtStars(stars)) }}</span>
           <span class="lbl">estrelas no GitHub</span>
-          <a class="btn primary sm" :href="starUrl" target="_blank" rel="noopener">Apoiar com 1 clique</a>
+          <a class="btn primary sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</a>
         </aside>
       </div>
     </section>
@@ -156,11 +156,12 @@ onMounted(async () => {
     <div class="wrap footwrap">
       <span>⟳ <strong>hicode</strong> — gerenciador de projetos autônomo</span>
       <span class="dim">
-        <a :href="repoUrl" target="_blank" rel="noopener">GitHub</a> ·
-        <a :href="sponsorUrl" target="_blank" rel="noopener">Apoiar</a> ·
+        <a :href="repoUrl" target="_blank" rel="noopener noreferrer">GitHub</a> ·
+        <a :href="sponsorUrl" target="_blank" rel="noopener noreferrer">Apoiar</a> ·
         open source
       </span>
     </div>
+    <p class="made">feito com hicode</p>
   </footer>
 </template>
 
@@ -226,4 +227,5 @@ onMounted(async () => {
 .footwrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--mut); font-size: 14px; }
 .foot a { color: var(--mut); }
 .dim a:hover { color: var(--tx); }
+.made { margin: 16px 0 0; text-align: center; color: var(--mut); font-size: 12px; opacity: .6; }
 </style>
