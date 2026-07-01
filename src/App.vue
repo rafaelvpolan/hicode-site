@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { fmtStars } from './lib/stars'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
@@ -42,10 +43,6 @@ const pillars = [
     text: 'Primeiro a tarefa funciona e você vê o preview; só depois vêm arquitetura, testes e limpeza. Valida-se a intenção cedo.',
   },
 ]
-
-function fmtStars(n: number): string {
-  return n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'k' : String(n)
-}
 
 onMounted(async () => {
   window.addEventListener('scroll', onScroll, { passive: true })
