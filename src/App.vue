@@ -83,6 +83,7 @@ onUnmounted(() => {
         <a href="#sobre">O que é</a>
         <a href="#pipeline">Pipeline</a>
         <a href="#open">Open source</a>
+        <a :href="`${repoUrl}#readme`" target="_blank" rel="noopener noreferrer">Docs</a>
         <a class="ghbtn" :href="repoUrl" target="_blank" rel="noopener noreferrer">
           ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
         </a>
