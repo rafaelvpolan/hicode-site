@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { pipeline, stepStyle } from './pipeline'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
@@ -15,15 +16,6 @@ function onScroll() {
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-const pipeline = [
-  { k: 'Executar', d: 'a tarefa vira um resultado funcional mínimo' },
-  { k: 'Preview', d: 'você vê a página rodando antes de qualquer teste' },
-  { k: 'Aprovar', d: 'confirma que é o resultado certo' },
-  { k: 'Polir', d: 'arquitetura, testes, segurança, review, limpeza' },
-  { k: 'PR', d: 'a única porta humana: você revisa e dá merge' },
-  { k: 'Deploy', d: 'CI publica e verifica o resultado' },
-]
 
 const pillars = [
   {
@@ -138,8 +130,12 @@ onUnmounted(() => {
         <h2>O pipeline</h2>
         <p class="lead">Executar primeiro, polir depois. Você vê o resultado antes de gastar esforço com testes e limpeza.</p>
         <ol class="steps">
-          <li v-for="(s, i) in pipeline" :key="s.k">
-            <span class="n">{{ i + 1 }}</span>
+          <li v-for="s in pipeline" :key="s.k">
+            <span
+              class="n"
+              :style="stepStyle(s)"
+              aria-hidden="true"
+            >{{ s.icon }}</span>
             <div><b>{{ s.k }}</b><span>{{ s.d }}</span></div>
           </li>
         </ol>
@@ -243,7 +239,7 @@ onUnmounted(() => {
 .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
 .steps li { display: flex; gap: 14px; align-items: flex-start; background: var(--panel); border: 1px solid var(--bd); border-radius: 12px; padding: 16px 18px; }
-.steps .n { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 8px; background: color-mix(in srgb, var(--acc) 18%, transparent); color: var(--acc); font-weight: 800; display: grid; place-items: center; }
+.steps .n { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 8px; border: 1px solid transparent; font-size: 15px; line-height: 1; display: grid; place-items: center; }
 .steps b { display: block; }
 .steps span { color: var(--mut); font-size: 14px; }
 
