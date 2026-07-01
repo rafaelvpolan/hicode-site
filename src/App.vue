@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { pipeline, stepStyle } from './pipeline'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
@@ -15,22 +16,6 @@ function onScroll() {
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-
-interface PipelineStep {
-  k: string
-  d: string
-  icon: string
-  color: string
-}
-
-const pipeline: PipelineStep[] = [
-  { k: 'Executar', d: 'a tarefa vira um resultado funcional mínimo', icon: '⚡', color: '#f5a623' },
-  { k: 'Preview', d: 'você vê a página rodando antes de qualquer teste', icon: '👁️', color: '#58a6ff' },
-  { k: 'Aprovar', d: 'confirma que é o resultado certo', icon: '✅', color: '#3fb950' },
-  { k: 'Polir', d: 'arquitetura, testes, segurança, review, limpeza', icon: '✨', color: '#bc8cff' },
-  { k: 'PR', d: 'a única porta humana: você revisa e dá merge', icon: '🔀', color: '#f778ba' },
-  { k: 'Deploy', d: 'CI publica e verifica o resultado', icon: '🚀', color: '#39c5cf' },
-]
 
 const pillars = [
   {
@@ -148,11 +133,7 @@ onUnmounted(() => {
           <li v-for="s in pipeline" :key="s.k">
             <span
               class="n"
-              :style="{
-                background: `color-mix(in srgb, ${s.color} 18%, transparent)`,
-                color: s.color,
-                borderColor: `color-mix(in srgb, ${s.color} 40%, transparent)`,
-              }"
+              :style="stepStyle(s)"
               aria-hidden="true"
             >{{ s.icon }}</span>
             <div><b>{{ s.k }}</b><span>{{ s.d }}</span></div>
