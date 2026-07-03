@@ -1,21 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
 import { pipeline, stepStyle } from './pipeline'
+import { useGithubStars } from './useGithubStars'
+import { useScrollTop } from './useScrollTop'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
 const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
-const stars = ref<number | null>(null)
-const loadingStars = ref(true)
-const showScrollTop = ref(false)
 
-function onScroll() {
-  showScrollTop.value = window.scrollY > 300
-}
-
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+const { stars, loadingStars, fmtStars } = useGithubStars()
+const { showScrollTop, scrollToTop } = useScrollTop()
 
 const pillars = [
   {
@@ -34,30 +27,6 @@ const pillars = [
     text: 'Primeiro a tarefa funciona e você vê o preview; só depois vêm arquitetura, testes e limpeza. Valida-se a intenção cedo.',
   },
 ]
-
-function fmtStars(n: number): string {
-  return n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'k' : String(n)
-}
-
-onMounted(async () => {
-  window.addEventListener('scroll', onScroll, { passive: true })
-
-  try {
-    const r = await fetch('https://api.github.com/repos/rafaelvpolan/hicode')
-    if (r.ok) {
-      const d = await r.json()
-      stars.value = typeof d.stargazers_count === 'number' ? d.stargazers_count : null
-    }
-  } catch {
-    stars.value = null
-  } finally {
-    loadingStars.value = false
-  }
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll)
-})
 </script>
 
 <template>
