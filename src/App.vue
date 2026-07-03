@@ -250,7 +250,7 @@ onUnmounted(() => {
 @media (max-width: 820px) { .donate { grid-template-columns: 1fr; } }
 .donate-text p { color: var(--mut); max-width: 560px; }
 .starcard { position: relative; background: linear-gradient(180deg, var(--panel), var(--panel2)); border: 1px solid color-mix(in srgb, var(--gold-bright) 45%, var(--bd)); border-radius: 18px; padding: 28px; text-align: center; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 20%, transparent), 0 0 46px color-mix(in srgb, var(--gold-bright) 22%, transparent); }
-.starcard .stars-ic { display: block; font-size: 18px; letter-spacing: 4px; margin-bottom: 8px; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
+.starcard .stars-ic { display: block; font-size: 18px; letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
 .starcard .big { display: block; font-size: 64px; font-weight: 800; color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
 .starcard .lbl { display: block; color: var(--mut); margin: 6px 0 18px; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; }
 
