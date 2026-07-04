@@ -1,21 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
 import { pipeline, stepStyle } from './pipeline'
+import { useGithubStars } from './useGithubStars'
+import { useScrollTop } from './useScrollTop'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
 const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
-const stars = ref<number | null>(null)
-const loadingStars = ref(true)
-const showScrollTop = ref(false)
 
-function onScroll() {
-  showScrollTop.value = window.scrollY > 300
-}
-
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+const { stars, loadingStars, fmtStars } = useGithubStars()
+const { showScrollTop, scrollToTop } = useScrollTop()
 
 const pillars = [
   {
@@ -34,30 +27,6 @@ const pillars = [
     text: 'Primeiro a tarefa funciona e você vê o preview; só depois vêm arquitetura, testes e limpeza. Valida-se a intenção cedo.',
   },
 ]
-
-function fmtStars(n: number): string {
-  return n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'k' : String(n)
-}
-
-onMounted(async () => {
-  window.addEventListener('scroll', onScroll, { passive: true })
-
-  try {
-    const r = await fetch('https://api.github.com/repos/rafaelvpolan/hicode')
-    if (r.ok) {
-      const d = await r.json()
-      stars.value = typeof d.stargazers_count === 'number' ? d.stargazers_count : null
-    }
-  } catch {
-    stars.value = null
-  } finally {
-    loadingStars.value = false
-  }
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll)
-})
 </script>
 
 <template>
@@ -152,7 +121,7 @@ onUnmounted(() => {
             se puder, <strong>apoiar o desenvolvimento</strong>.
           </p>
           <div class="cta">
-            <a class="btn primary" :href="starUrl" target="_blank" rel="noopener noreferrer">
+            <a class="btn star" :href="starUrl" target="_blank" rel="noopener noreferrer">
               ⭐ Star <span v-if="!loadingStars && stars !== null">· {{ fmtStars(stars) }}</span>
             </a>
             <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Doar / Sponsor</a>
@@ -160,9 +129,10 @@ onUnmounted(() => {
           </div>
         </div>
         <aside class="starcard" aria-label="Estrelas no GitHub">
+          <span class="stars-ic" aria-hidden="true">⭐⭐⭐</span>
           <span class="big">{{ loadingStars ? '…' : (stars === null ? '★' : fmtStars(stars)) }}</span>
           <span class="lbl">estrelas no GitHub</span>
-          <a class="btn primary sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</a>
+          <a class="btn star sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</a>
         </aside>
       </div>
     </section>
@@ -221,6 +191,8 @@ onUnmounted(() => {
 .btn.primary:hover { background: var(--acc2); }
 .btn.pink { border-color: color-mix(in srgb, var(--pink) 55%, transparent); color: #ffd9ec; }
 .btn.pink:hover { border-color: var(--pink); }
+.btn.star { background: linear-gradient(180deg, var(--gold-bright2), var(--gold-bright)); border-color: var(--gold-bright); color: #2b1d00; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 60%, transparent), 0 4px 18px color-mix(in srgb, var(--gold-bright) 45%, transparent); }
+.btn.star:hover { background: linear-gradient(180deg, #fff2b8, var(--gold-bright2)); border-color: var(--gold-bright2); box-shadow: 0 0 0 1px var(--gold-bright2), 0 6px 24px color-mix(in srgb, var(--gold-bright) 65%, transparent); }
 .btn.sm { padding: 8px 14px; font-size: 14px; }
 .starline { margin-top: 22px; color: var(--mut); font-size: 14px; }
 
@@ -246,9 +218,10 @@ onUnmounted(() => {
 .donate { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: center; }
 @media (max-width: 820px) { .donate { grid-template-columns: 1fr; } }
 .donate-text p { color: var(--mut); max-width: 560px; }
-.starcard { background: linear-gradient(180deg, var(--panel), var(--panel2)); border: 1px solid var(--bd); border-radius: 18px; padding: 28px; text-align: center; }
-.starcard .big { display: block; font-size: 56px; font-weight: 800; color: var(--gold); line-height: 1; }
-.starcard .lbl { display: block; color: var(--mut); margin: 6px 0 18px; font-size: 14px; }
+.starcard { position: relative; background: linear-gradient(180deg, var(--panel), var(--panel2)); border: 1px solid color-mix(in srgb, var(--gold-bright) 45%, var(--bd)); border-radius: 18px; padding: 28px; text-align: center; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 20%, transparent), 0 0 46px color-mix(in srgb, var(--gold-bright) 22%, transparent); }
+.starcard .stars-ic { display: block; font-size: 18px; letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
+.starcard .big { display: block; font-size: 64px; font-weight: 800; color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
+.starcard .lbl { display: block; color: var(--mut); margin: 6px 0 18px; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; }
 
 .foot { border-top: 1px solid var(--bd); padding: 28px 0; }
 .footwrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--mut); font-size: 14px; }
