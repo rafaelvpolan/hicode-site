@@ -1,13 +1,10 @@
 import { onMounted, ref, type Ref } from 'vue'
+import { fmtStars } from './lib/stars'
 
 interface GithubStars {
   stars: Ref<number | null>
   loadingStars: Ref<boolean>
   fmtStars: (n: number) => string
-}
-
-function fmtStars(n: number): string {
-  return n >= 1000 ? (n / 1000).toFixed(1).replace('.0', '') + 'k' : String(n)
 }
 
 export function useGithubStars(): GithubStars {
