@@ -27,26 +27,6 @@ const pillars = [
     text: 'Primeiro a tarefa funciona e você vê o preview; só depois vêm arquitetura, testes e limpeza. Valida-se a intenção cedo.',
   },
 ]
-
-onMounted(async () => {
-  window.addEventListener('scroll', onScroll, { passive: true })
-
-  try {
-    const r = await fetch('https://api.github.com/repos/rafaelvpolan/hicode')
-    if (r.ok) {
-      const d = await r.json()
-      stars.value = typeof d.stargazers_count === 'number' ? d.stargazers_count : null
-    }
-  } catch {
-    stars.value = null
-  } finally {
-    loadingStars.value = false
-  }
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll)
-})
 </script>
 
 <template>
