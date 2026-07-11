@@ -191,8 +191,8 @@ const pillars = [
 .btn.primary:hover { background: var(--acc2); }
 .btn.pink { border-color: color-mix(in srgb, var(--pink) 55%, transparent); color: #ffd9ec; }
 .btn.pink:hover { border-color: var(--pink); }
-.btn.star { background: linear-gradient(180deg, var(--gold-bright2), var(--gold-bright)); border-color: var(--gold-bright); color: #2b1d00; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 60%, transparent), 0 4px 18px color-mix(in srgb, var(--gold-bright) 45%, transparent); }
-.btn.star:hover { background: linear-gradient(180deg, #fff2b8, var(--gold-bright2)); border-color: var(--gold-bright2); box-shadow: 0 0 0 1px var(--gold-bright2), 0 6px 24px color-mix(in srgb, var(--gold-bright) 65%, transparent); }
+.btn.star { --star-glow-rest: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 75%, transparent), 0 6px 28px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 40px color-mix(in srgb, var(--gold-bright) 35%, transparent); --star-glow-peak: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 95%, transparent), 0 6px 34px color-mix(in srgb, var(--gold-bright) 80%, transparent), 0 0 60px color-mix(in srgb, var(--gold-bright) 55%, transparent); background: linear-gradient(180deg, var(--gold-bright2), var(--gold-bright)); border-color: var(--gold-bright); color: #2b1d00; box-shadow: var(--star-glow-rest); animation: starBtnGlow 2.4s ease-in-out infinite; }
+.btn.star:hover { background: linear-gradient(180deg, #fff2b8, var(--gold-bright2)); border-color: var(--gold-bright2); box-shadow: 0 0 0 2px var(--gold-bright2), 0 8px 34px color-mix(in srgb, var(--gold-bright) 85%, transparent), 0 0 50px color-mix(in srgb, var(--gold-bright) 50%, transparent); animation-play-state: paused; }
 .btn.sm { padding: 8px 14px; font-size: 14px; }
 .starline { margin-top: 22px; color: var(--mut); font-size: 14px; }
 
@@ -218,10 +218,22 @@ const pillars = [
 .donate { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: center; }
 @media (max-width: 820px) { .donate { grid-template-columns: 1fr; } }
 .donate-text p { color: var(--mut); max-width: 560px; }
-.starcard { position: relative; background: linear-gradient(180deg, var(--panel), var(--panel2)); border: 1px solid color-mix(in srgb, var(--gold-bright) 45%, var(--bd)); border-radius: 18px; padding: 28px; text-align: center; box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 20%, transparent), 0 0 46px color-mix(in srgb, var(--gold-bright) 22%, transparent); }
+.starcard { --starcard-glow-rest: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 45%, transparent), 0 0 70px color-mix(in srgb, var(--gold-bright) 40%, transparent), 0 0 130px color-mix(in srgb, var(--gold-bright) 20%, transparent); --starcard-glow-peak: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 90px color-mix(in srgb, var(--gold-bright) 60%, transparent), 0 0 160px color-mix(in srgb, var(--gold-bright) 32%, transparent); position: relative; background: linear-gradient(180deg, var(--panel), var(--panel2)); border: 1px solid color-mix(in srgb, var(--gold-bright) 75%, var(--bd)); border-radius: 18px; padding: 28px; text-align: center; box-shadow: var(--starcard-glow-rest); animation: starcardGlow 3.2s ease-in-out infinite; }
 .starcard .stars-ic { display: block; font-size: 18px; letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
 .starcard .big { display: block; font-size: 64px; font-weight: 800; color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
 .starcard .lbl { display: block; color: var(--mut); margin: 6px 0 18px; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; }
+
+@keyframes starcardGlow {
+  0%, 100% { box-shadow: var(--starcard-glow-rest); }
+  50% { box-shadow: var(--starcard-glow-peak); }
+}
+@keyframes starBtnGlow {
+  0%, 100% { box-shadow: var(--star-glow-rest); }
+  50% { box-shadow: var(--star-glow-peak); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .starcard, .btn.star { animation: none; }
+}
 
 .foot { border-top: 1px solid var(--bd); padding: 28px 0; }
 .footwrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--mut); font-size: 14px; }
