@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/hicode-site/' : '/',
+  cacheDir: '.vite-cache',
   plugins: [vue()],
   server: { host: true, port: 5173 }
 }))

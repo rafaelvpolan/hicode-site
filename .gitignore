@@ -4,4 +4,5 @@ dist/
 .DS_Store
 *.log
 .vite/
+.vite-cache/
 *.tsbuildinfo
