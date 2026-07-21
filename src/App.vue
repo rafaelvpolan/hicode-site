@@ -187,7 +187,7 @@ function stageTag(index: number): string {
 
 .nav { backdrop-filter: blur(10px); background: rgba(8, 9, 12, .78); border-bottom: 1px solid var(--bd); }
 .navwrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.brand { color: var(--tx); font-weight: 700; font-size: 18px; }
+.brand { color: var(--acc); font-weight: 700; font-size: 18px; }
 .brand:hover { text-decoration: none; }
 .logo { color: var(--acc); }
 .beta { margin-left: 7px; font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: var(--mut); background: var(--panel2); border: 1px solid var(--bd); border-radius: 3px; padding: 1px 6px; vertical-align: middle; }
