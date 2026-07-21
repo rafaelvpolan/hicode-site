@@ -37,8 +37,8 @@ const pillars = [
 
     <header class="nav">
     <div class="wrap navwrap">
-      <a class="brand" href="#topo" aria-label="hicode">
-        <span class="logo" aria-hidden="true">⟳</span> hicode<span class="beta">beta</span>
+      <a class="brand" href="#topo" aria-label="hii - high ignation">
+        <span class="logo" aria-hidden="true">⟳</span> hii<span class="beta">beta</span>
       </a>
       <nav class="navlinks" aria-label="Navegação principal">
         <a href="#sobre">O que é</a>
@@ -59,7 +59,7 @@ const pillars = [
         <p class="badge">open source · MIT</p>
         <h1>Prompts resolvem tarefas.<br /><span class="grad">Loops inteligentes constroem sistemas.</span></h1>
         <p class="sub">
-          <strong>hicode</strong> é um gerenciador de projetos autônomo com IA. Cada tarefa vira um
+          <strong>hii</strong> é um gerenciador de projetos autônomo com IA. Cada tarefa vira um
           card que percorre <em>executar → preview → aprovar → PR → deploy</em> — com agentes
           especializados fazendo o trabalho e um gate adversarial garantindo a qualidade.
         </p>
@@ -78,7 +78,7 @@ const pillars = [
 
     <section id="sobre" class="block">
       <div class="wrap">
-        <h2>O que é o hicode</h2>
+        <h2>O que é o hii</h2>
         <p class="lead">
           Funde <strong>Loop Engineering</strong> com o framework de agentes <strong>Nexus</strong>:
           um loop determinístico descobre o trabalho, executa por card, mostra o resultado e abre o PR.
@@ -116,7 +116,7 @@ const pillars = [
         <div class="donate-text">
           <h2>Projeto open source</h2>
           <p>
-            O hicode é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
+            O hii é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
             retribuir é <strong>deixar uma estrela</strong> (ajuda outras pessoas a encontrarem) e,
             se puder, <strong>apoiar o desenvolvimento</strong>.
           </p>
@@ -147,14 +147,14 @@ const pillars = [
 
   <footer class="foot">
     <div class="wrap footwrap">
-      <span>⟳ <strong>hicode</strong> — gerenciador de projetos autônomo</span>
+      <span>⟳ <strong>hii</strong> — gerenciador de projetos autônomo</span>
       <span class="dim">
         <a :href="repoUrl" target="_blank" rel="noopener noreferrer">GitHub</a> ·
         <a :href="sponsorUrl" target="_blank" rel="noopener noreferrer">Apoiar</a> ·
         open source
       </span>
     </div>
-    <p class="made">feito com hicode</p>
+    <p class="made">feito com hii</p>
   </footer>
 </template>
 
