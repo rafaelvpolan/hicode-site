@@ -5,6 +5,7 @@ import { useScrollTop } from './useScrollTop'
 import { sectionTag } from './sectionTag'
 import EngineConsole from './components/EngineConsole.vue'
 import FeatureBelt from './components/FeatureBelt.vue'
+import TelemetryHud from './components/TelemetryHud.vue'
 import CardLifecycle from './components/CardLifecycle.vue'
 import AgentGrid from './components/AgentGrid.vue'
 import LoopVsPrompt from './components/LoopVsPrompt.vue'
@@ -51,6 +52,7 @@ const pillars = [
       <nav class="navlinks" aria-label="Navegação principal">
         <a href="#sobre">O que é</a>
         <a href="#pipeline">Pipeline</a>
+        <a href="#telemetria">Telemetria</a>
         <a href="#agentes">Agentes</a>
         <a href="#faq">FAQ</a>
         <a href="#open">Open source</a>
@@ -135,9 +137,21 @@ const pillars = [
       </div>
     </section>
 
-    <section id="anatomia" class="block">
+    <section id="telemetria" class="block">
       <div class="wrap">
-        <p class="eyebrow">{{ sectionTag('CH', 2) }} · ESTADO REAL</p>
+        <p class="eyebrow">{{ sectionTag('CH', 2) }} · STATUS DO LOOP</p>
+        <h2>Telemetria do motor</h2>
+        <p class="lead">
+          O que o pipeline está fazendo agora: quanto do loop roda sozinho no motor, quantas
+          fases faltam até você ver o resultado e quem está de olho na revisão do Crivo.
+        </p>
+        <TelemetryHud />
+      </div>
+    </section>
+
+    <section id="anatomia" class="block alt">
+      <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 3) }} · ESTADO REAL</p>
         <h2>Anatomia de um card</h2>
         <p class="lead">
           Cada card nasce em <code>cards/&lt;NNN-slug&gt;.md</code> e atravessa dez estados até o merge.
@@ -147,9 +161,9 @@ const pillars = [
       </div>
     </section>
 
-    <section id="agentes" class="block alt">
+    <section id="agentes" class="block">
       <div class="wrap">
-        <p class="eyebrow">{{ sectionTag('CH', 3) }} · TIME</p>
+        <p class="eyebrow">{{ sectionTag('CH', 4) }} · TIME</p>
         <h2>Os agentes Nexus</h2>
         <p class="lead">
           Escopo estreito, um dono por preocupação. Ninguém entrega "pronto" sem passar pelo
@@ -159,9 +173,9 @@ const pillars = [
       </div>
     </section>
 
-    <section id="por-que-loops" class="block">
+    <section id="por-que-loops" class="block alt">
       <div class="wrap">
-        <p class="eyebrow">{{ sectionTag('CH', 4) }} · TESE</p>
+        <p class="eyebrow">{{ sectionTag('CH', 5) }} · TESE</p>
         <h2>Por que loops, não prompts</h2>
         <p class="lead">
           Um prompt é sessão. Um loop é sistema. A diferença aparece na segunda vez que você
@@ -171,10 +185,10 @@ const pillars = [
       </div>
     </section>
 
-    <section id="open" class="block alt">
+    <section id="open" class="block">
       <div class="wrap donate">
         <div class="donate-text">
-          <p class="eyebrow">{{ sectionTag('CH', 5) }} · COMUNIDADE</p>
+          <p class="eyebrow">{{ sectionTag('CH', 6) }} · COMUNIDADE</p>
           <h2>Projeto open source</h2>
           <p>
             O hiignation é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
@@ -198,9 +212,9 @@ const pillars = [
       </div>
     </section>
 
-    <section id="faq" class="block">
+    <section id="faq" class="block alt">
       <div class="wrap">
-        <p class="eyebrow">{{ sectionTag('CH', 6) }} · DÚVIDAS</p>
+        <p class="eyebrow">{{ sectionTag('CH', 7) }} · DÚVIDAS</p>
         <h2>Perguntas frequentes</h2>
         <p class="lead">
           O essencial sobre merge, spec e o que o pipeline decide sozinho — sem precisar ler
@@ -272,18 +286,20 @@ const pillars = [
 
 .belt-section { padding: clamp(22px, 4vw, 34px) 0; }
 
-.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--acc2); margin: 0 0 12px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--acc2); margin: 0 0 12px; text-shadow: 0 0 16px color-mix(in srgb, var(--acc) 40%, transparent); }
 
 .block { padding: clamp(48px, 9vw, 88px) 0; }
-.block.alt { background: var(--bg2); border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd); }
+.block.alt { background: var(--bg2); border-top: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); border-bottom: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); }
 .block h2 { font-size: clamp(24px, 4vw, 34px); margin: 0 0 10px; }
+.block h2::after { content: ''; display: block; width: 52px; height: 3px; margin-top: 14px; background: linear-gradient(90deg, var(--acc), var(--acc2)); border-radius: 2px; }
 .lead { color: var(--mut); max-width: 720px; margin: 0 0 32px; font-size: 17px; }
 .lead code { font-family: var(--font-mono); background: var(--panel2); border: 1px solid var(--bd); border-radius: 4px; padding: 1px 6px; font-size: .88em; color: var(--tx); }
 
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
-.card { position: relative; background: var(--panel); border: 1px solid var(--bd); clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); padding: 24px 22px 22px; }
-.card-tag { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--mut); margin-bottom: 10px; }
+.card { position: relative; background: var(--panel); border: 1px solid var(--bd); clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); padding: 24px 22px 22px; transition: border-color .2s ease, box-shadow .3s ease; }
+.card:hover { border-color: color-mix(in srgb, var(--acc) 55%, var(--bd)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 22%, transparent), 0 16px 40px -26px color-mix(in srgb, var(--acc) 55%, transparent); }
+.card-tag { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--acc2); margin-bottom: 10px; }
 .card .ic { font-size: 26px; }
 .card h3 { margin: 12px 0 8px; font-size: 19px; }
 .card p { margin: 0; color: var(--mut); }
@@ -310,6 +326,7 @@ const pillars = [
 }
 @media (prefers-reduced-motion: reduce) {
   .starcard, .btn.star { animation: none; }
+  .card { transition: none; }
 }
 
 .foot { border-top: 1px solid var(--bd); padding: 28px 0; }

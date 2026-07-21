@@ -32,13 +32,24 @@ import { agents } from '../agents'
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: box-shadow .3s ease;
+}
+
+.agent:hover {
+  box-shadow: -4px 0 20px -10px color-mix(in srgb, var(--acc) 65%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent {
+    transition: none;
+  }
 }
 
 .agent-id {
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 700;
-  color: var(--tx);
+  color: var(--acc2);
 }
 
 .agent-domain {
