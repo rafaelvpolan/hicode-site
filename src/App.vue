@@ -2,7 +2,7 @@
 import { pipeline, stepStyle } from './pipeline'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
-import { useIgnition } from './useIgnition'
+import EngineConsole from './components/EngineConsole.vue'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
@@ -10,16 +10,6 @@ const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
 
 const { stars, loadingStars, fmtStars } = useGithubStars()
 const { showScrollTop, scrollToTop } = useScrollTop()
-const {
-  displayRpm,
-  rpmFraction,
-  isRunning,
-  isCranking,
-  statusLabel,
-  buttonLabel,
-  srStatusLabel,
-  toggle,
-} = useIgnition()
 
 const pillars = [
   {
@@ -93,36 +83,7 @@ function stageTag(index: number): string {
           <template v-else>⭐ {{ fmtStars(stars) }} {{ stars === 1 ? 'estrela' : 'estrelas' }} no GitHub</template>
         </p>
 
-        <div class="ignition" :class="{ 'is-cranking': isCranking, 'is-running': isRunning }">
-          <div class="turbine" :style="'--rpm-frac: ' + rpmFraction">
-            <span class="turbine-ring" aria-hidden="true">
-              <span class="turbine-core"></span>
-              <span class="turbine-needle"></span>
-              <span class="embers">
-                <i></i><i></i><i></i><i></i><i></i>
-              </span>
-            </span>
-            <span class="chevrons" aria-hidden="true">
-              <i></i><i></i><i></i>
-            </span>
-            <div class="telemetry" aria-hidden="true">
-              <span class="tele-k">RPM</span>
-              <span class="tele-v">{{ displayRpm }}</span>
-              <span class="tele-status">{{ statusLabel }}</span>
-            </div>
-          </div>
-          <div class="ignite-shell">
-            <button
-              type="button"
-              class="ignite-btn"
-              :class="{ 'is-on': isRunning || isCranking }"
-              :aria-pressed="isRunning || isCranking"
-              aria-describedby="ignition-status"
-              @click="toggle"
-            >{{ buttonLabel }}</button>
-          </div>
-          <p id="ignition-status" class="sr-only" role="status" aria-live="polite">{{ srStatusLabel }}</p>
-        </div>
+        <EngineConsole />
       </div>
     </section>
 
@@ -253,44 +214,6 @@ function stageTag(index: number): string {
 .btn.sm { padding: 8px 14px; font-size: 13px; }
 .starline { margin-top: 22px; color: var(--mut); font-size: 14px; }
 
-.ignition { margin: clamp(40px, 7vw, 64px) auto 0; display: flex; flex-direction: column; align-items: center; max-width: 320px; }
-.turbine { position: relative; width: clamp(168px, 32vw, 224px); aspect-ratio: 1; }
-.turbine-ring { position: absolute; inset: 0; border-radius: 50%; display: block; background: conic-gradient(var(--acc) calc(var(--rpm-frac, 0) * 360deg), color-mix(in srgb, var(--bd) 70%, transparent) 0deg), radial-gradient(circle at 50% 50%, var(--bg) 56%, transparent 57%); border: 1px solid var(--bd); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .4); transition: background .5s ease; }
-.turbine-core { position: absolute; inset: 32%; border-radius: 50%; background: radial-gradient(circle, var(--acc2), var(--acc) 60%, transparent 74%); opacity: .3; filter: blur(1px); }
-.ignition.is-cranking .turbine-core, .ignition.is-running .turbine-core { animation: coreGlow 1.6s ease-in-out infinite; }
-.turbine-needle { position: absolute; top: 50%; left: 50%; width: 44%; height: 3px; background: linear-gradient(90deg, var(--acc), transparent); border-radius: 3px; box-shadow: 0 0 10px var(--acc); transform-origin: 0 50%; transform: translateY(-50%) rotate(calc(var(--rpm-frac, 0) * 260deg - 130deg)); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
-.embers { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
-.embers i { position: absolute; bottom: 8%; width: 4px; height: 4px; border-radius: 50%; background: var(--hazard); box-shadow: 0 0 6px var(--hazard); opacity: 0; }
-.embers i:nth-child(1) { left: 22%; }
-.embers i:nth-child(2) { left: 38%; }
-.embers i:nth-child(3) { left: 50%; }
-.embers i:nth-child(4) { left: 64%; }
-.embers i:nth-child(5) { left: 78%; }
-.ignition.is-running .embers i { animation: emberRise 2.2s ease-in infinite; }
-.ignition.is-running .embers i:nth-child(2) { animation-delay: .3s; }
-.ignition.is-running .embers i:nth-child(3) { animation-delay: .6s; }
-.ignition.is-running .embers i:nth-child(4) { animation-delay: .9s; }
-.ignition.is-running .embers i:nth-child(5) { animation-delay: 1.2s; }
-.chevrons { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); display: flex; gap: 6px; }
-.chevrons i { display: block; width: 13px; height: 13px; border-top: 3px solid var(--bd); border-right: 3px solid var(--bd); transform: rotate(45deg); opacity: .4; }
-.ignition.is-cranking .chevrons i, .ignition.is-running .chevrons i { border-color: var(--acc); animation: chevronPulse 1s ease-in-out infinite; }
-.chevrons i:nth-child(2) { animation-delay: .15s; }
-.chevrons i:nth-child(3) { animation-delay: .3s; }
-.telemetry { margin-top: 40px; font-family: var(--font-mono); }
-.tele-k { display: block; font-size: 11px; letter-spacing: .2em; color: var(--mut); }
-.tele-v { display: block; font-size: clamp(28px, 5vw, 38px); font-weight: 800; color: var(--tx); font-variant-numeric: tabular-nums; }
-.tele-status { display: inline-block; margin-top: 2px; font-size: 12px; letter-spacing: .1em; color: var(--acc2); }
-.ignite-shell { margin-top: 18px; border-radius: 2px; }
-.ignition.is-cranking .ignite-shell, .ignition.is-running .ignite-shell { animation: igniteGlow 2s ease-in-out infinite; }
-.ignite-btn { font-family: var(--font-mono); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; color: var(--tx); background: var(--panel2); border: 1px solid var(--bd); padding: 13px 28px; min-height: 44px; cursor: pointer; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); transition: border-color .15s ease, color .15s ease, background .2s ease, transform .06s ease; }
-.ignite-btn:hover { border-color: var(--acc); transform: translateY(-1px); }
-.ignite-btn.is-on { background: linear-gradient(180deg, var(--acc2), var(--acc)); color: #1a0b02; border-color: var(--acc); }
-
-@keyframes coreGlow { 0%, 100% { opacity: .3; transform: scale(.92); } 50% { opacity: .85; transform: scale(1.05); } }
-@keyframes emberRise { 0% { opacity: 0; transform: translateY(0) scale(.6); } 15% { opacity: 1; } 100% { opacity: 0; transform: translateY(-84px) scale(1.1); } }
-@keyframes chevronPulse { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
-@keyframes igniteGlow { 0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 55%, transparent), 0 0 22px color-mix(in srgb, var(--acc) 40%, transparent); } 50% { box-shadow: 0 0 0 1px var(--acc), 0 0 38px color-mix(in srgb, var(--acc) 70%, transparent); } }
-
 .hazard-strip { height: 6px; background: repeating-linear-gradient(135deg, var(--hazard) 0 14px, #000 14px 28px); opacity: .5; }
 
 .block { padding: clamp(48px, 9vw, 88px) 0; }
@@ -331,8 +254,7 @@ function stageTag(index: number): string {
   50% { box-shadow: var(--star-glow-peak); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .starcard, .btn.star, .turbine-core, .embers i, .chevrons i, .ignite-shell { animation: none; }
-  .turbine-needle, .turbine-ring { transition: none; }
+  .starcard, .btn.star { animation: none; }
 }
 
 .foot { border-top: 1px solid var(--bd); padding: 28px 0; }
