@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Button from './Button.vue'
+
 interface FinalCtaProps {
   repoUrl: string
   starUrl: string
@@ -17,9 +19,9 @@ defineProps<FinalCtaProps>()
       card virar preview, depois PR — sem precisar reexplicar nada na próxima sessão.
     </p>
     <div class="cta">
-      <a class="btn primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">Começar no GitHub →</a>
-      <a class="btn star" :href="starUrl" target="_blank" rel="noopener noreferrer">⭐ Dar uma estrela</a>
-      <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Apoiar</a>
+      <Button variant="primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">Começar no GitHub →</Button>
+      <Button variant="star" :href="starUrl" target="_blank" rel="noopener noreferrer">⭐ Dar uma estrela</Button>
+      <Button variant="pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Apoiar</Button>
     </div>
   </div>
 </template>
@@ -37,11 +39,11 @@ defineProps<FinalCtaProps>()
 
 .final-eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--acc2);
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-4);
 }
 
 .final h2 {

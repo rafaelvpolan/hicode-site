@@ -14,9 +14,62 @@
   --gold: #d29922;
   --gold-bright: #ffd23f;
   --gold-bright2: #ffe27a;
+
+  --white: #fff;
+  --black: #000;
+  --tx-soft: #c9d1d9;
+  --ink-acc: #1a0b02;
+  --ink-hazard: #1a1206;
+  --ink-star: #2b1d00;
+  --pink-soft: #ffd9e2;
+  --gold-soft: #fff2b8;
+
+  --space-1: 6px;
+  --space-2: 8px;
+  --space-3: 10px;
+  --space-4: 12px;
+  --space-5: 14px;
+  --space-6: 16px;
+  --space-7: 18px;
+  --space-8: 20px;
+  --space-9: 22px;
+  --space-10: 24px;
+  --space-11: 28px;
+  --space-12: 32px;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 18px;
+
+  --shadow-panel-hover: 0 0 0 1px color-mix(in srgb, var(--acc) 22%, transparent), 0 16px 40px -26px color-mix(in srgb, var(--acc) 55%, transparent);
+  --shadow-panel-active: 0 0 0 1px color-mix(in srgb, var(--acc) 30%, transparent), 0 10px 40px -18px color-mix(in srgb, var(--acc) 60%, transparent);
+
+  --fs-2xs: 10px;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-md: 13px;
+  --fs-base: 14px;
+  --fs-lg: 15px;
+  --fs-xl: 17px;
+  --fs-2xl: 18px;
+  --fs-3xl: 19px;
+  --fs-4xl: 26px;
+  --fs-5xl: 34px;
+  --fs-6xl: 56px;
+  --fs-hero: clamp(30px, 6vw, 56px);
+  --fs-h2: clamp(24px, 4vw, 34px);
+  --fs-sub: clamp(15px, 2.4vw, 19px);
+
+  --fw-400: 400;
+  --fw-600: 600;
+  --fw-700: 700;
+  --fw-800: 800;
+
   --maxw: 1080px;
   --cut: 14px;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -27,7 +80,7 @@ body {
     radial-gradient(1100px 560px at 50% -8%, color-mix(in srgb, var(--acc) 16%, transparent) 0%, transparent 55%),
     var(--bg);
   color: var(--tx);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -41,21 +94,7 @@ h1, h2, h3 { line-height: 1.2; }
   outline-offset: 2px;
 }
 
-.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-.btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; background: var(--panel2); border: 1px solid var(--bd); color: var(--tx); padding: 11px 18px; clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px); font-weight: 700; font-size: 14px; transition: transform .06s ease, border-color .15s ease; }
-.btn:hover { text-decoration: none; border-color: var(--acc); transform: translateY(-1px); }
-.btn.primary { background: linear-gradient(180deg, var(--acc2), var(--acc)); border-color: var(--acc); color: #1a0b02; }
-.btn.primary:hover { filter: brightness(1.08); }
-.btn.pink { border-color: color-mix(in srgb, var(--pink) 55%, transparent); color: #ffd9e2; }
-.btn.pink:hover { border-color: var(--pink); }
-.btn.star { --star-glow-rest: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 75%, transparent), 0 6px 28px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 40px color-mix(in srgb, var(--gold-bright) 35%, transparent); --star-glow-peak: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 95%, transparent), 0 6px 34px color-mix(in srgb, var(--gold-bright) 80%, transparent), 0 0 60px color-mix(in srgb, var(--gold-bright) 55%, transparent); clip-path: none; border-radius: 10px; background: linear-gradient(180deg, var(--gold-bright2), var(--gold-bright)); border-color: var(--gold-bright); color: #2b1d00; box-shadow: var(--star-glow-rest); animation: starBtnGlow 2.4s ease-in-out infinite; }
-.btn.star:hover { background: linear-gradient(180deg, #fff2b8, var(--gold-bright2)); border-color: var(--gold-bright2); box-shadow: 0 0 0 2px var(--gold-bright2), 0 8px 34px color-mix(in srgb, var(--gold-bright) 85%, transparent), 0 0 50px color-mix(in srgb, var(--gold-bright) 50%, transparent); animation-play-state: paused; }
-.btn.sm { padding: 8px 14px; font-size: 13px; }
-
-@keyframes starBtnGlow {
-  0%, 100% { box-shadow: var(--star-glow-rest); }
-  50% { box-shadow: var(--star-glow-peak); }
-}
+.cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

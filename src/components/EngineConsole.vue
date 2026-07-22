@@ -64,7 +64,7 @@ const { tasks } = useProcessFeed({ isRunning, rpmFraction })
 
 .engine.is-running {
   border-color: color-mix(in srgb, var(--acc) 55%, var(--bd));
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 30%, transparent), 0 10px 40px -18px color-mix(in srgb, var(--acc) 60%, transparent);
+  box-shadow: var(--shadow-panel-active);
 }
 
 .engine-head {
@@ -99,7 +99,7 @@ const { tasks } = useProcessFeed({ isRunning, rpmFraction })
 
 .ignite-btn.is-on {
   background: linear-gradient(180deg, var(--acc2), var(--acc));
-  color: #1a0b02;
+  color: var(--ink-acc);
   border-color: var(--acc);
 }
 
