@@ -1,15 +1,25 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { showBrackets, type CardVariant } from '../cardBrackets'
+
 interface CardProps {
   as?: 'article' | 'div' | 'section' | 'aside'
   bracketed?: boolean
+  variant?: CardVariant
 }
 
-withDefaults(defineProps<CardProps>(), { as: 'article', bracketed: true })
+const props = withDefaults(defineProps<CardProps>(), {
+  as: 'article',
+  bracketed: true,
+  variant: 'default',
+})
+
+const bracketsVisible = computed(() => showBrackets(props.variant, props.bracketed))
 </script>
 
 <template>
-  <component :is="as" class="card" :class="{ 'is-bracketed': bracketed }">
-    <span v-if="bracketed" class="card-accent" aria-hidden="true" />
+  <component :is="as" class="card" :class="[variant, { 'is-bracketed': bracketsVisible }]">
+    <span v-if="bracketsVisible" class="card-accent" aria-hidden="true" />
     <slot />
   </component>
 </template>
@@ -30,6 +40,27 @@ withDefaults(defineProps<CardProps>(), { as: 'article', bracketed: true })
 .card:hover {
   border-color: color-mix(in srgb, var(--acc) 55%, var(--bd));
   box-shadow: var(--shadow-panel-hover);
+}
+
+.card.star {
+  --star-glow-rest: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 45%, transparent), 0 0 70px color-mix(in srgb, var(--gold-bright) 40%, transparent), 0 0 130px color-mix(in srgb, var(--gold-bright) 20%, transparent);
+  --star-glow-peak: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 90px color-mix(in srgb, var(--gold-bright) 60%, transparent), 0 0 160px color-mix(in srgb, var(--gold-bright) 32%, transparent);
+  clip-path: none;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, var(--panel), var(--panel2));
+  border-color: color-mix(in srgb, var(--gold-bright) 75%, var(--bd));
+  padding: var(--space-11);
+  box-shadow: var(--star-glow-rest);
+  animation: starcardGlow 3.2s ease-in-out infinite;
+}
+.card.star:hover {
+  border-color: color-mix(in srgb, var(--gold-bright) 85%, var(--bd));
+  box-shadow: var(--star-glow-peak);
+}
+
+@keyframes starcardGlow {
+  0%, 100% { box-shadow: var(--star-glow-rest); }
+  50% { box-shadow: var(--star-glow-peak); }
 }
 
 .card.is-bracketed::before,

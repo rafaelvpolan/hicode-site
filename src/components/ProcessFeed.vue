@@ -25,8 +25,8 @@ defineProps<ProcessFeedProps>()
 
 <style scoped>
 .feed {
-  margin-top: 18px;
-  padding-top: 16px;
+  margin-top: var(--space-7);
+  padding-top: var(--space-6);
   border-top: 1px dashed var(--bd);
 }
 
@@ -35,10 +35,10 @@ defineProps<ProcessFeedProps>()
   justify-content: space-between;
   align-items: baseline;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.14em;
   color: var(--mut);
-  margin-bottom: 10px;
+  margin-bottom: var(--space-3);
 }
 
 .feed.is-idle .feed-count {
@@ -55,14 +55,14 @@ defineProps<ProcessFeedProps>()
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
   min-height: 40px;
 }
 
 .feed-empty {
-  margin: 10px 0 0;
+  margin: var(--space-3) 0 0;
   color: var(--mut);
-  font-size: 13px;
+  font-size: var(--fs-md);
 }
 
 .chip-row-enter-active,

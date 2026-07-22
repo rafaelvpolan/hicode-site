@@ -207,7 +207,7 @@ const pillars = [
             <Button :href="repoUrl" target="_blank" rel="noopener noreferrer">Contribuir no repo</Button>
           </div>
         </div>
-        <Card as="aside" class="starcard" aria-label="Estrelas no GitHub">
+        <Card as="aside" variant="star" class="starcard" aria-label="Estrelas no GitHub">
           <span class="card-tag" aria-hidden="true">{{ sectionTag('STARS', 0) }}</span>
           <span class="stars-ic" aria-hidden="true">⭐⭐⭐</span>
           <span class="big">{{ loadingStars ? '…' : (stars === null ? '★' : fmtStars(stars)) }}</span>
@@ -316,7 +316,7 @@ const pillars = [
 .starcard { text-align: center; }
 .starcard .stars-ic { display: block; font-size: var(--fs-2xl); letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
 .starcard .big { display: block; font-size: 64px; font-weight: var(--fw-800); color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
-.starcard .lbl { display: block; color: var(--mut); margin: 6px 0 var(--space-7); font-size: var(--fs-base); text-transform: uppercase; letter-spacing: .06em; }
+.starcard .lbl { display: block; color: var(--mut); margin: var(--space-1) 0 var(--space-7); font-size: var(--fs-base); text-transform: uppercase; letter-spacing: .06em; }
 
 .foot { border-top: 1px solid var(--bd); padding: var(--space-11) 0; }
 .footwrap { display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; color: var(--mut); font-size: var(--fs-base); }

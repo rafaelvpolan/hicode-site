@@ -48,7 +48,7 @@ defineProps<FinalCtaProps>()
 
 .final h2 {
   font-size: clamp(22px, 3.6vw, 32px);
-  margin: 0 0 14px;
+  margin: 0 0 var(--space-5);
 }
 
 .final-sub {

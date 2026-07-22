@@ -38,14 +38,14 @@ const stageIndices = Array.from({ length: processStageCount }, (_unused, index) 
   display: grid;
   grid-template-columns: auto auto 1fr;
   align-items: center;
-  gap: 6px 12px;
+  gap: var(--space-1) var(--space-4);
   background: var(--panel2);
   border: 1px solid var(--bd);
   border-left: 3px solid var(--chip-color);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
   padding: 9px 12px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -56,7 +56,7 @@ const stageIndices = Array.from({ length: processStageCount }, (_unused, index) 
 
 .chip-id {
   color: var(--tx);
-  font-weight: 700;
+  font-weight: var(--fw-700);
 }
 
 .chip-agent {
@@ -70,7 +70,7 @@ const stageIndices = Array.from({ length: processStageCount }, (_unused, index) 
   color: var(--chip-color);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: var(--fs-xs);
 }
 
 .chip-dots {
