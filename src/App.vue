@@ -2,7 +2,15 @@
 import { pipeline, stepStyle } from './pipeline'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
+import { sectionTag } from './sectionTag'
 import EngineConsole from './components/EngineConsole.vue'
+import FeatureBelt from './components/FeatureBelt.vue'
+import TelemetryHud from './components/TelemetryHud.vue'
+import CardLifecycle from './components/CardLifecycle.vue'
+import AgentGrid from './components/AgentGrid.vue'
+import LoopVsPrompt from './components/LoopVsPrompt.vue'
+import FinalCta from './components/FinalCta.vue'
+import FaqList from './components/FaqList.vue'
 
 const repoUrl = 'https://github.com/rafaelvpolan/hicode'
 const starUrl = `${repoUrl}/stargazers`
@@ -28,14 +36,6 @@ const pillars = [
     text: 'Primeiro a tarefa funciona e você vê o preview; só depois vêm arquitetura, testes e limpeza. Valida-se a intenção cedo.',
   },
 ]
-
-function pillarTag(index: number): string {
-  return `PILLAR_${String(index + 1).padStart(2, '0')}`
-}
-
-function stageTag(index: number): string {
-  return `STAGE_${String(index + 1).padStart(2, '0')}`
-}
 </script>
 
 <template>
@@ -52,6 +52,9 @@ function stageTag(index: number): string {
       <nav class="navlinks" aria-label="Navegação principal">
         <a href="#sobre">O que é</a>
         <a href="#pipeline">Pipeline</a>
+        <a href="#telemetria">Telemetria</a>
+        <a href="#agentes">Agentes</a>
+        <a href="#faq">FAQ</a>
         <a href="#open">Open source</a>
         <a :href="`${repoUrl}#readme`" target="_blank" rel="noopener noreferrer">Docs</a>
         <a class="ghbtn" :href="repoUrl" target="_blank" rel="noopener noreferrer">
@@ -89,8 +92,15 @@ function stageTag(index: number): string {
 
     <div class="hazard-strip" aria-hidden="true"></div>
 
+    <section aria-label="Diferenciais do hiignation" class="belt-section">
+      <div class="wrap">
+        <FeatureBelt />
+      </div>
+    </section>
+
     <section id="sobre" class="block">
       <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 0) }} · CONCEITO</p>
         <h2>O que é o hiignation</h2>
         <p class="lead">
           Funde <strong>Loop Engineering</strong> com o framework de agentes <strong>Nexus</strong>:
@@ -99,7 +109,7 @@ function stageTag(index: number): string {
         </p>
         <div class="cards">
           <article v-for="(p, i) in pillars" :key="p.title" class="card">
-            <span class="card-tag" aria-hidden="true">{{ pillarTag(i) }}</span>
+            <span class="card-tag" aria-hidden="true">{{ sectionTag('PILLAR', i) }}</span>
             <span class="ic" aria-hidden="true">{{ p.icon }}</span>
             <h3>{{ p.title }}</h3>
             <p>{{ p.text }}</p>
@@ -110,11 +120,12 @@ function stageTag(index: number): string {
 
     <section id="pipeline" class="block alt">
       <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 1) }} · FASES</p>
         <h2>O pipeline</h2>
         <p class="lead">Executar primeiro, polir depois. Você vê o resultado antes de gastar esforço com testes e limpeza.</p>
         <ol class="steps">
           <li v-for="(s, i) in pipeline" :key="s.k" :style="'--stage-color: ' + s.color">
-            <span class="stage-tag" aria-hidden="true">{{ stageTag(i) }}</span>
+            <span class="stage-tag" aria-hidden="true">{{ sectionTag('STAGE', i) }}</span>
             <span
               class="n"
               :style="stepStyle(s)"
@@ -126,9 +137,58 @@ function stageTag(index: number): string {
       </div>
     </section>
 
+    <section id="telemetria" class="block">
+      <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 2) }} · STATUS DO LOOP</p>
+        <h2>Telemetria do motor</h2>
+        <p class="lead">
+          O que o pipeline está fazendo agora: quanto do loop roda sozinho no motor, quantas
+          fases faltam até você ver o resultado e quem está de olho na revisão do Crivo.
+        </p>
+        <TelemetryHud />
+      </div>
+    </section>
+
+    <section id="anatomia" class="block alt">
+      <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 3) }} · ESTADO REAL</p>
+        <h2>Anatomia de um card</h2>
+        <p class="lead">
+          Cada card nasce em <code>cards/&lt;NNN-slug&gt;.md</code> e atravessa dez estados até o merge.
+          Nenhum é carimbado pela fala do modelo — quem decide é o harness, lendo o exit code real em disco.
+        </p>
+        <CardLifecycle />
+      </div>
+    </section>
+
+    <section id="agentes" class="block">
+      <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 4) }} · TIME</p>
+        <h2>Os agentes Nexus</h2>
+        <p class="lead">
+          Escopo estreito, um dono por preocupação. Ninguém entrega "pronto" sem passar pelo
+          <strong>Crivo</strong> — a revisão adversarial que aprova ou bloqueia o trabalho.
+        </p>
+        <AgentGrid />
+      </div>
+    </section>
+
+    <section id="por-que-loops" class="block alt">
+      <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 5) }} · TESE</p>
+        <h2>Por que loops, não prompts</h2>
+        <p class="lead">
+          Um prompt é sessão. Um loop é sistema. A diferença aparece na segunda vez que você
+          precisa da mesma coisa — e não quer explicar tudo de novo.
+        </p>
+        <LoopVsPrompt />
+      </div>
+    </section>
+
     <section id="open" class="block">
       <div class="wrap donate">
         <div class="donate-text">
+          <p class="eyebrow">{{ sectionTag('CH', 6) }} · COMUNIDADE</p>
           <h2>Projeto open source</h2>
           <p>
             O hiignation é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
@@ -149,6 +209,24 @@ function stageTag(index: number): string {
           <span class="lbl">estrelas no GitHub</span>
           <a class="btn star sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</a>
         </aside>
+      </div>
+    </section>
+
+    <section id="faq" class="block alt">
+      <div class="wrap">
+        <p class="eyebrow">{{ sectionTag('CH', 7) }} · DÚVIDAS</p>
+        <h2>Perguntas frequentes</h2>
+        <p class="lead">
+          O essencial sobre merge, spec e o que o pipeline decide sozinho — sem precisar ler
+          o código do motor.
+        </p>
+        <FaqList />
+      </div>
+    </section>
+
+    <section id="comece" class="block">
+      <div class="wrap">
+        <FinalCta :repo-url="repoUrl" :star-url="starUrl" :sponsor-url="sponsorUrl" />
       </div>
     </section>
   </main>
@@ -176,8 +254,6 @@ function stageTag(index: number): string {
 <style scoped>
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; width: 100%; }
 
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-
 .topbar { position: sticky; top: 0; z-index: 20; }
 .test-banner { position: relative; background: var(--hazard); color: #1a1206; font-family: var(--font-mono); font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; text-align: center; padding: 7px 0; }
 .test-banner::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; background: repeating-linear-gradient(135deg, #1a1206 0 8px, transparent 8px 16px); opacity: .5; }
@@ -202,29 +278,26 @@ function stageTag(index: number): string {
 .hero h1 { font-size: clamp(30px, 6vw, 56px); margin: 0 0 18px; letter-spacing: -.02em; }
 .grad { background: linear-gradient(90deg, var(--acc), var(--acc2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .sub { max-width: 680px; margin: 0 auto 28px; color: #c9d1d9; font-size: clamp(15px, 2.4vw, 19px); }
-.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-.btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; background: var(--panel2); border: 1px solid var(--bd); color: var(--tx); padding: 11px 18px; clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px); font-weight: 700; font-size: 14px; transition: transform .06s ease, border-color .15s ease; }
-.btn:hover { text-decoration: none; border-color: var(--acc); transform: translateY(-1px); }
-.btn.primary { background: linear-gradient(180deg, var(--acc2), var(--acc)); border-color: var(--acc); color: #1a0b02; }
-.btn.primary:hover { filter: brightness(1.08); }
-.btn.pink { border-color: color-mix(in srgb, var(--pink) 55%, transparent); color: #ffd9e2; }
-.btn.pink:hover { border-color: var(--pink); }
-.btn.star { --star-glow-rest: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 75%, transparent), 0 6px 28px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 40px color-mix(in srgb, var(--gold-bright) 35%, transparent); --star-glow-peak: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 95%, transparent), 0 6px 34px color-mix(in srgb, var(--gold-bright) 80%, transparent), 0 0 60px color-mix(in srgb, var(--gold-bright) 55%, transparent); clip-path: none; border-radius: 10px; background: linear-gradient(180deg, var(--gold-bright2), var(--gold-bright)); border-color: var(--gold-bright); color: #2b1d00; box-shadow: var(--star-glow-rest); animation: starBtnGlow 2.4s ease-in-out infinite; }
-.btn.star:hover { background: linear-gradient(180deg, #fff2b8, var(--gold-bright2)); border-color: var(--gold-bright2); box-shadow: 0 0 0 2px var(--gold-bright2), 0 8px 34px color-mix(in srgb, var(--gold-bright) 85%, transparent), 0 0 50px color-mix(in srgb, var(--gold-bright) 50%, transparent); animation-play-state: paused; }
-.btn.sm { padding: 8px 14px; font-size: 13px; }
 .starline { margin-top: 22px; color: var(--mut); font-size: 14px; }
 
 .hazard-strip { height: 6px; background: repeating-linear-gradient(135deg, var(--hazard) 0 14px, #000 14px 28px); opacity: .5; }
 
+.belt-section { padding: clamp(22px, 4vw, 34px) 0; }
+
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--acc2); margin: 0 0 12px; text-shadow: 0 0 16px color-mix(in srgb, var(--acc) 40%, transparent); }
+
 .block { padding: clamp(48px, 9vw, 88px) 0; }
-.block.alt { background: var(--bg2); border-top: 1px solid var(--bd); border-bottom: 1px solid var(--bd); }
+.block.alt { background: var(--bg2); border-top: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); border-bottom: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); }
 .block h2 { font-size: clamp(24px, 4vw, 34px); margin: 0 0 10px; }
+.block h2::after { content: ''; display: block; width: 52px; height: 3px; margin-top: 14px; background: linear-gradient(90deg, var(--acc), var(--acc2)); border-radius: 2px; }
 .lead { color: var(--mut); max-width: 720px; margin: 0 0 32px; font-size: 17px; }
+.lead code { font-family: var(--font-mono); background: var(--panel2); border: 1px solid var(--bd); border-radius: 4px; padding: 1px 6px; font-size: .88em; color: var(--tx); }
 
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
-.card { position: relative; background: var(--panel); border: 1px solid var(--bd); clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); padding: 24px 22px 22px; }
-.card-tag { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--mut); margin-bottom: 10px; }
+.card { position: relative; background: var(--panel); border: 1px solid var(--bd); clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); padding: 24px 22px 22px; transition: border-color .2s ease, box-shadow .3s ease; }
+.card:hover { border-color: color-mix(in srgb, var(--acc) 55%, var(--bd)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 22%, transparent), 0 16px 40px -26px color-mix(in srgb, var(--acc) 55%, transparent); }
+.card-tag { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--acc2); margin-bottom: 10px; }
 .card .ic { font-size: 26px; }
 .card h3 { margin: 12px 0 8px; font-size: 19px; }
 .card p { margin: 0; color: var(--mut); }
@@ -249,12 +322,9 @@ function stageTag(index: number): string {
   0%, 100% { box-shadow: var(--starcard-glow-rest); }
   50% { box-shadow: var(--starcard-glow-peak); }
 }
-@keyframes starBtnGlow {
-  0%, 100% { box-shadow: var(--star-glow-rest); }
-  50% { box-shadow: var(--star-glow-peak); }
-}
 @media (prefers-reduced-motion: reduce) {
   .starcard, .btn.star { animation: none; }
+  .card { transition: none; }
 }
 
 .foot { border-top: 1px solid var(--bd); padding: 28px 0; }

@@ -20,7 +20,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 body {
   margin: 0;
   background:
@@ -39,6 +39,22 @@ h1, h2, h3 { line-height: 1.2; }
 :focus-visible {
   outline: 2px solid var(--acc2);
   outline-offset: 2px;
+}
+
+.cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; background: var(--panel2); border: 1px solid var(--bd); color: var(--tx); padding: 11px 18px; clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px); font-weight: 700; font-size: 14px; transition: transform .06s ease, border-color .15s ease; }
+.btn:hover { text-decoration: none; border-color: var(--acc); transform: translateY(-1px); }
+.btn.primary { background: linear-gradient(180deg, var(--acc2), var(--acc)); border-color: var(--acc); color: #1a0b02; }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.pink { border-color: color-mix(in srgb, var(--pink) 55%, transparent); color: #ffd9e2; }
+.btn.pink:hover { border-color: var(--pink); }
+.btn.star { --star-glow-rest: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 75%, transparent), 0 6px 28px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 40px color-mix(in srgb, var(--gold-bright) 35%, transparent); --star-glow-peak: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 95%, transparent), 0 6px 34px color-mix(in srgb, var(--gold-bright) 80%, transparent), 0 0 60px color-mix(in srgb, var(--gold-bright) 55%, transparent); clip-path: none; border-radius: 10px; background: linear-gradient(180deg, var(--gold-bright2), var(--gold-bright)); border-color: var(--gold-bright); color: #2b1d00; box-shadow: var(--star-glow-rest); animation: starBtnGlow 2.4s ease-in-out infinite; }
+.btn.star:hover { background: linear-gradient(180deg, #fff2b8, var(--gold-bright2)); border-color: var(--gold-bright2); box-shadow: 0 0 0 2px var(--gold-bright2), 0 8px 34px color-mix(in srgb, var(--gold-bright) 85%, transparent), 0 0 50px color-mix(in srgb, var(--gold-bright) 50%, transparent); animation-play-state: paused; }
+.btn.sm { padding: 8px 14px; font-size: 13px; }
+
+@keyframes starBtnGlow {
+  0%, 100% { box-shadow: var(--star-glow-rest); }
+  50% { box-shadow: var(--star-glow-peak); }
 }
 
 @media (prefers-reduced-motion: reduce) {
