@@ -2,10 +2,6 @@
 import { cardLifecycle } from '../cardLifecycle'
 import type { CardLifecycleActor } from '../cardLifecycle'
 
-function actorLabel(actor: CardLifecycleActor): string {
-  return actor === 'humano' ? 'humano' : 'motor'
-}
-
 function stageColor(actor: CardLifecycleActor): string {
   return actor === 'humano' ? 'var(--hazard)' : 'var(--acc)'
 }
@@ -18,7 +14,7 @@ function stageColor(actor: CardLifecycleActor): string {
       <div class="lc-body">
         <div class="lc-head">
           <span class="lc-id">{{ stage.id }}</span>
-          <span class="lc-actor" :class="stage.actor">{{ actorLabel(stage.actor) }}</span>
+          <span class="lc-actor" :class="stage.actor">{{ stage.actor }}</span>
         </div>
         <h3>{{ stage.label }}</h3>
         <p>{{ stage.detail }}</p>

@@ -254,8 +254,6 @@ const pillars = [
 <style scoped>
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; width: 100%; }
 
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-
 .topbar { position: sticky; top: 0; z-index: 20; }
 .test-banner { position: relative; background: var(--hazard); color: #1a1206; font-family: var(--font-mono); font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; text-align: center; padding: 7px 0; }
 .test-banner::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; background: repeating-linear-gradient(135deg, #1a1206 0 8px, transparent 8px 16px); opacity: .5; }
