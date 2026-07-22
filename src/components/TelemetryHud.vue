@@ -74,19 +74,19 @@ const phases = telemetryPhases()
   padding: 26px 26px 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-10);
 }
 
 .hud-grid {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(260px, 1.3fr);
-  gap: 24px;
+  gap: var(--space-10);
 }
 
 .gauges {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: var(--space-7);
 }
 
 .gauge {
@@ -98,7 +98,7 @@ const phases = telemetryPhases()
   --ring-size: 84px;
   width: var(--ring-size);
   height: var(--ring-size);
-  margin: 0 auto 12px;
+  margin: 0 auto var(--space-4);
   border-radius: 50%;
   background: conic-gradient(var(--gauge-color, var(--acc)) calc(var(--gauge-frac, 0) * 360deg), var(--bg2) 0);
   display: grid;
@@ -119,28 +119,28 @@ const phases = telemetryPhases()
   position: relative;
   z-index: 1;
   font-family: var(--font-mono);
-  font-weight: 800;
+  font-weight: var(--fw-800);
   font-size: 20px;
   color: var(--gauge-color, var(--acc));
 }
 
 .gauge-val small {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-600);
   margin-left: 1px;
 }
 
 .gauge-label {
   margin: 0 0 4px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fs-sm);
   letter-spacing: 0.04em;
   color: var(--tx);
 }
 
 .gauge-detail {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--fs-sm);
   color: var(--mut);
 }
 
@@ -148,19 +148,19 @@ const phases = telemetryPhases()
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .phase-row {
   display: grid;
   grid-template-columns: 74px 1fr 40px;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .phase-k {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--phase-color, var(--acc));
@@ -185,7 +185,7 @@ const phases = telemetryPhases()
 
 .phase-v {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: var(--mut);
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -194,8 +194,8 @@ const phases = telemetryPhases()
 .hud-lower {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
-  gap: 24px;
-  padding-top: 20px;
+  gap: var(--space-10);
+  padding-top: var(--space-8);
   border-top: 1px dashed var(--bd);
 }
 
@@ -205,14 +205,14 @@ const phases = telemetryPhases()
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .conn {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
   font-family: var(--font-mono);
   font-size: 12.5px;
   padding: 7px 10px;
@@ -236,7 +236,7 @@ const phases = telemetryPhases()
 
 .conn-status {
   color: var(--mut);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -254,34 +254,34 @@ const phases = telemetryPhases()
 .conn.is-gate .conn-id,
 .conn.is-gate .conn-status {
   color: var(--hazard);
-  font-weight: 700;
+  font-weight: var(--fw-700);
 }
 
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .stat {
   text-align: center;
   background: var(--bg2);
   border: 1px solid var(--bd);
-  padding: 12px 8px 10px;
+  padding: var(--space-4) var(--space-2) var(--space-3);
 }
 
 .stat-v {
   display: block;
   font-family: var(--font-mono);
   font-size: 22px;
-  font-weight: 800;
+  font-weight: var(--fw-800);
   color: var(--acc2);
 }
 
 .stat-l {
   display: block;
   margin-top: 2px;
-  font-size: 11px;
+  font-size: var(--fs-xs);
   color: var(--mut);
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -290,10 +290,10 @@ const phases = telemetryPhases()
 .alert {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: var(--space-4);
   flex-wrap: wrap;
   margin: 0;
-  padding: 14px 18px;
+  padding: var(--space-5) var(--space-7);
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -304,12 +304,12 @@ const phases = telemetryPhases()
 }
 
 .alert-ic {
-  font-size: 14px;
+  font-size: var(--fs-base);
 }
 
 .alert-txt {
-  font-weight: 800;
-  font-size: 14px;
+  font-weight: var(--fw-800);
+  font-size: var(--fs-base);
 }
 
 .alert-sub {

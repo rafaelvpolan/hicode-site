@@ -31,7 +31,7 @@ function stageColor(actor: CardLifecycleActor): string {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: var(--space-9);
 }
 
 .lifecycle::before {
@@ -48,7 +48,7 @@ function stageColor(actor: CardLifecycleActor): string {
 .lifecycle li {
   position: relative;
   display: flex;
-  gap: 18px;
+  gap: var(--space-7);
   padding-left: 0;
 }
 
@@ -60,8 +60,8 @@ function stageColor(actor: CardLifecycleActor): string {
   display: grid;
   place-items: center;
   font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-700);
   color: var(--stage-c, var(--acc));
   background: var(--panel);
   border: 2px solid var(--stage-c, var(--acc));
@@ -75,31 +75,31 @@ function stageColor(actor: CardLifecycleActor): string {
   border: 1px solid var(--bd);
   border-left: 3px solid var(--stage-c, var(--acc));
   clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
-  padding: 14px 18px 16px;
+  padding: var(--space-5) var(--space-7) var(--space-6);
 }
 
 .lc-head {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
   flex-wrap: wrap;
-  margin-bottom: 6px;
+  margin-bottom: var(--space-1);
 }
 
 .lc-id {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.1em;
   color: var(--stage-c, var(--acc));
 }
 
 .lc-actor {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 2px 8px;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--bd);
   color: var(--mut);
 }
@@ -118,7 +118,7 @@ function stageColor(actor: CardLifecycleActor): string {
 .lc-body p {
   margin: 0;
   color: var(--mut);
-  font-size: 14px;
+  font-size: var(--fs-base);
 }
 
 @media (max-width: 560px) {

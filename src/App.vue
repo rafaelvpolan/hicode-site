@@ -3,6 +3,10 @@ import { pipeline, stepStyle } from './pipeline'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
 import { sectionTag } from './sectionTag'
+import Button from './components/Button.vue'
+import Card from './components/Card.vue'
+import Container from './components/Container.vue'
+import Section from './components/Section.vue'
 import EngineConsole from './components/EngineConsole.vue'
 import FeatureBelt from './components/FeatureBelt.vue'
 import TelemetryHud from './components/TelemetryHud.vue'
@@ -45,7 +49,7 @@ const pillars = [
     <div class="test-banner" role="status" aria-live="polite">versao de testes</div>
 
     <header class="nav">
-    <div class="wrap navwrap">
+    <Container class="navwrap">
       <a class="brand" href="#topo" aria-label="hiignation">
         <span class="logo" aria-hidden="true">⟳</span> hiignation<span class="beta">beta</span>
       </a>
@@ -61,13 +65,13 @@ const pillars = [
           ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
         </a>
       </nav>
-    </div>
+    </Container>
   </header>
   </div>
 
   <main id="conteudo">
     <section id="topo" class="hero">
-      <div class="wrap">
+      <Container>
         <p class="badge">open source · MIT</p>
         <h1>Prompts resolvem tarefas.<br /><span class="grad">Loops inteligentes constroem sistemas.</span></h1>
         <p class="sub">
@@ -76,9 +80,9 @@ const pillars = [
           especializados fazendo o trabalho e um gate adversarial garantindo a qualidade.
         </p>
         <div class="cta">
-          <a class="btn primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">Ver no GitHub →</a>
-          <a class="btn" :href="starUrl" target="_blank" rel="noopener noreferrer">⭐ Dar uma estrela</a>
-          <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Apoiar</a>
+          <Button variant="primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">Ver no GitHub →</Button>
+          <Button :href="starUrl" target="_blank" rel="noopener noreferrer">⭐ Dar uma estrela</Button>
+          <Button variant="pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Apoiar</Button>
         </div>
         <p class="starline" aria-live="polite">
           <template v-if="loadingStars">Carregando estrelas…</template>
@@ -87,19 +91,19 @@ const pillars = [
         </p>
 
         <EngineConsole />
-      </div>
+      </Container>
     </section>
 
     <div class="hazard-strip" aria-hidden="true"></div>
 
     <section aria-label="Diferenciais do hiignation" class="belt-section">
-      <div class="wrap">
+      <Container>
         <FeatureBelt />
-      </div>
+      </Container>
     </section>
 
-    <section id="sobre" class="block">
-      <div class="wrap">
+    <Section id="sobre">
+      <Container>
         <p class="eyebrow">{{ sectionTag('CH', 0) }} · CONCEITO</p>
         <h2>O que é o hiignation</h2>
         <p class="lead">
@@ -108,18 +112,18 @@ const pillars = [
           A única porta humana obrigatória é o merge.
         </p>
         <div class="cards">
-          <article v-for="(p, i) in pillars" :key="p.title" class="card">
+          <Card v-for="(p, i) in pillars" :key="p.title">
             <span class="card-tag" aria-hidden="true">{{ sectionTag('PILLAR', i) }}</span>
             <span class="ic" aria-hidden="true">{{ p.icon }}</span>
             <h3>{{ p.title }}</h3>
             <p>{{ p.text }}</p>
-          </article>
+          </Card>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
 
-    <section id="pipeline" class="block alt">
-      <div class="wrap">
+    <Section id="pipeline" alt>
+      <Container>
         <p class="eyebrow">{{ sectionTag('CH', 1) }} · FASES</p>
         <h2>O pipeline</h2>
         <p class="lead">Executar primeiro, polir depois. Você vê o resultado antes de gastar esforço com testes e limpeza.</p>
@@ -134,11 +138,11 @@ const pillars = [
             <div><b>{{ s.k }}</b><span>{{ s.d }}</span></div>
           </li>
         </ol>
-      </div>
-    </section>
+      </Container>
+    </Section>
 
-    <section id="telemetria" class="block">
-      <div class="wrap">
+    <Section id="telemetria">
+      <Container>
         <p class="eyebrow">{{ sectionTag('CH', 2) }} · STATUS DO LOOP</p>
         <h2>Telemetria do motor</h2>
         <p class="lead">
@@ -146,11 +150,11 @@ const pillars = [
           fases faltam até você ver o resultado e quem está de olho na revisão do Crivo.
         </p>
         <TelemetryHud />
-      </div>
-    </section>
+      </Container>
+    </Section>
 
-    <section id="anatomia" class="block alt">
-      <div class="wrap">
+    <Section id="anatomia" alt>
+      <Container>
         <p class="eyebrow">{{ sectionTag('CH', 3) }} · ESTADO REAL</p>
         <h2>Anatomia de um card</h2>
         <p class="lead">
@@ -158,11 +162,11 @@ const pillars = [
           Nenhum é carimbado pela fala do modelo — quem decide é o harness, lendo o exit code real em disco.
         </p>
         <CardLifecycle />
-      </div>
-    </section>
+      </Container>
+    </Section>
 
-    <section id="agentes" class="block">
-      <div class="wrap">
+    <Section id="agentes">
+      <Container>
         <p class="eyebrow">{{ sectionTag('CH', 4) }} · TIME</p>
         <h2>Os agentes Nexus</h2>
         <p class="lead">
@@ -170,11 +174,11 @@ const pillars = [
           <strong>Crivo</strong> — a revisão adversarial que aprova ou bloqueia o trabalho.
         </p>
         <AgentGrid />
-      </div>
-    </section>
+      </Container>
+    </Section>
 
-    <section id="por-que-loops" class="block alt">
-      <div class="wrap">
+    <Section id="por-que-loops" alt>
+      <Container>
         <p class="eyebrow">{{ sectionTag('CH', 5) }} · TESE</p>
         <h2>Por que loops, não prompts</h2>
         <p class="lead">
@@ -182,11 +186,11 @@ const pillars = [
           precisa da mesma coisa — e não quer explicar tudo de novo.
         </p>
         <LoopVsPrompt />
-      </div>
-    </section>
+      </Container>
+    </Section>
 
-    <section id="open" class="block">
-      <div class="wrap donate">
+    <Section id="open">
+      <Container class="donate">
         <div class="donate-text">
           <p class="eyebrow">{{ sectionTag('CH', 6) }} · COMUNIDADE</p>
           <h2>Projeto open source</h2>
@@ -196,24 +200,25 @@ const pillars = [
             se puder, <strong>apoiar o desenvolvimento</strong>.
           </p>
           <div class="cta">
-            <a class="btn star" :href="starUrl" target="_blank" rel="noopener noreferrer">
+            <Button variant="star" :href="starUrl" target="_blank" rel="noopener noreferrer">
               ⭐ Star <span v-if="!loadingStars && stars !== null">· {{ fmtStars(stars) }}</span>
-            </a>
-            <a class="btn pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Doar / Sponsor</a>
-            <a class="btn" :href="repoUrl" target="_blank" rel="noopener noreferrer">Contribuir no repo</a>
+            </Button>
+            <Button variant="pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Doar / Sponsor</Button>
+            <Button :href="repoUrl" target="_blank" rel="noopener noreferrer">Contribuir no repo</Button>
           </div>
         </div>
-        <aside class="starcard" aria-label="Estrelas no GitHub">
+        <Card as="aside" variant="star" class="starcard" aria-label="Estrelas no GitHub">
+          <span class="card-tag" aria-hidden="true">{{ sectionTag('STARS', 0) }}</span>
           <span class="stars-ic" aria-hidden="true">⭐⭐⭐</span>
           <span class="big">{{ loadingStars ? '…' : (stars === null ? '★' : fmtStars(stars)) }}</span>
           <span class="lbl">estrelas no GitHub</span>
-          <a class="btn star sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</a>
-        </aside>
-      </div>
-    </section>
+          <Button variant="star" size="sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</Button>
+        </Card>
+      </Container>
+    </Section>
 
-    <section id="faq" class="block alt">
-      <div class="wrap">
+    <Section id="faq" alt>
+      <Container>
         <p class="eyebrow">{{ sectionTag('CH', 7) }} · DÚVIDAS</p>
         <h2>Perguntas frequentes</h2>
         <p class="lead">
@@ -221,14 +226,14 @@ const pillars = [
           o código do motor.
         </p>
         <FaqList />
-      </div>
-    </section>
+      </Container>
+    </Section>
 
-    <section id="comece" class="block">
-      <div class="wrap">
+    <Section id="comece">
+      <Container>
         <FinalCta :repo-url="repoUrl" :star-url="starUrl" :sponsor-url="sponsorUrl" />
-      </div>
-    </section>
+      </Container>
+    </Section>
   </main>
 
   <button
@@ -239,100 +244,86 @@ const pillars = [
   >↑</button>
 
   <footer class="foot">
-    <div class="wrap footwrap">
+    <Container class="footwrap">
       <span>⟳ <strong>hiignation</strong> — gerenciador de projetos autônomo</span>
       <span class="dim">
         <a :href="repoUrl" target="_blank" rel="noopener noreferrer">GitHub</a> ·
         <a :href="sponsorUrl" target="_blank" rel="noopener noreferrer">Apoiar</a> ·
         open source
       </span>
-    </div>
+    </Container>
     <p class="made">feito com hiignation</p>
   </footer>
 </template>
 
 <style scoped>
-.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; width: 100%; }
-
 .topbar { position: sticky; top: 0; z-index: 20; }
-.test-banner { position: relative; background: var(--hazard); color: #1a1206; font-family: var(--font-mono); font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; text-align: center; padding: 7px 0; }
-.test-banner::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; background: repeating-linear-gradient(135deg, #1a1206 0 8px, transparent 8px 16px); opacity: .5; }
+.test-banner { position: relative; background: var(--hazard); color: var(--ink-hazard); font-family: var(--font-mono); font-weight: var(--fw-800); font-size: var(--fs-sm); letter-spacing: .14em; text-transform: uppercase; text-align: center; padding: 7px 0; }
+.test-banner::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; background: repeating-linear-gradient(135deg, var(--ink-hazard) 0 8px, transparent 8px 16px); opacity: .5; }
 
 .skip { position: absolute; left: -999px; }
-.skip:focus { left: 12px; top: 12px; background: var(--acc); color: #fff; padding: 8px 12px; border-radius: 8px; z-index: 50; }
+.skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); border-radius: var(--radius-lg); z-index: 50; }
 
-.nav { backdrop-filter: blur(10px); background: rgba(8, 9, 12, .78); border-bottom: 1px solid var(--bd); }
+.nav { backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--bd); }
 .navwrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.brand { color: var(--acc); font-weight: 700; font-size: 18px; }
+.brand { color: var(--acc); font-weight: var(--fw-700); font-size: var(--fs-2xl); }
 .brand:hover { text-decoration: none; }
 .logo { color: var(--acc); }
-.beta { margin-left: 7px; font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: var(--mut); background: var(--panel2); border: 1px solid var(--bd); border-radius: 3px; padding: 1px 6px; vertical-align: middle; }
-.navlinks { display: flex; align-items: center; gap: 18px; }
-.navlinks a { color: var(--mut); font-size: 14px; }
+.beta { margin-left: 7px; font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-400); letter-spacing: .06em; text-transform: uppercase; color: var(--mut); background: var(--panel2); border: 1px solid var(--bd); border-radius: var(--radius-sm); padding: 1px 6px; vertical-align: middle; }
+.navlinks { display: flex; align-items: center; gap: var(--space-7); }
+.navlinks a { color: var(--mut); font-size: var(--fs-base); }
 .navlinks a:hover { color: var(--tx); text-decoration: none; }
-.ghbtn { display: inline-flex; gap: 6px; align-items: center; background: var(--panel2); border: 1px solid var(--bd); color: var(--tx) !important; padding: 6px 12px; border-radius: 3px; font-weight: 600; }
+.ghbtn { display: inline-flex; gap: var(--space-1); align-items: center; background: var(--panel2); border: 1px solid var(--bd); color: var(--tx) !important; padding: var(--space-1) var(--space-4); border-radius: var(--radius-sm); font-weight: var(--fw-600); }
 @media (max-width: 620px) { .navlinks a:not(.ghbtn) { display: none; } }
 
 .hero { padding: clamp(56px, 12vw, 120px) 0 clamp(40px, 8vw, 80px); text-align: center; }
-.badge { display: inline-block; font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent); border-radius: 3px; padding: 4px 12px; margin: 0 0 22px; }
-.hero h1 { font-size: clamp(30px, 6vw, 56px); margin: 0 0 18px; letter-spacing: -.02em; }
+.badge { display: inline-block; font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .1em; text-transform: uppercase; color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent); border-radius: var(--radius-sm); padding: 4px var(--space-4); margin: 0 0 var(--space-9); }
+.hero h1 { font-size: var(--fs-hero); margin: 0 0 var(--space-7); letter-spacing: -.02em; }
 .grad { background: linear-gradient(90deg, var(--acc), var(--acc2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.sub { max-width: 680px; margin: 0 auto 28px; color: #c9d1d9; font-size: clamp(15px, 2.4vw, 19px); }
-.starline { margin-top: 22px; color: var(--mut); font-size: 14px; }
+.sub { max-width: 680px; margin: 0 auto var(--space-11); color: var(--tx-soft); font-size: var(--fs-sub); }
+.starline { margin-top: var(--space-9); color: var(--mut); font-size: var(--fs-base); }
 
-.hazard-strip { height: 6px; background: repeating-linear-gradient(135deg, var(--hazard) 0 14px, #000 14px 28px); opacity: .5; }
+.hazard-strip { height: 6px; background: repeating-linear-gradient(135deg, var(--hazard) 0 14px, var(--black) 14px 28px); opacity: .5; }
 
 .belt-section { padding: clamp(22px, 4vw, 34px) 0; }
 
-.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--acc2); margin: 0 0 12px; text-shadow: 0 0 16px color-mix(in srgb, var(--acc) 40%, transparent); }
+.eyebrow { font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .18em; text-transform: uppercase; color: var(--acc2); margin: 0 0 var(--space-4); text-shadow: 0 0 16px color-mix(in srgb, var(--acc) 40%, transparent); }
 
-.block { padding: clamp(48px, 9vw, 88px) 0; }
-.block.alt { background: var(--bg2); border-top: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); border-bottom: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); }
-.block h2 { font-size: clamp(24px, 4vw, 34px); margin: 0 0 10px; }
-.block h2::after { content: ''; display: block; width: 52px; height: 3px; margin-top: 14px; background: linear-gradient(90deg, var(--acc), var(--acc2)); border-radius: 2px; }
-.lead { color: var(--mut); max-width: 720px; margin: 0 0 32px; font-size: 17px; }
+.block h2 { font-size: var(--fs-h2); margin: 0 0 var(--space-3); }
+.block h2::after { content: ''; display: block; width: 52px; height: 3px; margin-top: var(--space-5); background: linear-gradient(90deg, var(--acc), var(--acc2)); border-radius: 2px; }
+.lead { color: var(--mut); max-width: 720px; margin: 0 0 var(--space-12); font-size: var(--fs-xl); }
 .lead code { font-family: var(--font-mono); background: var(--panel2); border: 1px solid var(--bd); border-radius: 4px; padding: 1px 6px; font-size: .88em; color: var(--tx); }
 
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-7); }
 @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
-.card { position: relative; background: var(--panel); border: 1px solid var(--bd); clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); padding: 24px 22px 22px; transition: border-color .2s ease, box-shadow .3s ease; }
-.card:hover { border-color: color-mix(in srgb, var(--acc) 55%, var(--bd)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 22%, transparent), 0 16px 40px -26px color-mix(in srgb, var(--acc) 55%, transparent); }
-.card-tag { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; color: var(--acc2); margin-bottom: 10px; }
-.card .ic { font-size: 26px; }
-.card h3 { margin: 12px 0 8px; font-size: 19px; }
-.card p { margin: 0; color: var(--mut); }
+.card-tag { display: block; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: .18em; color: var(--acc2); margin-bottom: var(--space-3); }
+.card .ic { font-size: var(--fs-4xl); }
+.card h3 { margin: var(--space-4) 0 var(--space-2); font-size: var(--fs-3xl); }
+.card h3::after { content: ''; display: block; width: 100%; height: 1px; margin-top: var(--space-3); background: var(--scan-line); opacity: .55; }
+.card p { margin: var(--space-4) 0 0; color: var(--mut); }
 
-.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
 @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
-.steps li { position: relative; display: flex; gap: 14px; align-items: flex-start; background: var(--panel); border: 1px solid var(--bd); border-left: 3px solid var(--stage-color, var(--acc)); clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); padding: 18px 20px; }
-.stage-tag { position: absolute; top: 10px; right: 16px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; color: var(--stage-color, var(--acc)); }
-.steps .n { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 6px; border: 1px solid transparent; font-size: 15px; line-height: 1; display: grid; place-items: center; }
+.steps li { position: relative; display: flex; gap: var(--space-5); align-items: flex-start; background: var(--panel); border: 1px solid var(--bd); border-left: 3px solid var(--stage-color, var(--acc)); clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut)); padding: var(--space-7) var(--space-8); }
+.stage-tag { position: absolute; top: 10px; right: 16px; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: .14em; color: var(--stage-color, var(--acc)); }
+.steps .n { flex: 0 0 auto; width: 30px; height: 30px; border-radius: var(--radius-md); border: 1px solid transparent; font-size: var(--fs-lg); line-height: 1; display: grid; place-items: center; }
 .steps b { display: block; }
-.steps span { color: var(--mut); font-size: 14px; }
+.steps span { color: var(--mut); font-size: var(--fs-base); }
 
-.donate { display: grid; grid-template-columns: 1.6fr 1fr; gap: 28px; align-items: center; }
+.donate { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-11); align-items: center; }
 @media (max-width: 820px) { .donate { grid-template-columns: 1fr; } }
 .donate-text p { color: var(--mut); max-width: 560px; }
-.starcard { --starcard-glow-rest: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 45%, transparent), 0 0 70px color-mix(in srgb, var(--gold-bright) 40%, transparent), 0 0 130px color-mix(in srgb, var(--gold-bright) 20%, transparent); --starcard-glow-peak: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 90px color-mix(in srgb, var(--gold-bright) 60%, transparent), 0 0 160px color-mix(in srgb, var(--gold-bright) 32%, transparent); position: relative; background: linear-gradient(180deg, var(--panel), var(--panel2)); border: 1px solid color-mix(in srgb, var(--gold-bright) 75%, var(--bd)); border-radius: 18px; padding: 28px; text-align: center; box-shadow: var(--starcard-glow-rest); animation: starcardGlow 3.2s ease-in-out infinite; }
-.starcard .stars-ic { display: block; font-size: 18px; letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
-.starcard .big { display: block; font-size: 64px; font-weight: 800; color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
-.starcard .lbl { display: block; color: var(--mut); margin: 6px 0 18px; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; }
+.starcard { text-align: center; }
+.starcard .stars-ic { display: block; font-size: var(--fs-2xl); letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
+.starcard .big { display: block; font-size: 64px; font-weight: var(--fw-800); color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
+.starcard .lbl { display: block; color: var(--mut); margin: var(--space-1) 0 var(--space-7); font-size: var(--fs-base); text-transform: uppercase; letter-spacing: .06em; }
 
-@keyframes starcardGlow {
-  0%, 100% { box-shadow: var(--starcard-glow-rest); }
-  50% { box-shadow: var(--starcard-glow-peak); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .starcard, .btn.star { animation: none; }
-  .card { transition: none; }
-}
-
-.foot { border-top: 1px solid var(--bd); padding: 28px 0; }
-.footwrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--mut); font-size: 14px; }
+.foot { border-top: 1px solid var(--bd); padding: var(--space-11) 0; }
+.footwrap { display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; color: var(--mut); font-size: var(--fs-base); }
 .foot a { color: var(--mut); }
 .dim a:hover { color: var(--tx); }
-.made { margin: 16px 0 0; text-align: center; color: var(--mut); font-size: 12px; opacity: .6; }
+.made { margin: var(--space-6) 0 0; text-align: center; color: var(--mut); font-size: var(--fs-sm); opacity: .6; }
 
-.scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: 30; width: 44px; height: 44px; border: 1px solid var(--bd); background: var(--panel2); color: var(--tx); font-size: 18px; cursor: pointer; display: grid; place-items: center; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: border-color .15s ease, transform .06s ease; }
+.scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: 30; width: 44px; height: 44px; border: 1px solid var(--bd); background: var(--panel2); color: var(--tx); font-size: var(--fs-2xl); cursor: pointer; display: grid; place-items: center; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: border-color .15s ease, transform .06s ease; }
 .scroll-top:hover { border-color: var(--acc); transform: translateY(-2px); }
 </style>
