@@ -207,12 +207,13 @@ const pillars = [
             <Button :href="repoUrl" target="_blank" rel="noopener noreferrer">Contribuir no repo</Button>
           </div>
         </div>
-        <aside class="starcard" aria-label="Estrelas no GitHub">
+        <Card as="aside" class="starcard" aria-label="Estrelas no GitHub">
+          <span class="card-tag" aria-hidden="true">{{ sectionTag('STARS', 0) }}</span>
           <span class="stars-ic" aria-hidden="true">⭐⭐⭐</span>
           <span class="big">{{ loadingStars ? '…' : (stars === null ? '★' : fmtStars(stars)) }}</span>
           <span class="lbl">estrelas no GitHub</span>
           <Button variant="star" size="sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</Button>
-        </aside>
+        </Card>
       </Container>
     </Section>
 
@@ -298,7 +299,8 @@ const pillars = [
 .card-tag { display: block; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: .18em; color: var(--acc2); margin-bottom: var(--space-3); }
 .card .ic { font-size: var(--fs-4xl); }
 .card h3 { margin: var(--space-4) 0 var(--space-2); font-size: var(--fs-3xl); }
-.card p { margin: 0; color: var(--mut); }
+.card h3::after { content: ''; display: block; width: 100%; height: 1px; margin-top: var(--space-3); background: var(--scan-line); opacity: .55; }
+.card p { margin: var(--space-4) 0 0; color: var(--mut); }
 
 .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
 @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
@@ -311,18 +313,10 @@ const pillars = [
 .donate { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--space-11); align-items: center; }
 @media (max-width: 820px) { .donate { grid-template-columns: 1fr; } }
 .donate-text p { color: var(--mut); max-width: 560px; }
-.starcard { --starcard-glow-rest: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 45%, transparent), 0 0 70px color-mix(in srgb, var(--gold-bright) 40%, transparent), 0 0 130px color-mix(in srgb, var(--gold-bright) 20%, transparent); --starcard-glow-peak: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 90px color-mix(in srgb, var(--gold-bright) 60%, transparent), 0 0 160px color-mix(in srgb, var(--gold-bright) 32%, transparent); position: relative; background: linear-gradient(180deg, var(--panel), var(--panel2)); border: 1px solid color-mix(in srgb, var(--gold-bright) 75%, var(--bd)); border-radius: var(--radius-pill); padding: var(--space-11); text-align: center; box-shadow: var(--starcard-glow-rest); animation: starcardGlow 3.2s ease-in-out infinite; }
+.starcard { text-align: center; }
 .starcard .stars-ic { display: block; font-size: var(--fs-2xl); letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
 .starcard .big { display: block; font-size: 64px; font-weight: var(--fw-800); color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
 .starcard .lbl { display: block; color: var(--mut); margin: 6px 0 var(--space-7); font-size: var(--fs-base); text-transform: uppercase; letter-spacing: .06em; }
-
-@keyframes starcardGlow {
-  0%, 100% { box-shadow: var(--starcard-glow-rest); }
-  50% { box-shadow: var(--starcard-glow-peak); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .starcard { animation: none; }
-}
 
 .foot { border-top: 1px solid var(--bd); padding: var(--space-11) 0; }
 .footwrap { display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; color: var(--mut); font-size: var(--fs-base); }

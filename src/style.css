@@ -44,6 +44,14 @@
 
   --shadow-panel-hover: 0 0 0 1px color-mix(in srgb, var(--acc) 22%, transparent), 0 16px 40px -26px color-mix(in srgb, var(--acc) 55%, transparent);
   --shadow-panel-active: 0 0 0 1px color-mix(in srgb, var(--acc) 30%, transparent), 0 10px 40px -18px color-mix(in srgb, var(--acc) 60%, transparent);
+  --shadow-panel-rest: 0 0 0 1px color-mix(in srgb, var(--acc) 12%, transparent), 0 0 26px -8px color-mix(in srgb, var(--acc) 45%, transparent);
+
+  --bd-acc: color-mix(in srgb, var(--acc) 45%, var(--bd));
+  --corner-size: 16px;
+  --corner-w: 2px;
+  --accent-bar-w: 30px;
+  --accent-bar-h: 3px;
+  --scan-line: repeating-linear-gradient(90deg, var(--acc) 0 6px, transparent 6px 11px);
 
   --fs-2xs: 10px;
   --fs-xs: 11px;
