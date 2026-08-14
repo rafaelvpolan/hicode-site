@@ -68,6 +68,7 @@ const pillars = [
   <main id="conteudo">
     <section id="topo" class="hero">
       <div class="wrap">
+        <p class="beta hero-beta">beta</p>
         <p class="badge">open source · MIT</p>
         <h1>Prompts resolvem tarefas.<br /><span class="grad">Loops inteligentes constroem sistemas.</span></h1>
         <p class="sub">
@@ -274,6 +275,7 @@ const pillars = [
 @media (max-width: 620px) { .navlinks a:not(.ghbtn) { display: none; } }
 
 .hero { padding: clamp(56px, 12vw, 120px) 0 clamp(40px, 8vw, 80px); text-align: center; }
+.hero-beta { display: inline-block; margin: 0 0 12px; }
 .badge { display: inline-block; font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent); border-radius: 3px; padding: 4px 12px; margin: 0 0 22px; }
 .hero h1 { font-size: clamp(30px, 6vw, 56px); margin: 0 0 18px; letter-spacing: -.02em; }
 .grad { background: linear-gradient(90deg, var(--acc), var(--acc2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
