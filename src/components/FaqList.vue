@@ -18,7 +18,7 @@ import { faq } from '../faq'
 .faq {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .faq-item {
@@ -33,10 +33,10 @@ import { faq } from '../faq'
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--space-6);
   min-height: 44px;
-  padding: 14px 20px;
-  font-weight: 600;
+  padding: var(--space-5) var(--space-8);
+  font-weight: var(--fw-600);
   color: var(--tx);
 }
 
@@ -57,7 +57,7 @@ import { faq } from '../faq'
 
 .faq-item p {
   margin: 0;
-  padding: 0 20px 18px;
+  padding: 0 var(--space-8) var(--space-7);
   color: var(--mut);
   font-size: 14.5px;
 }

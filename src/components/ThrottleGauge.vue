@@ -36,7 +36,7 @@ defineProps<ThrottleGaugeProps>()
   height: 14px;
   background: var(--bg2);
   border: 1px solid var(--bd);
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 
@@ -98,26 +98,26 @@ defineProps<ThrottleGaugeProps>()
 .throttle-readout {
   display: flex;
   align-items: baseline;
-  gap: 8px;
-  margin-top: 8px;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
   font-family: var(--font-mono);
 }
 
 .throttle-k {
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.18em;
   color: var(--mut);
 }
 
 .throttle-v {
   font-size: 20px;
-  font-weight: 800;
+  font-weight: var(--fw-800);
   color: var(--tx);
   font-variant-numeric: tabular-nums;
 }
 
 .throttle-status {
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.08em;
   color: var(--acc2);
   margin-left: auto;

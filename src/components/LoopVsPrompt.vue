@@ -68,11 +68,11 @@ function rowDelay(index: number): CSSProperties {
 
 .matrix th {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-align: left;
-  padding: 0 20px 10px;
+  padding: 0 var(--space-8) var(--space-3);
 }
 
 .matrix th.without {
@@ -86,7 +86,7 @@ function rowDelay(index: number): CSSProperties {
 .matrix td {
   background: var(--panel);
   border: 1px solid var(--bd);
-  padding: 16px 20px;
+  padding: var(--space-6) var(--space-8);
   font-size: 14.5px;
   vertical-align: top;
 }
@@ -133,7 +133,7 @@ function rowDelay(index: number): CSSProperties {
   }
 
   .matrix tr {
-    margin-bottom: 10px;
+    margin-bottom: var(--space-3);
   }
 
   .matrix td {
@@ -142,7 +142,7 @@ function rowDelay(index: number): CSSProperties {
   }
 
   .matrix td.without {
-    margin-bottom: 6px;
+    margin-bottom: var(--space-1);
     border-left: 3px solid var(--bd);
   }
 

@@ -58,29 +58,29 @@ const { tasks } = useProcessFeed({ isRunning, rpmFraction })
   background: var(--panel);
   border: 1px solid var(--bd);
   clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
-  padding: 20px 22px 18px;
+  padding: var(--space-8) var(--space-9) var(--space-7);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .engine.is-running {
   border-color: color-mix(in srgb, var(--acc) 55%, var(--bd));
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--acc) 30%, transparent), 0 10px 40px -18px color-mix(in srgb, var(--acc) 60%, transparent);
+  box-shadow: var(--shadow-panel-active);
 }
 
 .engine-head {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: var(--space-7);
   flex-wrap: wrap;
 }
 
 .ignite-btn {
   flex: 0 0 auto;
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: var(--fw-700);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: var(--fs-md);
   color: var(--tx);
   background: var(--panel2);
   border: 1px solid var(--bd);
@@ -99,7 +99,7 @@ const { tasks } = useProcessFeed({ isRunning, rpmFraction })
 
 .ignite-btn.is-on {
   background: linear-gradient(180deg, var(--acc2), var(--acc));
-  color: #1a0b02;
+  color: var(--ink-acc);
   border-color: var(--acc);
 }
 
