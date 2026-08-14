@@ -68,7 +68,10 @@ const pillars = [
   <main id="conteudo">
     <section id="topo" class="hero">
       <div class="wrap">
-        <p class="badge">open source · MIT</p>
+        <div class="hero-badges">
+          <p class="badge">open source · MIT</p>
+          <p class="badge beta-tag">beta</p>
+        </div>
         <h1>Prompts resolvem tarefas.<br /><span class="grad">Loops inteligentes constroem sistemas.</span></h1>
         <p class="sub">
           <strong>hiignation</strong> é um gerenciador de projetos autônomo com IA. Cada tarefa vira um
@@ -274,7 +277,9 @@ const pillars = [
 @media (max-width: 620px) { .navlinks a:not(.ghbtn) { display: none; } }
 
 .hero { padding: clamp(56px, 12vw, 120px) 0 clamp(40px, 8vw, 80px); text-align: center; }
-.badge { display: inline-block; font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent); border-radius: 3px; padding: 4px 12px; margin: 0 0 22px; }
+.hero-badges { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 0 0 22px; }
+.badge { display: inline-block; font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent); border-radius: 3px; padding: 4px 12px; margin: 0; }
+.badge.beta-tag { color: var(--hazard); border-color: color-mix(in srgb, var(--hazard) 40%, transparent); }
 .hero h1 { font-size: clamp(30px, 6vw, 56px); margin: 0 0 18px; letter-spacing: -.02em; }
 .grad { background: linear-gradient(90deg, var(--acc), var(--acc2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .sub { max-width: 680px; margin: 0 auto 28px; color: #c9d1d9; font-size: clamp(15px, 2.4vw, 19px); }
