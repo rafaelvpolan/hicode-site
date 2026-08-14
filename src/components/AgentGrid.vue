@@ -19,7 +19,7 @@ import { agents } from '../agents'
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .agent {
@@ -47,8 +47,8 @@ import { agents } from '../agents'
 
 .agent-id {
   font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-700);
   color: var(--acc2);
 }
 
@@ -71,12 +71,12 @@ import { agents } from '../agents'
 .agent-gate {
   align-self: flex-start;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--hazard);
   border: 1px solid color-mix(in srgb, var(--hazard) 45%, transparent);
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   padding: 1px 8px;
 }
 

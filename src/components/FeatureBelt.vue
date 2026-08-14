@@ -19,13 +19,13 @@ import { featureBelt } from '../featureBelt'
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .belt li {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
   font-family: var(--font-mono);
   font-size: 12.5px;
   color: var(--mut);
