@@ -51,7 +51,7 @@ const pillars = [
     <header class="nav">
     <Container class="navwrap">
       <a class="brand" href="#topo" aria-label="hiignation">
-        <span class="logo" aria-hidden="true">⟳</span> hiignation<span class="beta">beta</span>
+        <span class="logo" aria-hidden="true">⟳</span> hiignation
       </a>
       <nav class="navlinks" aria-label="Navegação principal">
         <a href="#sobre">O que é</a>
@@ -272,7 +272,6 @@ const pillars = [
 .brand { color: var(--acc); font-weight: var(--fw-700); font-size: var(--fs-2xl); }
 .brand:hover { text-decoration: none; }
 .logo { color: var(--acc); }
-.beta { margin-left: 7px; font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: var(--fw-400); letter-spacing: .06em; text-transform: uppercase; color: var(--mut); background: var(--panel2); border: 1px solid var(--bd); border-radius: var(--radius-sm); padding: 1px 6px; vertical-align: middle; }
 .navlinks { display: flex; align-items: center; gap: var(--space-7); }
 .navlinks a { color: var(--mut); font-size: var(--fs-base); }
 .navlinks a:hover { color: var(--tx); text-decoration: none; }
