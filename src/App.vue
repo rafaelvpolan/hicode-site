@@ -45,10 +45,7 @@ const pillars = [
 <template>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-  <div class="topbar">
-    <div class="test-banner" role="status" aria-live="polite">versao de testes</div>
-
-    <header class="nav">
+  <header class="nav">
     <Container class="navwrap">
       <a class="brand" href="#topo" aria-label="hiignation">
         <span class="logo" aria-hidden="true">⟳</span> hiignation
@@ -67,11 +64,10 @@ const pillars = [
       </nav>
     </Container>
   </header>
-  </div>
 
   <main id="conteudo">
     <section id="topo" class="hero">
-      <div class="wrap">
+      <Container>
         <div class="hero-badges">
           <p class="badge">open source · MIT</p>
           <p class="badge beta-tag">beta</p>
@@ -260,14 +256,10 @@ const pillars = [
 </template>
 
 <style scoped>
-.topbar { position: sticky; top: 0; z-index: 20; }
-.test-banner { position: relative; background: var(--hazard); color: var(--ink-hazard); font-family: var(--font-mono); font-weight: var(--fw-800); font-size: var(--fs-sm); letter-spacing: .14em; text-transform: uppercase; text-align: center; padding: 7px 0; }
-.test-banner::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 4px; background: repeating-linear-gradient(135deg, var(--ink-hazard) 0 8px, transparent 8px 16px); opacity: .5; }
-
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); border-radius: var(--radius-lg); z-index: 50; }
 
-.nav { backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--bd); }
+.nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--bd); }
 .navwrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .brand { color: var(--acc); font-weight: var(--fw-700); font-size: var(--fs-2xl); }
 .brand:hover { text-decoration: none; }
