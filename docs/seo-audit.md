@@ -116,21 +116,22 @@ canonical; falta a propriedade `image`. Com `offers` mas sem `aggregateRating`, 
 
 Não existem `og:image:alt` nem `twitter:image:alt`. Também falta `twitter:site`.
 
-### 10. Duas `<section>` sem heading
+### 10. Uma `<section>` sem heading
 
 `src/App.vue:97` (`.belt-section`) usa só `aria-label`, sem `h2`. Sem heading, a seção não
-contribui com nenhum sinal de tópico. A hierarquia em si está correta: um único `h1`
+contribui com nenhum sinal de tópico. É a única: as 9 `<Section>` restantes têm `h2` (8 em
+`src/App.vue`, mais o de `FinalCta.vue`). A hierarquia em si está correta: um único `h1`
 (`src/App.vue:74`), um `h2` por seção, `h3` apenas dentro de seções com `h2`
 (pilares e `CardLifecycle`) — nenhum nível saltado.
 
 ### 11. Nomes dos agentes não são headings
 
-`src/components/AgentGrid.vue` — os 15 agentes usam `<span>` para id e domínio. É a lista de
+`src/components/AgentGrid.vue` — os 16 agentes usam `<span>` para id e domínio. É a lista de
 entidades mais específica da página e não tem marcação semântica alguma.
 
 ### 12. Emoji sem `aria-hidden`
 
-`src/components/AgentGrid.vue:5` — o `⚖️` de `⚖️ gate` é decorativo mas é lido pelo leitor de
+`src/components/AgentGrid.vue:9` — o `⚖️` de `⚖️ gate` é decorativo mas é lido pelo leitor de
 tela como "balança". Todos os outros ícones da página (`src/App.vue:51,114,115,130`,
 `FeatureBelt`, `FaqList`, `.stars-ic`) estão corretamente marcados com `aria-hidden="true"`.
 
