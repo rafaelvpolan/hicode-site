@@ -2,10 +2,20 @@
 
 Escopo: todo o site. Checagem básica (title, meta description, headings, alt text, canonical)
 mais os arquivos de indexação (`robots.txt`, `sitemap.xml`) e as tags de compartilhamento.
-Somente relatório — nenhuma correção aplicada.
+**Somente relatório — nenhuma correção aplicada.**
 
-URL real de produção (derivada de `.github/workflows/deploy.yml` + `vite.config.ts` `base`):
-`https://rafaelvpolan.github.io/hicode-site/`
+Apuração em 24/08/2026. Cada achado abaixo foi verificado no código-fonte, no `dist/`
+construído e — onde há URL envolvida — por requisição HTTP real. Nada entra como suposição.
+
+## Onde o site é servido
+
+`origin` = `https://github.com/rafaelvpolan/hicode-site`. O `vite.config.ts` usa
+`base: '/hicode-site/'` em build e o `.github/workflows/deploy.yml` publica `./dist` no
+GitHub Pages, o que dá `https://rafaelvpolan.github.io/hicode-site/`.
+
+Essa URL responde **404** hoje (`https://rafaelvpolan.github.io/` responde 200): o Pages
+deste projeto não está publicando. Todos os endereços "corretos" apontados adiante assumem
+essa URL como destino do deploy — mas ela ainda não serve o site.
 
 ---
 
@@ -19,18 +29,45 @@ URL real de produção (derivada de `.github/workflows/deploy.yml` + `vite.confi
 <link rel="canonical" href="https://github.com/rafaelvpolan/hicode" />
 ```
 
-A página se declara como versão duplicada de uma URL no `github.com`. O efeito é o pior
-possível: o Google desindexa a landing e atribui todo o sinal ao repositório. Não existe
-canonical próprio em nenhum lugar.
+A página se declara versão duplicada de uma URL em `github.com`. O Google desindexa a
+landing e atribui todo o sinal ao repositório. Não existe canonical próprio em nenhum lugar
+do projeto.
 
-Correto: `https://rafaelvpolan.github.io/hicode-site/`.
+Destino correto: `https://rafaelvpolan.github.io/hicode-site/`.
 
-### 2. `og:url` repete a URL errada
+Confirmado em `dist/index.html:9`: o Vite não reescreve URLs absolutas, então o erro chega
+intacto ao artefato publicado.
 
-`index.html:17` — mesmo endereço do `canonical`. Todo compartilhamento resolve para o repo,
-não para o site.
+### 2. A mesma URL errada se repete em `og:url` e no JSON-LD
 
-### 3. `sitemap.xml` lista URL de outro host
+- `index.html:17` — `og:url`. Todo compartilhamento resolve para o repo, não para o site.
+- `index.html:32` — `"url"` do `SoftwareApplication` (bloco `index.html:26-47`).
+
+Três declarações independentes de identidade da página apontam para fora do site. Além da
+URL, o `SoftwareApplication` não tem a propriedade `image`.
+
+### 3. `og:image`/`twitter:image` em SVG e com 404 confirmado
+
+`index.html:18` e `index.html:24`
+
+```html
+<meta property="og:image" content="https://raw.githubusercontent.com/rafaelvpolan/hicode/main/public/og-image.svg" />
+```
+
+Duas falhas independentes, cada uma suficiente para matar o preview:
+
+- **404 confirmado.** A URL aponta para o repo `hicode`; o arquivo vive em `hicode-site`.
+  Probe: `.../hicode/main/public/og-image.svg` → `404`;
+  `.../hicode-site/main/public/og-image.svg` → `200 image/svg+xml`.
+- **Formato.** Facebook, X/Twitter, LinkedIn e WhatsApp não renderizam SVG em preview. Ainda
+  que a URL fosse corrigida, o card sairia sem imagem.
+
+O `og:image:width`/`height` (`index.html:19-20`) declaram 1200×630, que confere com o
+`public/og-image.svg` real — mas nenhum scraper chega a ler a imagem.
+
+Destino correto: um PNG 1200×630 servido pelo próprio domínio do site.
+
+### 4. `sitemap.xml` lista URL de outro host
 
 `public/sitemap.xml:4`
 
@@ -38,11 +75,11 @@ não para o site.
 <loc>https://github.com/rafaelvpolan/hicode</loc>
 ```
 
-Um sitemap só pode listar URLs do mesmo host em que é servido. Entrada cross-host é
-rejeitada — o sitemap não indexa nada, e a única página real do site não está listada.
-Sem `<lastmod>` também.
+Um sitemap só pode listar URLs do host que o serve; entrada cross-host é rejeitada. O
+resultado é um sitemap que não indexa nada, e a única página real do site fora dele.
+Também não há `<lastmod>`.
 
-### 4. `robots.txt` inerte + Sitemap inexistente
+### 5. `robots.txt` inerte
 
 `public/robots.txt:3`
 
@@ -52,32 +89,11 @@ Sitemap: https://github.com/rafaelvpolan/hicode/sitemap.xml
 
 Dois problemas somados:
 
-- A URL não existe (404). O sitemap está em `public/`, servido pelo Pages, não no repo `hicode`.
-- Sendo um *project site* do GitHub Pages, o build é publicado sob `/hicode-site/`, então este
-  arquivo termina em `/hicode-site/robots.txt`. `robots.txt` só é lido na raiz do host
-  (`https://rafaelvpolan.github.io/robots.txt`) — o arquivo é ignorado por completo pelos
-  crawlers. O mesmo vale para o `sitemap.xml`, que precisa ser referenciado pela URL sob a base.
-
-### 5. Imagem social em SVG — nenhum preview renderiza
-
-`index.html:18` e `index.html:24`
-
-```html
-<meta property="og:image" content="https://raw.githubusercontent.com/rafaelvpolan/hicode/main/public/og-image.svg" />
-<meta name="twitter:image" content="…/og-image.svg" />
-```
-
-Três falhas encadeadas:
-
-- **Formato:** Facebook, X/Twitter, LinkedIn e WhatsApp não aceitam SVG em preview. O card
-  sai sem imagem, mesmo com `og:image:width/height` declarados como 1200×630 (dimensões que
-  conferem com o arquivo, mas não são usadas).
-- **Content-Type:** `raw.githubusercontent.com` serve SVG como `text/plain`, o que bloqueia o
-  scraper mesmo onde houvesse suporte.
-- **Repo errado:** a URL aponta para o repo `hicode`, mas `public/og-image.svg` vive em
-  `hicode-site`. Provável 404 — confirmar.
-
-Correto: exportar um PNG 1200×630 e servi-lo pelo próprio domínio do site.
+- A URL não existe. O sitemap é servido pelo Pages a partir de `public/`, não pelo repo `hicode`.
+- Sendo um *project site*, o build vai para `/hicode-site/`, então o arquivo termina em
+  `https://rafaelvpolan.github.io/hicode-site/robots.txt`. Crawler só lê `robots.txt` na raiz
+  do host — o arquivo é ignorado por completo. Confirmado em `dist/`: `robots.txt` e
+  `sitemap.xml` estão na raiz do artefato, que é publicada sob a base.
 
 ---
 
@@ -91,63 +107,87 @@ Correto: exportar um PNG 1200×630 e servi-lo pelo próprio domínio do site.
 <div id="app"><noscript>hiignation — gerenciador de projetos autônomo open source. Repositório: https://github.com/rafaelvpolan/hicode</noscript></div>
 ```
 
-SPA sem pré-renderização: `h1`, `h2`, headings de seção e todo o corpo de texto são injetados
-pelo Vue em runtime. O Google renderiza JS, mas os demais consumidores de HTML cru (Bing
-parcialmente, scrapers de rede social, crawlers de LLM) recebem uma página vazia. O
+`dist/index.html` sai com `<body>` sem nenhum texto de conteúdo: `h1`, os nove `h2` e todo o
+corpo são injetados pelo Vue em runtime. O Google renderiza JS, mas consumidores de HTML cru
+(Bing parcialmente, scrapers de rede social, crawlers de LLM) recebem página vazia. O
 `<noscript>` tem uma linha e não repete nem o `h1` nem a proposta de valor.
 
 ### 7. `meta description` acima do limite útil
 
-`index.html:7` — 213 caracteres. O SERP corta em ~155–160, então a cauda
-(`executar → preview → aprovar → PR → deploy`) não aparece. O title está bem dimensionado
-(52 caracteres).
-
-### 8. JSON-LD com a mesma URL errada e sem imagem
-
-`index.html:26-47` — `"url": "https://github.com/rafaelvpolan/hicode"` repete o erro do
-canonical; falta a propriedade `image`. Com `offers` mas sem `aggregateRating`, o
-`SoftwareApplication` não é elegível a rich result.
+`index.html:7` — **213 caracteres** (medido). O SERP corta em ~155–160, então a cauda
+`executar → preview → aprovar → PR → deploy` nunca aparece.
 
 ---
 
 ## Baixos
 
-### 9. Imagem social sem texto alternativo
+### 8. Imagem social sem texto alternativo
 
 Não existem `og:image:alt` nem `twitter:image:alt`. Também falta `twitter:site`.
 
-### 10. Uma `<section>` sem heading
+### 9. Uma `<section>` sem heading
 
-`src/App.vue:97` (`.belt-section`) usa só `aria-label`, sem `h2`. Sem heading, a seção não
-contribui com nenhum sinal de tópico. É a única: as 9 `<Section>` restantes têm `h2` (8 em
-`src/App.vue`, mais o de `FinalCta.vue`). A hierarquia em si está correta: um único `h1`
-(`src/App.vue:74`), um `h2` por seção, `h3` apenas dentro de seções com `h2`
-(pilares e `CardLifecycle`) — nenhum nível saltado.
+`src/App.vue:97` — `<section aria-label="Diferenciais do hiignation" class="belt-section">`
+usa só `aria-label`. Sem heading, a seção não contribui com sinal de tópico.
 
-### 11. Nomes dos agentes não são headings
+É a única no site: as nove `<Section>` têm `h2` (`src/App.vue:106,126,145,157,169,181,194,221`
+e `src/components/FinalCta.vue:16`).
 
-`src/components/AgentGrid.vue` — os 16 agentes usam `<span>` para id e domínio. É a lista de
-entidades mais específica da página e não tem marcação semântica alguma.
+### 10. Glifos decorativos lidos pelo leitor de tela
 
-### 12. Emoji sem `aria-hidden`
+Emoji e setas sem `aria-hidden="true"`, então o leitor de tela anuncia "estrela branca média",
+"coração roxo", "seta para a direita" junto do rótulo:
 
-`src/components/AgentGrid.vue:9` — o `⚖️` de `⚖️ gate` é decorativo mas é lido pelo leitor de
-tela como "balança". Todos os outros ícones da página (`src/App.vue:51,114,115,130`,
-`FeatureBelt`, `FaqList`, `.stars-ic`) estão corretamente marcados com `aria-hidden="true"`.
+| Arquivo:linha | Glifo |
+|---|---|
+| `src/App.vue:62` | ⭐ (botão do GitHub na nav) |
+| `src/App.vue:81` | → |
+| `src/App.vue:82` | ⭐ |
+| `src/App.vue:83` | 💖 |
+| `src/App.vue:87` | ⭐ |
+| `src/App.vue:88` | ⭐ |
+| `src/App.vue:202` | ⭐ |
+| `src/App.vue:204` | 💖 |
+| `src/App.vue:246` | ⟳ (footer) |
+| `src/components/AgentGrid.vue:9` | ⚖️ |
+| `src/components/FinalCta.vue:22` | → |
+| `src/components/FinalCta.vue:23` | ⭐ |
+| `src/components/FinalCta.vue:24` | 💖 |
+
+O padrão certo já existe no projeto e é seguido na maioria dos casos —
+`src/App.vue:51,95,114,115,130,133,209,210`, `FeatureBelt.vue:8`, `FaqList.vue:9`,
+`TelemetryHud.vue` (`conn-dot`, `alert-ic`), `ThrottleGauge.vue` (raiz), `ProcessFeed.vue`
+(`TransitionGroup`), `Card.vue` (`card-accent`), `Field.vue` (`field-req`),
+`CardLifecycle.vue` (`lc-index`). A lista acima são as exceções, concentradas em rótulo de
+botão e no footer.
 
 ---
 
-## Sem problema encontrado
+## Verificado sem problema
 
-- **Alt text de imagens:** não existe nenhuma tag `<img>` no projeto. Toda a iconografia é
-  emoji ou glifo, decorativa e marcada com `aria-hidden` (exceto o item 12).
-- **Headings:** hierarquia válida, um único `h1`.
+- **Alt text:** nenhuma tag `<img>` em `index.html` nem em `src/` (grep em todo o projeto).
+  Toda a iconografia é emoji ou glifo, decorativa. Não há `alt` a corrigir; o resíduo é o
+  `aria-hidden` do item 10.
+- **Headings:** hierarquia válida, nenhum nível saltado. Um único `h1` (`src/App.vue:74`),
+  um `h2` por seção, `h3` só dentro de seção que tem `h2` (`src/App.vue:116` em `#sobre`,
+  `src/components/CardLifecycle.vue:19` em `#anatomia`).
+- **`title`:** 52 caracteres (medido) — dentro do limite do SERP.
+- **Consistência de títulos:** `title`, `og:title` e `twitter:title` idênticos
+  (`index.html:6,15,22`).
+- **`meta robots`:** `index, follow` (`index.html:11`).
 - **`<html lang="pt-BR">`**, `meta charset`, `viewport`, `theme-color`: corretos.
-- **Consistência de títulos:** `title`, `og:title` e `twitter:title` idênticos.
-- **`rel="noopener noreferrer"`** presente em todos os links externos.
-- **`meta robots`:** `index, follow` — correto.
+- **`favicon`:** `href="/favicon.svg"` é reescrito pelo Vite para `/hicode-site/favicon.svg`
+  em build (`dist/index.html:8`) — resolve certo sob a base.
+- **`rel="noopener noreferrer"`** em todos os links externos.
+- **Acessibilidade estrutural:** `LoopVsPrompt.vue:13` tem `<caption class="sr-only">`;
+  `EngineConsole.vue:35` expõe o estado do motor via `role="status"` + `aria-live`.
 
-## Oportunidade (não é erro)
+---
 
-O site tem 5 perguntas em `src/faq.ts` renderizadas por `FaqList.vue` sem nenhum
-`FAQPage` structured data.
+## Oportunidades (não são erros)
+
+- `src/faq.ts` tem 5 perguntas renderizadas por `FaqList.vue` em `<details>/<summary>`, sem
+  structured data `FAQPage`. É o conteúdo do site mais elegível a rich result.
+- `src/components/AgentGrid.vue` marca os 16 agentes como `<ul>/<li>` com `<span>` para id e
+  domínio. É marcação válida e não é defeito — mas é a lista de entidades mais específica da
+  página, e headings ali dariam sinal de tópico que hoje não existe.
