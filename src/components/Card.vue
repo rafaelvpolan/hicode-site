@@ -27,9 +27,9 @@ const bracketsVisible = computed(() => showBrackets(props.variant, props.bracket
 <style scoped>
 .card {
   position: relative;
-  background: var(--panel);
+  background: linear-gradient(180deg, var(--panel2) 0%, var(--panel) 60%);
   border: 1px solid var(--bd);
-  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
   padding: var(--space-10) var(--space-9) var(--space-9);
   transition: border-color .2s ease, box-shadow .3s ease, transform var(--dur-soft) var(--ease-soft);
 }
@@ -48,8 +48,8 @@ const bracketsVisible = computed(() => showBrackets(props.variant, props.bracket
   --star-glow-rest: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 45%, transparent), 0 0 70px color-mix(in srgb, var(--gold-bright) 40%, transparent), 0 0 130px color-mix(in srgb, var(--gold-bright) 20%, transparent);
   --star-glow-peak: 0 0 0 1px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 90px color-mix(in srgb, var(--gold-bright) 60%, transparent), 0 0 160px color-mix(in srgb, var(--gold-bright) 32%, transparent);
   clip-path: none;
-  border-radius: var(--radius-pill);
-  background: linear-gradient(180deg, var(--panel), var(--panel2));
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--panel2), var(--panel));
   border-color: color-mix(in srgb, var(--gold-bright) 75%, var(--bd));
   padding: var(--space-11);
   box-shadow: var(--star-glow-rest);
