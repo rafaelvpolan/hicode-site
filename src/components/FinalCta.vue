@@ -1,13 +1,6 @@
 <script setup lang="ts">
+import { repoUrl, sponsorUrl, starUrl } from '../lib/github'
 import Button from './Button.vue'
-
-interface FinalCtaProps {
-  repoUrl: string
-  starUrl: string
-  sponsorUrl: string
-}
-
-defineProps<FinalCtaProps>()
 </script>
 
 <template>
