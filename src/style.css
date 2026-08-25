@@ -53,6 +53,20 @@
   --accent-bar-h: 3px;
   --scan-line: repeating-linear-gradient(90deg, var(--acc) 0 6px, transparent 6px 11px);
 
+  --iso-tilt: 56deg;
+  --iso-spin: 45deg;
+  --iso-size: 46px;
+  --iso-depth: 9px;
+  --iso-lift: 6px;
+  --iso-perspective: 420px;
+  --iso-float-dur: 6s;
+  --grid-cell: 22px;
+  --grid-line: color-mix(in srgb, var(--acc) 9%, transparent);
+
+  --dur-micro: .16s;
+  --dur-soft: .34s;
+  --ease-soft: cubic-bezier(.22, .61, .36, 1);
+
   --fs-2xs: 10px;
   --fs-xs: 11px;
   --fs-sm: 12px;
