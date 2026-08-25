@@ -51,13 +51,13 @@ const { tasks } = useProcessFeed({ isRunning, rpmFraction })
 
 .engine {
   position: relative;
-  margin: clamp(36px, 6vw, 56px) auto 0;
+  margin: 0 auto;
   width: 100%;
-  max-width: 540px;
+  max-width: 640px;
   text-align: left;
-  background: var(--panel);
+  background: linear-gradient(180deg, var(--panel2) 0%, var(--panel) 60%);
   border: 1px solid var(--bd);
-  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
   padding: var(--space-8) var(--space-9) var(--space-7);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }

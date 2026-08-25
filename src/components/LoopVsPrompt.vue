@@ -10,11 +10,11 @@ function rowDelay(index: number): CSSProperties {
 <template>
   <div class="matrix-wrap">
     <table class="matrix">
-      <caption class="sr-only">Comparação entre trabalhar com prompts avulsos e trabalhar com loops do hiignation</caption>
+      <caption class="sr-only">Comparação entre trabalhar com prompts avulsos e trabalhar com loops do hicode</caption>
       <thead>
         <tr>
           <th scope="col" class="without">Sem loop</th>
-          <th scope="col" class="with">Com hiignation</th>
+          <th scope="col" class="with">Com hicode</th>
         </tr>
       </thead>
       <tbody>

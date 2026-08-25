@@ -27,11 +27,12 @@ import { featureBelt } from '../featureBelt'
   align-items: center;
   gap: var(--space-2);
   font-family: var(--font-mono);
-  font-size: 12.5px;
-  color: var(--mut);
-  background: var(--panel2);
-  border: 1px solid var(--bd);
-  border-radius: 999px;
-  padding: 7px 14px;
+  font-size: var(--fs-sm);
+  letter-spacing: .04em;
+  color: var(--tx-soft);
+  background: color-mix(in srgb, var(--acc) 10%, var(--panel2));
+  border: 1px solid var(--bd-acc);
+  border-radius: var(--radius-pill);
+  padding: 7px var(--space-5);
 }
 </style>
