@@ -1,27 +1,28 @@
 :root {
-  --bg: #08090c;
-  --bg2: #050608;
-  --panel: #101216;
-  --panel2: #16181d;
-  --bd: #262b33;
-  --tx: #e9edf2;
-  --mut: #7d8794;
-  --acc: #ff6a1a;
-  --acc2: #ffae3d;
+  --bg: #030812;
+  --bg2: #05101f;
+  --panel: #0a1729;
+  --panel2: #0f2138;
+  --panel-deep: #061223;
+  --bd: #17324f;
+  --tx: #e6f0fb;
+  --mut: #7f97b5;
+  --acc: #2f81f7;
+  --acc2: #6fd3ff;
   --hazard: #ffb020;
-  --ok: #3fb950;
-  --pink: #ff3d6a;
+  --ok: #2fe6a8;
+  --pink: #ff5d8f;
   --gold: #d29922;
   --gold-bright: #ffd23f;
   --gold-bright2: #ffe27a;
 
   --white: #fff;
   --black: #000;
-  --tx-soft: #c9d1d9;
-  --ink-acc: #1a0b02;
+  --tx-soft: #bfd3ea;
+  --ink-acc: #03101f;
   --ink-hazard: #1a1206;
   --ink-star: #2b1d00;
-  --pink-soft: #ffd9e2;
+  --pink-soft: #ffd6e3;
   --gold-soft: #fff2b8;
 
   --space-1: 6px;
@@ -37,21 +38,28 @@
   --space-11: 28px;
   --space-12: 32px;
 
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
-  --radius-pill: 18px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-pill: 999px;
 
-  --shadow-panel-hover: 0 0 0 1px color-mix(in srgb, var(--acc) 22%, transparent), 0 16px 40px -26px color-mix(in srgb, var(--acc) 55%, transparent);
-  --shadow-panel-active: 0 0 0 1px color-mix(in srgb, var(--acc) 30%, transparent), 0 10px 40px -18px color-mix(in srgb, var(--acc) 60%, transparent);
-  --shadow-panel-rest: 0 0 0 1px color-mix(in srgb, var(--acc) 12%, transparent), 0 0 26px -8px color-mix(in srgb, var(--acc) 45%, transparent);
+  --shadow-panel-hover: 0 0 0 1px color-mix(in srgb, var(--acc) 30%, transparent), 0 18px 48px -30px color-mix(in srgb, var(--acc) 70%, transparent);
+  --shadow-panel-active: 0 0 0 1px color-mix(in srgb, var(--acc) 38%, transparent), 0 0 46px -14px color-mix(in srgb, var(--acc) 70%, transparent);
+  --shadow-panel-rest: 0 0 0 1px color-mix(in srgb, var(--acc) 14%, transparent), inset 0 0 40px -22px color-mix(in srgb, var(--acc) 80%, transparent);
 
   --bd-acc: color-mix(in srgb, var(--acc) 45%, var(--bd));
-  --corner-size: 16px;
-  --corner-w: 2px;
-  --accent-bar-w: 30px;
-  --accent-bar-h: 3px;
-  --scan-line: repeating-linear-gradient(90deg, var(--acc) 0 6px, transparent 6px 11px);
+  --corner-size: 12px;
+  --corner-w: 1px;
+  --accent-bar-w: 26px;
+  --accent-bar-h: 2px;
+  --scan-line: repeating-linear-gradient(90deg, var(--acc) 0 4px, transparent 4px 9px);
+
+  /* grade de fundo do painelão: a malha fina é o que dá a leitura de "tela de operação" */
+  --grid-cell: 44px;
+  --grid-line: color-mix(in srgb, var(--acc) 7%, transparent);
+  --hud-h: 58px;
+  --panel-head-h: 34px;
+  --deck-gap: 18px;
 
   --fs-2xs: 10px;
   --fs-xs: 11px;
@@ -59,33 +67,40 @@
   --fs-md: 13px;
   --fs-base: 14px;
   --fs-lg: 15px;
-  --fs-xl: 17px;
+  --fs-xl: 16px;
   --fs-2xl: 18px;
   --fs-3xl: 19px;
   --fs-4xl: 26px;
   --fs-5xl: 34px;
   --fs-6xl: 56px;
-  --fs-hero: clamp(30px, 6vw, 56px);
-  --fs-h2: clamp(24px, 4vw, 34px);
-  --fs-sub: clamp(15px, 2.4vw, 19px);
+  --fs-hero: clamp(28px, 5vw, 60px);
+  --fs-h2: clamp(15px, 1.6vw, 19px);
+  --fs-sub: clamp(14px, 1.5vw, 17px);
 
   --fw-400: 400;
   --fw-600: 600;
   --fw-700: 700;
   --fw-800: 800;
 
-  --maxw: 1080px;
-  --cut: 14px;
+  --maxw: 1520px;
+  --lead-maxw: 78ch;
+  --cut: 10px;
+  --notch: 14px;
+  --track-ls: .22em;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Bahnschrift", "DIN Alternate", "Segoe UI Semibold", ui-sans-serif, system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--hud-h) + 56px); }
 body {
   margin: 0;
   background:
-    radial-gradient(1100px 560px at 50% -8%, color-mix(in srgb, var(--acc) 16%, transparent) 0%, transparent 55%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / var(--grid-cell) var(--grid-cell),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / var(--grid-cell) var(--grid-cell),
+    radial-gradient(1200px 620px at 50% 0%, color-mix(in srgb, var(--acc) 18%, transparent) 0%, transparent 62%),
+    radial-gradient(900px 900px at 50% 40%, var(--bg2) 0%, var(--bg) 70%),
     var(--bg);
   color: var(--tx);
   font-family: var(--font-sans);
@@ -102,7 +117,7 @@ h1, h2, h3 { line-height: 1.2; }
   outline-offset: 2px;
 }
 
-.cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+.cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

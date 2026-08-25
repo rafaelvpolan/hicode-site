@@ -12,10 +12,10 @@ defineProps<FinalCtaProps>()
 
 <template>
   <div class="final">
-    <p class="final-eyebrow">CH_08 · PRÓXIMO PASSO</p>
+    <p class="final-eyebrow">CH_09 · PRÓXIMO PASSO</p>
     <h2>Pare de promptar. Comece a desenhar loops.</h2>
     <p class="final-sub">
-      hiignation é grátis e aberto. Clone o repo, suba o heartbeat e deixe o primeiro
+      hicode é grátis e aberto. Clone o repo, suba o heartbeat e deixe o primeiro
       card virar preview, depois PR — sem precisar reexplicar nada na próxima sessão.
     </p>
     <div class="cta">
@@ -31,11 +31,13 @@ defineProps<FinalCtaProps>()
   text-align: center;
   padding: clamp(40px, 7vw, 64px) clamp(20px, 5vw, 56px);
   background:
-    radial-gradient(720px 320px at 50% 0%, color-mix(in srgb, var(--acc) 14%, transparent) 0%, transparent 60%),
-    var(--panel);
-  border: 1px solid var(--bd);
-  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+    radial-gradient(720px 320px at 50% 0%, color-mix(in srgb, var(--acc) 20%, transparent) 0%, transparent 60%),
+    var(--panel-deep);
+  border: 1px solid var(--bd-acc);
+  clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
 }
+
+.final .cta { justify-content: center; }
 
 .final-eyebrow {
   font-family: var(--font-mono);
@@ -47,7 +49,11 @@ defineProps<FinalCtaProps>()
 }
 
 .final h2 {
-  font-size: clamp(22px, 3.6vw, 32px);
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.6vw, 34px);
+  font-weight: var(--fw-800);
+  letter-spacing: .05em;
+  text-transform: uppercase;
   margin: 0 0 var(--space-5);
 }
 
