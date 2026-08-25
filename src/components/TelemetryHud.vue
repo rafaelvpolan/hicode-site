@@ -68,6 +68,8 @@ const phases = telemetryPhases()
 .hud {
   --hud-glow: 0 0 0 1px color-mix(in srgb, var(--acc) 24%, transparent), 0 18px 50px -28px color-mix(in srgb, var(--acc) 60%, transparent);
   background: var(--panel);
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
   border: 1px solid var(--bd);
   box-shadow: var(--hud-glow);
   clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
@@ -113,6 +115,19 @@ const phases = telemetryPhases()
   border-radius: 50%;
   background: var(--panel);
   border: 1px solid var(--bd);
+}
+
+.gauge-ring::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--gauge-color, var(--acc)) 45%, transparent);
+  animation: gaugeOrbit 16s linear infinite;
+}
+
+@keyframes gaugeOrbit {
+  to { transform: rotate(360deg); }
 }
 
 .gauge-val {
@@ -219,6 +234,12 @@ const phases = telemetryPhases()
   background: var(--panel2);
   border: 1px solid var(--bd);
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: transform var(--dur-soft) var(--ease-soft), border-color var(--dur-micro) ease;
+}
+
+.conn:hover {
+  transform: translateX(4px);
+  border-color: color-mix(in srgb, var(--acc) 50%, var(--bd));
 }
 
 .conn-dot {
@@ -227,6 +248,12 @@ const phases = telemetryPhases()
   border-radius: 50%;
   background: var(--acc);
   box-shadow: 0 0 6px var(--acc);
+  animation: connPing 2.4s ease-in-out infinite;
+}
+
+@keyframes connPing {
+  0%, 100% { transform: scale(1); opacity: .7; }
+  50% { transform: scale(1.35); opacity: 1; }
 }
 
 .conn-id {
@@ -268,6 +295,12 @@ const phases = telemetryPhases()
   background: var(--bg2);
   border: 1px solid var(--bd);
   padding: var(--space-4) var(--space-2) var(--space-3);
+  transition: transform var(--dur-soft) var(--ease-soft), border-color var(--dur-micro) ease;
+}
+
+.stat:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--acc) 50%, var(--bd));
 }
 
 .stat-v {
@@ -340,7 +373,9 @@ const phases = telemetryPhases()
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .alert {
+  .alert,
+  .gauge-ring::after,
+  .conn-dot {
     animation: none;
   }
 }
