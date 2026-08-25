@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { pipeline, stepStyle } from './pipeline'
 import { useGithubStars } from './useGithubStars'
+import { useHudClock } from './useHudClock'
 import { useScrollTop } from './useScrollTop'
 import { sectionTag } from './sectionTag'
 import Button from './components/Button.vue'
@@ -21,6 +22,7 @@ const starUrl = `${repoUrl}/stargazers`
 const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
 
 const { stars, loadingStars, fmtStars } = useGithubStars()
+const { hudDate, hudTime } = useHudClock()
 const { showScrollTop, scrollToTop } = useScrollTop()
 
 const pillars = [
@@ -47,8 +49,8 @@ const pillars = [
 
   <header class="nav">
     <Container class="navwrap">
-      <a class="brand" href="#topo" aria-label="hiignation">
-        <span class="logo" aria-hidden="true">⟳</span> hiignation
+      <a class="brand" href="#topo" aria-label="hicode">
+        <span class="logo" aria-hidden="true">⟳</span> hicode
       </a>
       <nav class="navlinks" aria-label="Navegação principal">
         <a href="#sobre">O que é</a>
@@ -58,10 +60,18 @@ const pillars = [
         <a href="#faq">FAQ</a>
         <a href="#open">Open source</a>
         <a :href="`${repoUrl}#readme`" target="_blank" rel="noopener noreferrer">Docs</a>
+      </nav>
+      <div class="navside">
+        <p class="readout" aria-hidden="true">
+          <span class="readout-dot"></span>
+          <span class="readout-lbl">LOOP</span>
+          <span class="readout-val">{{ hudDate }}</span>
+          <span class="readout-val readout-clock">{{ hudTime }}</span>
+        </p>
         <a class="ghbtn" :href="repoUrl" target="_blank" rel="noopener noreferrer">
           ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
         </a>
-      </nav>
+      </div>
     </Container>
   </header>
 
@@ -92,7 +102,7 @@ const pillars = [
       </Container>
     </section>
 
-    <div class="hazard-strip" aria-hidden="true"></div>
+    <div class="data-rail" aria-hidden="true"></div>
 
     <section aria-label="Diferenciais do hiignation" class="belt-section">
       <Container>
@@ -243,14 +253,14 @@ const pillars = [
 
   <footer class="foot">
     <Container class="footwrap">
-      <span>⟳ <strong>hiignation</strong> — gerenciador de projetos autônomo</span>
+      <span>⟳ <strong>hicode</strong> — gerenciador de projetos autônomo</span>
       <span class="dim">
         <a :href="repoUrl" target="_blank" rel="noopener noreferrer">GitHub</a> ·
         <a :href="sponsorUrl" target="_blank" rel="noopener noreferrer">Apoiar</a> ·
         open source
       </span>
     </Container>
-    <p class="made">feito com hiignation</p>
+    <p class="made">feito com hicode</p>
   </footer>
 </template>
 
@@ -258,33 +268,75 @@ const pillars = [
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); border-radius: var(--radius-lg); z-index: 50; }
 
-.nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--bd); }
-.navwrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.brand { color: var(--acc); font-weight: var(--fw-700); font-size: var(--fs-2xl); }
+.nav { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg) 82%, transparent); border-bottom: 1px solid var(--bd-acc); box-shadow: 0 1px 0 color-mix(in srgb, var(--acc) 18%, transparent); }
+.navwrap { display: flex; align-items: center; gap: var(--space-8); height: var(--hud-h); }
+.brand {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  flex: 0 0 auto; align-self: stretch;
+  color: var(--tx); font-weight: var(--fw-800); font-size: var(--fs-2xl); letter-spacing: -.01em;
+  padding: 0 var(--space-8) 0 var(--space-6); margin-left: calc(var(--space-6) * -1);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 30%, transparent), color-mix(in srgb, var(--acc) 8%, transparent));
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+}
 .brand:hover { text-decoration: none; }
-.logo { color: var(--acc); }
-.navlinks { display: flex; align-items: center; gap: var(--space-7); }
-.navlinks a { color: var(--mut); font-size: var(--fs-base); }
-.navlinks a:hover { color: var(--tx); text-decoration: none; }
+.logo { color: var(--acc2); }
+.navlinks { display: flex; align-items: center; gap: var(--space-7); margin-right: auto; }
+.navlinks a { display: inline-flex; align-items: center; min-height: 32px; color: var(--mut); font-size: var(--fs-base); }
+.navlinks a:hover { color: var(--acc2); text-decoration: none; }
+.navside { display: flex; align-items: center; gap: var(--space-6); flex: 0 0 auto; }
+.readout { display: inline-flex; align-items: center; gap: var(--space-3); margin: 0; font-family: var(--font-mono); font-size: var(--fs-xs); letter-spacing: .12em; color: var(--mut); }
+.readout-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+.readout-lbl { color: var(--acc2); }
+.readout-val { color: var(--tx-soft); font-variant-numeric: tabular-nums; }
+.readout-clock { color: var(--acc2); font-size: var(--fs-md); font-weight: var(--fw-700); }
 .ghbtn { display: inline-flex; gap: var(--space-1); align-items: center; background: var(--panel2); border: 1px solid var(--bd); color: var(--tx) !important; padding: var(--space-1) var(--space-4); border-radius: var(--radius-sm); font-weight: var(--fw-600); }
-@media (max-width: 620px) { .navlinks a:not(.ghbtn) { display: none; } }
+.ghbtn:hover { border-color: var(--acc); text-decoration: none; }
+@media (max-width: 960px) { .readout { display: none; } }
+@media (max-width: 620px) { .navlinks a { display: none; } }
 
-.hero { padding: clamp(56px, 12vw, 120px) 0 clamp(40px, 8vw, 80px); text-align: center; }
-.hero-badges { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 0 0 22px; }
-.badge { display: inline-block; font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent); border-radius: 3px; padding: 4px 12px; margin: 0; }
+.hero { position: relative; padding: clamp(56px, 12vw, 120px) 0 clamp(40px, 8vw, 80px); text-align: center; }
+.hero::before {
+  content: ''; position: absolute; inset: 0 0 auto; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--acc) 55%, transparent), transparent);
+}
+.hero-badges { display: flex; gap: var(--space-3); flex-wrap: wrap; justify-content: center; margin: 0 0 var(--space-9); }
+.badge {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ok) 40%, transparent);
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  padding: var(--space-1) var(--space-5); margin: 0;
+}
+.badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
 .hero h1 { font-size: clamp(30px, 6vw, 56px); margin: 0 0 18px; letter-spacing: -.02em; }
 .grad { background: linear-gradient(90deg, var(--acc), var(--acc2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .sub { max-width: 680px; margin: 0 auto var(--space-11); color: var(--tx-soft); font-size: var(--fs-sub); }
 .starline { margin-top: var(--space-9); color: var(--mut); font-size: var(--fs-base); }
 
-.hazard-strip { height: 6px; background: repeating-linear-gradient(135deg, var(--hazard) 0 14px, var(--black) 14px 28px); opacity: .5; }
+.data-rail { height: 3px; background: var(--rule-tick); opacity: .55; }
 
 .belt-section { padding: clamp(22px, 4vw, 34px) 0; }
 
 .eyebrow { font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .18em; text-transform: uppercase; color: var(--acc2); margin: 0 0 var(--space-4); text-shadow: 0 0 16px color-mix(in srgb, var(--acc) 40%, transparent); }
+.eyebrow::before {
+  content: ''; display: inline-block; vertical-align: middle;
+  width: 0; height: 0; margin: -2px var(--space-3) 0 0;
+  border-left: 7px solid var(--acc2);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
 
 .block h2 { font-size: var(--fs-h2); margin: 0 0 var(--space-3); }
-.block h2::after { content: ''; display: block; width: 52px; height: 3px; margin-top: var(--space-5); background: linear-gradient(90deg, var(--acc), var(--acc2)); border-radius: 2px; }
+.block h2::after {
+  content: ''; display: block; height: var(--accent-bar-h); margin-top: var(--space-5);
+  background: linear-gradient(
+    90deg,
+    var(--acc2) 0 14px,
+    var(--acc) 14px 72px,
+    color-mix(in srgb, var(--acc) 22%, transparent) 72px 100%
+  );
+}
 .lead { color: var(--mut); max-width: 720px; margin: 0 0 var(--space-12); font-size: var(--fs-xl); }
 .lead code { font-family: var(--font-mono); background: var(--panel2); border: 1px solid var(--bd); border-radius: 4px; padding: 1px 6px; font-size: .88em; color: var(--tx); }
 
