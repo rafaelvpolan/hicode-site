@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { agents } from '../agents'
+import IsoBlock from './IsoBlock.vue'
 </script>
 
 <template>
   <ul class="agents">
     <li v-for="agent in agents" :key="agent.id" class="agent" :class="{ 'is-gate': agent.gate }">
+      <IsoBlock v-if="agent.gate" class="gate-block" aria-hidden="true">⚖️</IsoBlock>
       <span class="agent-id">{{ agent.id }}</span>
-      <span v-if="agent.gate" class="agent-gate">⚖️ gate</span>
+      <span v-if="agent.gate" class="agent-gate">gate</span>
       <span class="agent-domain">{{ agent.domain }}</span>
     </li>
   </ul>
@@ -32,11 +34,32 @@ import { agents } from '../agents'
   display: flex;
   flex-direction: column;
   gap: 4px;
-  transition: box-shadow .3s ease;
+  transition: box-shadow .3s ease, transform var(--dur-soft) var(--ease-soft), border-color var(--dur-micro) ease;
+}
+
+.agent::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-cell) var(--grid-cell);
+  opacity: 0;
+  transition: opacity var(--dur-soft) ease;
+  pointer-events: none;
 }
 
 .agent:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--acc) 45%, var(--bd));
   box-shadow: -4px 0 20px -10px color-mix(in srgb, var(--acc) 65%, transparent);
+}
+
+.agent:hover::before {
+  opacity: 1;
+}
+
+.agent > * {
+  position: relative;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -59,17 +82,39 @@ import { agents } from '../agents'
 }
 
 .agent.is-gate {
+  --iso-accent: var(--hazard);
   border-left-color: var(--hazard);
   background: color-mix(in srgb, var(--hazard) 7%, var(--panel));
   grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  grid-template-areas: 'block id gate' 'block domain domain';
+  align-items: center;
+  column-gap: var(--space-5);
+}
+
+.agent.is-gate:hover {
+  --iso-hover: 1;
+}
+
+.gate-block {
+  grid-area: block;
+  font-size: var(--fs-2xl);
 }
 
 .agent.is-gate .agent-id {
+  grid-area: id;
   color: var(--hazard);
 }
 
+.agent.is-gate .agent-domain {
+  grid-area: domain;
+}
+
 .agent-gate {
-  align-self: flex-start;
+  grid-area: gate;
+  align-self: center;
+  justify-self: start;
   font-family: var(--font-mono);
   font-size: var(--fs-2xs);
   letter-spacing: 0.1em;

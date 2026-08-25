@@ -31,15 +31,17 @@ const bracketsVisible = computed(() => showBrackets(props.variant, props.bracket
   border: 1px solid var(--bd);
   clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
   padding: var(--space-10) var(--space-9) var(--space-9);
-  transition: border-color .2s ease, box-shadow .3s ease;
+  transition: border-color .2s ease, box-shadow .3s ease, transform var(--dur-soft) var(--ease-soft);
 }
 .card.is-bracketed {
   border-color: var(--bd-acc);
   box-shadow: var(--shadow-panel-rest);
 }
 .card:hover {
+  --iso-hover: 1;
   border-color: color-mix(in srgb, var(--acc) 55%, var(--bd));
   box-shadow: var(--shadow-panel-hover);
+  transform: translateY(-3px);
 }
 
 .card.star {

@@ -7,6 +7,7 @@ import { sectionTag } from './sectionTag'
 import Button from './components/Button.vue'
 import Card from './components/Card.vue'
 import Container from './components/Container.vue'
+import IsoBlock from './components/IsoBlock.vue'
 import Panel from './components/Panel.vue'
 import EngineConsole from './components/EngineConsole.vue'
 import FeatureBelt from './components/FeatureBelt.vue'
@@ -147,7 +148,7 @@ const pillars = [
         <div class="cards">
           <Card v-for="(p, i) in pillars" :key="p.title">
             <span class="card-tag" aria-hidden="true">{{ sectionTag('PILLAR', i) }}</span>
-            <span class="ic" aria-hidden="true">{{ p.icon }}</span>
+            <IsoBlock class="ic" size="lg" aria-hidden="true">{{ p.icon }}</IsoBlock>
             <h3>{{ p.title }}</h3>
             <p>{{ p.text }}</p>
           </Card>
@@ -159,7 +160,7 @@ const pillars = [
         <ol class="steps">
           <li v-for="(s, i) in pipeline" :key="s.k" :style="'--stage-color: ' + s.color">
             <span class="stage-tag" aria-hidden="true">{{ sectionTag('STAGE', i) }}</span>
-            <span class="n" :style="stepStyle(s)" aria-hidden="true">{{ s.icon }}</span>
+            <IsoBlock class="n" :style="stepStyle(s)" aria-hidden="true">{{ s.icon }}</IsoBlock>
             <div><b>{{ s.k }}</b><span>{{ s.d }}</span></div>
           </li>
         </ol>
@@ -346,7 +347,7 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--deck-gap); }
 @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
 .card-tag { display: block; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: var(--track-ls); color: var(--acc2); margin-bottom: var(--space-3); }
-.card .ic { font-size: var(--fs-4xl); }
+.card .ic { font-size: var(--fs-4xl); margin-left: calc(var(--space-2) * -1); }
 .card h3 { margin: var(--space-4) 0 var(--space-2); font-family: var(--font-display); font-size: var(--fs-2xl); letter-spacing: .06em; text-transform: uppercase; }
 .card h3::after { content: ''; display: block; width: 100%; height: 1px; margin-top: var(--space-3); background: var(--scan-line); opacity: .55; }
 .card p { margin: var(--space-4) 0 0; color: var(--mut); }
@@ -358,9 +359,10 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 
 .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
 @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
-.steps li { position: relative; display: flex; gap: var(--space-5); align-items: flex-start; background: var(--panel); border: 1px solid var(--bd); border-left: 3px solid var(--stage-color, var(--acc)); clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch)); padding: var(--space-7) var(--space-8); }
+.steps li { position: relative; display: flex; gap: var(--space-5); align-items: flex-start; background: var(--panel); background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: var(--grid-cell) var(--grid-cell); border: 1px solid var(--bd); border-left: 3px solid var(--stage-color, var(--acc)); clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch)); padding: var(--space-7) var(--space-8); transition: transform var(--dur-soft) var(--ease-soft), border-color var(--dur-micro) ease; }
+.steps li:hover { --iso-hover: 1; transform: translateY(-3px); border-color: color-mix(in srgb, var(--stage-color, var(--acc)) 50%, var(--bd)); }
 .stage-tag { position: absolute; top: 10px; right: 16px; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: .14em; color: var(--stage-color, var(--acc)); }
-.steps .n { flex: 0 0 auto; width: 30px; height: 30px; border-radius: var(--radius-md); border: 1px solid transparent; font-size: var(--fs-lg); line-height: 1; display: grid; place-items: center; }
+.steps .n { border: 1px solid; border-radius: var(--radius-md); font-size: var(--fs-lg); }
 .steps b { display: block; }
 .steps span { color: var(--mut); font-size: var(--fs-base); }
 
