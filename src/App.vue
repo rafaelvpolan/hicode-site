@@ -3,6 +3,7 @@ import { pipeline, stepStyle } from './pipeline'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
 import { useClock } from './useClock'
+import { useMobileMenu } from './useMobileMenu'
 import { sectionTag } from './sectionTag'
 import Button from './components/Button.vue'
 import Card from './components/Card.vue'
@@ -25,6 +26,7 @@ const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
 const { stars, loadingStars, fmtStars } = useGithubStars()
 const { showScrollTop, scrollToTop } = useScrollTop()
 const { time, date, weekday } = useClock()
+const { menuOpen, toggleMenu, closeMenu } = useMobileMenu()
 
 const tabs = [
   { href: '#sobre', label: 'O que é' },
@@ -76,14 +78,42 @@ const pillars = [
           <span class="clock-time">{{ time }}</span>
           <span class="clock-date">{{ date }} · {{ weekday }}</span>
         </p>
+
+        <button
+          type="button"
+          class="menu-toggle"
+          :aria-expanded="menuOpen"
+          aria-controls="menu-principal"
+          :aria-label="menuOpen ? 'Fechar menu' : 'Abrir menu'"
+          @click="toggleMenu"
+        >
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </button>
       </div>
 
-      <nav class="tabs" aria-label="Navegação principal">
-        <a v-for="t in tabs" :key="t.href" :href="t.href">{{ t.label }}</a>
-        <a class="tab-gh" :href="repoUrl" target="_blank" rel="noopener noreferrer">
-          ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
-        </a>
-      </nav>
+      <Transition name="menu">
+        <nav id="menu-principal" class="tabs" aria-label="Navegação principal" v-show="menuOpen">
+          <a
+            v-for="(t, idx) in tabs"
+            :key="t.href"
+            :href="t.href"
+            :style="{ '--i': idx }"
+            @click="closeMenu"
+          >{{ t.label }}</a>
+          <a
+            class="tab-gh"
+            :href="repoUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            :style="{ '--i': tabs.length }"
+            @click="closeMenu"
+          >
+            ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
+          </a>
+        </nav>
+      </Transition>
     </Container>
   </header>
 
@@ -280,10 +310,21 @@ const pillars = [
 .clock-time { font-size: var(--fs-4xl); font-weight: var(--fw-700); line-height: 1; color: var(--acc2); letter-spacing: .06em; text-shadow: 0 0 18px color-mix(in srgb, var(--acc) 60%, transparent); font-variant-numeric: tabular-nums; }
 .clock-date { font-size: var(--fs-2xs); letter-spacing: .12em; text-transform: uppercase; color: var(--mut); }
 
-.tabs { display: flex; align-items: stretch; gap: 2px; overflow-x: auto; padding-bottom: 2px; }
-.tabs a { flex: 0 0 auto; padding: var(--space-2) var(--space-7); font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); background: color-mix(in srgb, var(--panel2) 70%, transparent); border: 1px solid var(--bd); border-bottom: none; clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%); }
-.tabs a:hover { color: var(--tx); text-decoration: none; background: color-mix(in srgb, var(--acc) 20%, var(--panel2)); border-color: var(--bd-acc); }
+.tabs { display: flex; align-items: stretch; gap: 2px; overflow-x: auto; padding-bottom: 2px; transition: opacity var(--dur-soft) var(--ease-soft), transform var(--dur-soft) var(--ease-soft); }
+.tabs a { flex: 0 0 auto; padding: var(--space-2) var(--space-7); font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); background: color-mix(in srgb, var(--panel2) 70%, transparent); border: 1px solid var(--bd); border-bottom: none; clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%); transition: color var(--dur-micro) ease, background var(--dur-micro) ease, border-color var(--dur-micro) ease, transform var(--dur-micro) ease; }
+.tabs a:hover, .tabs a:focus-visible { color: var(--tx); text-decoration: none; background: color-mix(in srgb, var(--acc) 20%, var(--panel2)); border-color: var(--bd-acc); transform: translateX(4px); }
 .tab-gh { margin-left: auto; color: var(--tx) !important; border-color: var(--bd-acc) !important; background: color-mix(in srgb, var(--acc) 18%, transparent) !important; }
+
+.menu-toggle { display: none; width: 40px; height: 40px; padding: 0; border: 1px solid var(--bd-acc); background: var(--panel2); cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 6px; clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
+.menu-toggle span { width: 20px; height: 2px; background: var(--acc2); transition: transform var(--dur-micro) var(--ease-soft), opacity var(--dur-micro) var(--ease-soft); }
+.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.menu-enter-active, .menu-leave-active { transition: opacity var(--dur-soft) var(--ease-soft), transform var(--dur-soft) var(--ease-soft); }
+.menu-enter-from, .menu-leave-to { opacity: 0; transform: scale(.97) translateY(-12px); }
+.menu-enter-active a, .menu-leave-active a { transition: opacity var(--dur-soft) var(--ease-soft), transform var(--dur-soft) var(--ease-soft); transition-delay: calc(var(--i, 0) * var(--stagger-step)); }
+.menu-enter-from a, .menu-leave-to a { opacity: 0; transform: translateY(10px); }
 
 /* ---- palco ---- */
 .stage { position: relative; overflow: hidden; padding: clamp(48px, 9vw, 104px) 0 clamp(56px, 9vw, 96px); text-align: center; }
@@ -379,9 +420,33 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 .scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: 30; width: 44px; height: 44px; border: 1px solid var(--bd-acc); background: var(--panel2); color: var(--acc2); font-size: var(--fs-2xl); cursor: pointer; display: grid; place-items: center; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: border-color .15s ease, transform .06s ease; }
 .scroll-top:hover { border-color: var(--acc); transform: translateY(-2px); }
 
+@media (min-width: 901px) {
+  .tabs { display: flex !important; }
+}
+
 @media (max-width: 900px) {
-  .hud-row { grid-template-columns: auto auto; }
+  .hud-row { grid-template-columns: auto auto auto; }
   .banner { display: none; }
+  .menu-toggle { display: inline-flex; position: relative; z-index: calc(var(--z-menu) + 1); }
+  /* o backdrop-filter do .hud vira containing block do fixed: `inset: 0` cobriria só o header. Como o .hud é sticky em top:0, medir pelo viewport dá o fullscreen */
+  .tabs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: var(--z-menu);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: var(--space-6);
+    padding: var(--space-12) var(--space-8);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 14%, var(--bg)) 0%, var(--bg) 100%);
+  }
+  .tabs a { flex: none; text-align: center; font-size: var(--fs-2xl); padding: var(--space-5) var(--space-6); }
+  .tab-gh { margin-left: 0; }
 }
 @media (max-width: 520px) {
   .clock-time { font-size: var(--fs-2xl); }

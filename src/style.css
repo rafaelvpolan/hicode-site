@@ -60,6 +60,7 @@
   --hud-h: 58px;
   --panel-head-h: 34px;
   --deck-gap: 18px;
+  --z-menu: 40;
 
   --iso-tilt: 56deg;
   --iso-spin: 45deg;
@@ -74,6 +75,7 @@
   --dur-micro: .16s;
   --dur-soft: .34s;
   --ease-soft: cubic-bezier(.22, .61, .36, 1);
+  --stagger-step: 40ms;
 
   --fs-2xs: 10px;
   --fs-xs: 11px;
