@@ -2,19 +2,15 @@
 import { pipeline, stepStyle } from './pipeline'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
-import { useClock } from './useClock'
+import { useMobileMenu } from './useMobileMenu'
 import { sectionTag } from './sectionTag'
 import Button from './components/Button.vue'
 import Card from './components/Card.vue'
 import Container from './components/Container.vue'
 import IsoBlock from './components/IsoBlock.vue'
 import Panel from './components/Panel.vue'
-import EngineConsole from './components/EngineConsole.vue'
-import FeatureBelt from './components/FeatureBelt.vue'
-import TelemetryHud from './components/TelemetryHud.vue'
-import CardLifecycle from './components/CardLifecycle.vue'
+import BrandMark from './components/BrandMark.vue'
 import AgentGrid from './components/AgentGrid.vue'
-import LoopVsPrompt from './components/LoopVsPrompt.vue'
 import FinalCta from './components/FinalCta.vue'
 import FaqList from './components/FaqList.vue'
 
@@ -24,16 +20,13 @@ const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
 
 const { stars, loadingStars, fmtStars } = useGithubStars()
 const { showScrollTop, scrollToTop } = useScrollTop()
-const { time, date, weekday } = useClock()
+const { menuOpen, toggleMenu, closeMenu } = useMobileMenu()
 
 const tabs = [
   { href: '#sobre', label: 'O que é' },
   { href: '#pipeline', label: 'Pipeline' },
-  { href: '#telemetria', label: 'Telemetria' },
-  { href: '#anatomia', label: 'Card' },
   { href: '#agentes', label: 'Agentes' },
   { href: '#faq', label: 'FAQ' },
-  { href: '#open', label: 'Open source' },
 ]
 
 const pillars = [
@@ -58,32 +51,49 @@ const pillars = [
 <template>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-  <header class="hud">
-    <Container class="hudwrap">
-      <div class="hud-row">
+  <header class="cmdbar">
+    <Container class="cmdbar-wrap">
+      <div class="cmdbar-row">
         <a class="brand" href="#topo" aria-label="hicode">
-          <span class="brand-mark" aria-hidden="true">⟳</span>
-          <span class="brand-name">hicode</span>
+          <BrandMark class="brand-icon" />
+          <span class="brand-name">hicode<span class="brand-cursor" aria-hidden="true">_</span></span>
         </a>
 
-        <p class="banner">
-          <span class="wing" aria-hidden="true" />
-          <span class="banner-txt">Motor autônomo de entrega</span>
-          <span class="wing wing-r" aria-hidden="true" />
-        </p>
+        <Transition name="menu">
+          <nav id="menu-principal" class="tabs" aria-label="Navegação principal" v-show="menuOpen">
+            <a
+              v-for="(t, idx) in tabs"
+              :key="t.href"
+              :href="t.href"
+              :style="{ '--i': idx }"
+              @click="closeMenu"
+            >{{ t.label }}</a>
+            <a
+              class="tab-gh"
+              :href="repoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              :style="{ '--i': tabs.length }"
+              @click="closeMenu"
+            >
+              ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
+            </a>
+          </nav>
+        </Transition>
 
-        <p class="clock" aria-hidden="true">
-          <span class="clock-time">{{ time }}</span>
-          <span class="clock-date">{{ date }} · {{ weekday }}</span>
-        </p>
+        <button
+          type="button"
+          class="menu-toggle"
+          :aria-expanded="menuOpen"
+          aria-controls="menu-principal"
+          :aria-label="menuOpen ? 'Fechar menu' : 'Abrir menu'"
+          @click="toggleMenu"
+        >
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </button>
       </div>
-
-      <nav class="tabs" aria-label="Navegação principal">
-        <a v-for="t in tabs" :key="t.href" :href="t.href">{{ t.label }}</a>
-        <a class="tab-gh" :href="repoUrl" target="_blank" rel="noopener noreferrer">
-          ⭐ <span v-if="loadingStars">…</span><span v-else>{{ stars === null ? 'GitHub' : fmtStars(stars) }}</span>
-        </a>
-      </nav>
     </Container>
   </header>
 
@@ -109,7 +119,6 @@ const pillars = [
         <div class="cta">
           <Button variant="primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">Ver no GitHub →</Button>
           <Button :href="starUrl" target="_blank" rel="noopener noreferrer">⭐ Dar uma estrela</Button>
-          <Button variant="pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Apoiar</Button>
         </div>
         <p class="starline" aria-live="polite">
           <template v-if="loadingStars">Carregando estrelas…</template>
@@ -122,23 +131,6 @@ const pillars = [
     <div class="rail" aria-hidden="true"><span /></div>
 
     <Container class="deck">
-      <Panel class="col-3" tag="SYS_01" title="Sinais" meta="live" heading-level="h3">
-        <FeatureBelt />
-      </Panel>
-
-      <Panel class="col-6" tag="IGN_00" title="Ignição do motor" meta="console" heading-level="h3">
-        <EngineConsole />
-      </Panel>
-
-      <Panel class="col-3" tag="OSS_00" title="Repositório" meta="github" heading-level="h3">
-        <Card as="div" variant="star" class="starcard" aria-label="Estrelas no GitHub">
-          <span class="stars-ic" aria-hidden="true">⭐⭐⭐</span>
-          <span class="big">{{ loadingStars ? '…' : (stars === null ? '★' : fmtStars(stars)) }}</span>
-          <span class="lbl">estrelas no GitHub</span>
-          <Button variant="star" size="sm" :href="starUrl" target="_blank" rel="noopener noreferrer">Apoiar com 1 clique</Button>
-        </Card>
-      </Panel>
-
       <Panel id="sobre" class="col-12" :tag="sectionTag('CH', 0)" title="O que é o hicode" meta="conceito">
         <p class="lead">
           Funde <strong>Loop Engineering</strong> com o framework de agentes <strong>Nexus</strong>:
@@ -166,23 +158,7 @@ const pillars = [
         </ol>
       </Panel>
 
-      <Panel id="telemetria" class="col-12" :tag="sectionTag('CH', 2)" title="Telemetria do motor" meta="status do loop">
-        <p class="lead">
-          O que o pipeline está fazendo agora: quanto do loop roda sozinho no motor, quantas
-          fases faltam até você ver o resultado e quem está de olho na revisão do Crivo.
-        </p>
-        <TelemetryHud />
-      </Panel>
-
-      <Panel id="anatomia" class="col-12" :tag="sectionTag('CH', 3)" title="Anatomia de um card" meta="estado real">
-        <p class="lead">
-          Cada card nasce em <code>cards/&lt;NNN-slug&gt;.md</code> e atravessa dez estados até o merge.
-          Nenhum é carimbado pela fala do modelo — quem decide é o harness, lendo o exit code real em disco.
-        </p>
-        <CardLifecycle />
-      </Panel>
-
-      <Panel id="agentes" class="col-7" :tag="sectionTag('CH', 4)" title="Os agentes Nexus" meta="time">
+      <Panel id="agentes" class="col-7" :tag="sectionTag('CH', 2)" title="Os agentes Nexus" meta="time">
         <p class="lead">
           Escopo estreito, um dono por preocupação. Ninguém entrega "pronto" sem passar pelo
           <strong>Crivo</strong> — a revisão adversarial que aprova ou bloqueia o trabalho.
@@ -190,35 +166,12 @@ const pillars = [
         <AgentGrid />
       </Panel>
 
-      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 7)" title="Perguntas frequentes" meta="dúvidas">
+      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 3)" title="Perguntas frequentes" meta="dúvidas">
         <p class="lead">
           O essencial sobre merge, spec e o que o pipeline decide sozinho — sem precisar ler
           o código do motor.
         </p>
         <FaqList />
-      </Panel>
-
-      <Panel id="por-que-loops" class="col-12" :tag="sectionTag('CH', 5)" title="Por que loops, não prompts" meta="tese">
-        <p class="lead">
-          Um prompt é sessão. Um loop é sistema. A diferença aparece na segunda vez que você
-          precisa da mesma coisa — e não quer explicar tudo de novo.
-        </p>
-        <LoopVsPrompt />
-      </Panel>
-
-      <Panel id="open" class="col-12" :tag="sectionTag('CH', 6)" title="Projeto open source" meta="comunidade">
-        <p class="lead">
-          O hicode é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
-          retribuir é <strong>deixar uma estrela</strong> (ajuda outras pessoas a encontrarem) e,
-          se puder, <strong>apoiar o desenvolvimento</strong>.
-        </p>
-        <div class="cta">
-          <Button variant="star" :href="starUrl" target="_blank" rel="noopener noreferrer">
-            ⭐ Star <span v-if="!loadingStars && stars !== null">· {{ fmtStars(stars) }}</span>
-          </Button>
-          <Button variant="pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Doar / Sponsor</Button>
-          <Button :href="repoUrl" target="_blank" rel="noopener noreferrer">Contribuir no repo</Button>
-        </div>
       </Panel>
 
       <div id="comece" class="col-12">
@@ -236,7 +189,7 @@ const pillars = [
 
   <footer class="statusbar">
     <Container class="statuswrap">
-      <span class="status-id">⟳ hicode <i>v0.1.0</i></span>
+      <span class="status-id"><BrandMark class="status-mark" size="16px" /> hicode <i>v0.1.0</i></span>
       <span class="status-links">
         <a :href="repoUrl" target="_blank" rel="noopener noreferrer">GitHub</a> ·
         <a :href="sponsorUrl" target="_blank" rel="noopener noreferrer">Apoiar</a> ·
@@ -249,41 +202,44 @@ const pillars = [
 
 <style scoped>
 .skip { position: absolute; left: -999px; }
-.skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); z-index: 50; }
+.skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); z-index: calc(var(--z-menu) + 10); }
 
 /* ---- barra de comando ---- */
-.hud {
+.cmdbar {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: var(--z-header);
+  isolation: isolate;
   backdrop-filter: blur(12px);
   background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 12%, var(--bg)) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 100%);
   border-bottom: 1px solid color-mix(in srgb, var(--acc) 35%, var(--bd));
 }
 /* seletor descendente: vence o padding do primitivo Container sem depender da ordem do bundle */
-.hud .hudwrap { padding-top: var(--space-2); padding-bottom: var(--space-2); }
-.hud-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-6); min-height: var(--hud-h); }
+.cmdbar .cmdbar-wrap { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.cmdbar-row { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--space-6); min-height: var(--hud-h); }
 
-.brand { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-7) var(--space-2) var(--space-4); background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 34%, transparent), transparent); border-left: 3px solid var(--acc); color: var(--tx); }
+.brand { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--tx); }
 .brand:hover { text-decoration: none; }
-.brand-mark { color: var(--acc2); font-size: var(--fs-2xl); }
-.brand-name { font-family: var(--font-display); font-size: var(--fs-4xl); font-weight: var(--fw-700); letter-spacing: .04em; }
+.brand-icon { color: var(--acc2); }
+.brand-name { font-family: var(--font-mono); font-size: var(--fs-4xl); font-weight: var(--fw-700); letter-spacing: .08em; text-transform: lowercase; }
+.brand-cursor { color: var(--acc); animation: brandBlink var(--dur-blink) steps(1) infinite; }
+@keyframes brandBlink { 50% { opacity: 0; } }
 
-.banner { display: flex; align-items: center; justify-content: center; gap: var(--space-4); margin: 0; }
-.banner-txt { font-family: var(--font-display); font-size: var(--fs-lg); font-weight: var(--fw-700); letter-spacing: var(--track-ls); text-transform: uppercase; color: var(--acc2); text-shadow: 0 0 18px color-mix(in srgb, var(--acc) 65%, transparent); white-space: nowrap; }
-.wing { flex: 1 1 auto; max-width: 190px; height: 1px; background: linear-gradient(90deg, transparent, var(--acc)); position: relative; }
-.wing::after { content: ''; position: absolute; right: -3px; top: -3px; width: 6px; height: 6px; background: var(--acc2); transform: rotate(45deg); }
-.wing-r { background: linear-gradient(90deg, var(--acc), transparent); }
-.wing-r::after { right: auto; left: -3px; }
-
-.clock { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; margin: 0; font-family: var(--font-mono); }
-.clock-time { font-size: var(--fs-4xl); font-weight: var(--fw-700); line-height: 1; color: var(--acc2); letter-spacing: .06em; text-shadow: 0 0 18px color-mix(in srgb, var(--acc) 60%, transparent); font-variant-numeric: tabular-nums; }
-.clock-date { font-size: var(--fs-2xs); letter-spacing: .12em; text-transform: uppercase; color: var(--mut); }
-
-.tabs { display: flex; align-items: stretch; gap: 2px; overflow-x: auto; padding-bottom: 2px; }
-.tabs a { flex: 0 0 auto; padding: var(--space-2) var(--space-7); font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); background: color-mix(in srgb, var(--panel2) 70%, transparent); border: 1px solid var(--bd); border-bottom: none; clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%); }
-.tabs a:hover { color: var(--tx); text-decoration: none; background: color-mix(in srgb, var(--acc) 20%, var(--panel2)); border-color: var(--bd-acc); }
+.tabs { display: flex; align-items: stretch; gap: 2px; overflow-x: auto; padding-bottom: 2px; transition: opacity var(--dur-soft) var(--ease-soft), transform var(--dur-soft) var(--ease-soft); }
+.tabs a { flex: 0 0 auto; padding: var(--space-2) var(--space-7); font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); background: color-mix(in srgb, var(--panel2) 70%, transparent); border: 1px solid var(--bd); border-bottom: none; clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%); transition: color var(--dur-micro) ease, background var(--dur-micro) ease, border-color var(--dur-micro) ease, transform var(--dur-micro) ease; }
+.tabs a:hover, .tabs a:focus-visible { color: var(--tx); text-decoration: none; background: color-mix(in srgb, var(--acc) 20%, var(--panel2)); border-color: var(--bd-acc); transform: translateX(4px); }
 .tab-gh { margin-left: auto; color: var(--tx) !important; border-color: var(--bd-acc) !important; background: color-mix(in srgb, var(--acc) 18%, transparent) !important; }
+
+.menu-toggle { display: none; width: 40px; height: 40px; padding: 0; border: 1px solid var(--bd-acc); background: var(--panel2); cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 6px; clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
+.menu-toggle span { width: 20px; height: 2px; background: var(--acc2); transition: transform var(--dur-micro) var(--ease-soft), opacity var(--dur-micro) var(--ease-soft); }
+.menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.menu-enter-active, .menu-leave-active { transition: opacity var(--dur-soft) var(--ease-soft), transform var(--dur-soft) var(--ease-soft); }
+.menu-enter-from, .menu-leave-to { opacity: 0; transform: scale(.97) translateY(-12px); }
+.menu-enter-active a, .menu-leave-active a { transition: opacity var(--dur-soft) var(--ease-soft), transform var(--dur-soft) var(--ease-soft); transition-delay: calc(var(--i, 0) * var(--stagger-step)); }
+.menu-enter-from a, .menu-leave-to a { opacity: 0; transform: translateY(10px); }
 
 /* ---- palco ---- */
 .stage { position: relative; overflow: hidden; padding: clamp(48px, 9vw, 104px) 0 clamp(56px, 9vw, 96px); text-align: center; }
@@ -331,13 +287,13 @@ const pillars = [
 .rail { display: flex; align-items: center; justify-content: center; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--acc) 55%, transparent), transparent); }
 .rail span { width: 10px; height: 10px; background: var(--acc); transform: rotate(45deg); box-shadow: 0 0 18px var(--acc); }
 
+main { position: relative; z-index: var(--z-content); isolation: isolate; }
+
 /* ---- grade de painéis ---- */
-main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--deck-gap); align-items: start; padding-top: clamp(28px, 4vw, 46px); padding-bottom: clamp(28px, 4vw, 46px); }
+main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--deck-gap); align-items: start; padding-top: clamp(40px, 6vw, 72px); padding-bottom: clamp(40px, 6vw, 72px); }
 .deck > * { grid-column: span 12; }
 @media (min-width: 1100px) {
-  .col-3 { grid-column: span 3; }
   .col-5 { grid-column: span 5; }
-  .col-6 { grid-column: span 6; }
   .col-7 { grid-column: span 7; }
 }
 
@@ -352,11 +308,6 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 .card h3::after { content: ''; display: block; width: 100%; height: 1px; margin-top: var(--space-3); background: var(--scan-line); opacity: .55; }
 .card p { margin: var(--space-4) 0 0; color: var(--mut); }
 
-.starcard { text-align: center; }
-.starcard .stars-ic { display: block; font-size: var(--fs-xl); letter-spacing: 4px; margin: 0 -4px 6px 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold-bright) 70%, transparent)); }
-.starcard .big { display: block; font-family: var(--font-mono); font-size: var(--fs-6xl); font-weight: var(--fw-800); color: var(--gold-bright); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--gold-bright) 55%, transparent); }
-.starcard .lbl { display: block; color: var(--mut); margin: var(--space-1) 0 var(--space-7); font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .1em; }
-
 .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
 @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
 .steps li { position: relative; display: flex; gap: var(--space-5); align-items: flex-start; background: var(--panel); background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: var(--grid-cell) var(--grid-cell); border: 1px solid var(--bd); border-left: 3px solid var(--stage-color, var(--acc)); clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch)); padding: var(--space-7) var(--space-8); transition: transform var(--dur-soft) var(--ease-soft), border-color var(--dur-micro) ease; }
@@ -369,26 +320,50 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 /* ---- barra de status ---- */
 .statusbar { border-top: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); background: linear-gradient(0deg, color-mix(in srgb, var(--acc) 10%, var(--bg)) 0%, transparent 100%); }
 .statuswrap { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; min-height: 46px; font-family: var(--font-mono); font-size: var(--fs-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); }
-.status-id { color: var(--tx); }
+.status-id { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--tx); }
 .status-id i { color: var(--mut); font-style: normal; }
+.status-mark { color: var(--mut); }
 .statusbar a { color: var(--mut); }
 .status-links a:hover { color: var(--acc2); }
 .status-live { display: inline-flex; align-items: center; gap: var(--space-2); }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
 
-.scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: 30; width: 44px; height: 44px; border: 1px solid var(--bd-acc); background: var(--panel2); color: var(--acc2); font-size: var(--fs-2xl); cursor: pointer; display: grid; place-items: center; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: border-color .15s ease, transform .06s ease; }
+.scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: var(--z-float); width: 44px; height: 44px; border: 1px solid var(--bd-acc); background: var(--panel2); color: var(--acc2); font-size: var(--fs-2xl); cursor: pointer; display: grid; place-items: center; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: border-color .15s ease, transform .06s ease; }
 .scroll-top:hover { border-color: var(--acc); transform: translateY(-2px); }
 
+@media (min-width: 901px) {
+  .tabs { display: flex !important; }
+}
+
 @media (max-width: 900px) {
-  .hud-row { grid-template-columns: auto auto; }
-  .banner { display: none; }
+  .cmdbar-row { grid-template-columns: auto auto; justify-content: space-between; }
+  .menu-toggle { display: inline-flex; position: relative; z-index: calc(var(--z-menu) + 1); }
+  /* o backdrop-filter do .cmdbar vira containing block do fixed: `inset: 0` cobriria só o header. Como o .cmdbar é sticky em top:0, medir pelo viewport dá o fullscreen */
+  .tabs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: var(--z-menu);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: var(--space-6);
+    padding: var(--space-12) var(--space-8);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 14%, var(--bg)) 0%, var(--bg) 100%);
+  }
+  .tabs a { flex: none; text-align: center; font-size: var(--fs-2xl); padding: var(--space-5) var(--space-6); }
+  .tab-gh { margin-left: 0; }
 }
 @media (max-width: 520px) {
-  .clock-time { font-size: var(--fs-2xl); }
   .brand-name { font-size: var(--fs-2xl); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .stage-core { animation: none; }
+  .brand-cursor { animation: none; }
 }
 </style>
