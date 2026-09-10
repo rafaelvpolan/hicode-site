@@ -60,9 +60,9 @@ const pillars = [
 <template>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
-  <header class="hud">
-    <Container class="hudwrap">
-      <div class="hud-row">
+  <header class="cmdbar">
+    <Container class="cmdbar-wrap">
+      <div class="cmdbar-row">
         <a class="brand" href="#topo" aria-label="hicode">
           <span class="brand-mark" aria-hidden="true">⟳</span>
           <span class="brand-name">hicode</span>
@@ -282,7 +282,7 @@ const pillars = [
 .skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); z-index: 50; }
 
 /* ---- barra de comando ---- */
-.hud {
+.cmdbar {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -291,10 +291,10 @@ const pillars = [
   border-bottom: 1px solid color-mix(in srgb, var(--acc) 35%, var(--bd));
 }
 /* seletor descendente: vence o padding do primitivo Container sem depender da ordem do bundle */
-.hud .hudwrap { padding-top: var(--space-2); padding-bottom: var(--space-2); }
-.hud-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-6); min-height: var(--hud-h); }
+.cmdbar .cmdbar-wrap { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.cmdbar-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-6); min-height: var(--hud-h); }
 
-.brand { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-7) var(--space-2) var(--space-4); background: linear-gradient(90deg, color-mix(in srgb, var(--acc) 34%, transparent), transparent); border-left: 3px solid var(--acc); color: var(--tx); }
+.brand { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-left: 3px solid var(--acc); color: var(--tx); }
 .brand:hover { text-decoration: none; }
 .brand-mark { color: var(--acc2); font-size: var(--fs-2xl); }
 .brand-name { font-family: var(--font-display); font-size: var(--fs-4xl); font-weight: var(--fw-700); letter-spacing: .04em; }
@@ -425,10 +425,10 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 }
 
 @media (max-width: 900px) {
-  .hud-row { grid-template-columns: auto auto auto; }
+  .cmdbar-row { grid-template-columns: auto auto auto; }
   .banner { display: none; }
   .menu-toggle { display: inline-flex; position: relative; z-index: calc(var(--z-menu) + 1); }
-  /* o backdrop-filter do .hud vira containing block do fixed: `inset: 0` cobriria só o header. Como o .hud é sticky em top:0, medir pelo viewport dá o fullscreen */
+  /* o backdrop-filter do .cmdbar vira containing block do fixed: `inset: 0` cobriria só o header. Como o .cmdbar é sticky em top:0, medir pelo viewport dá o fullscreen */
   .tabs {
     position: fixed;
     top: 0;
