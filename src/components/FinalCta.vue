@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { repoUrl, sponsorUrl, starUrl } from '../lib/github'
 import Button from './Button.vue'
+import { sectionTag } from '../sectionTag'
+
+interface FinalCtaProps {
+  repoUrl: string
+  starUrl: string
+  sponsorUrl: string
+}
+
+defineProps<FinalCtaProps>()
 </script>
 
 <template>
   <div class="final">
-    <p class="final-eyebrow">CH_09 · PRÓXIMO PASSO</p>
+    <p class="final-eyebrow">{{ sectionTag('CH', 4) }} · PRÓXIMO PASSO</p>
     <h2>Pare de promptar. Comece a desenhar loops.</h2>
     <p class="final-sub">
       hicode é grátis e aberto. Clone o repo, suba o heartbeat e deixe o primeiro

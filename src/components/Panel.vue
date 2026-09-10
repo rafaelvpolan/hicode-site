@@ -33,6 +33,7 @@ withDefaults(defineProps<PanelProps>(), {
 <style scoped>
 .panel {
   position: relative;
+  isolation: isolate;
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--acc) 5%, var(--panel-deep)) 0%, var(--panel-deep) 42%);
   border: 1px solid var(--bd);
