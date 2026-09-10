@@ -1,4 +1,5 @@
 import { onMounted, ref, type Ref } from 'vue'
+import { repoApiUrl } from './lib/github'
 import { fmtStars } from './lib/stars'
 
 interface GithubStars {
@@ -13,7 +14,7 @@ export function useGithubStars(): GithubStars {
 
   onMounted(async () => {
     try {
-      const r = await fetch('https://api.github.com/repos/rafaelvpolan/hicode')
+      const r = await fetch(repoApiUrl)
       if (r.ok) {
         const d = (await r.json()) as { stargazers_count?: unknown }
         stars.value = typeof d.stargazers_count === 'number' ? d.stargazers_count : null

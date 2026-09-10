@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { repoUrl, sponsorUrl, starUrl } from './lib/github'
 import { pipeline, stepStyle } from './pipeline'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
@@ -13,10 +14,6 @@ import BrandMark from './components/BrandMark.vue'
 import AgentGrid from './components/AgentGrid.vue'
 import FinalCta from './components/FinalCta.vue'
 import FaqList from './components/FaqList.vue'
-
-const repoUrl = 'https://github.com/rafaelvpolan/hicode'
-const starUrl = `${repoUrl}/stargazers`
-const sponsorUrl = 'https://github.com/sponsors/rafaelvpolan'
 
 const { stars, loadingStars, fmtStars } = useGithubStars()
 const { showScrollTop, scrollToTop } = useScrollTop()
@@ -166,7 +163,7 @@ const pillars = [
         <AgentGrid />
       </Panel>
 
-      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 3)" title="Perguntas frequentes" meta="dúvidas">
+      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 5)" title="Perguntas frequentes" meta="dúvidas">
         <p class="lead">
           O essencial sobre merge, spec e o que o pipeline decide sozinho — sem precisar ler
           o código do motor.
@@ -174,8 +171,31 @@ const pillars = [
         <FaqList />
       </Panel>
 
+      <Panel id="por-que-loops" class="col-12" :tag="sectionTag('CH', 6)" title="Por que loops, não prompts" meta="tese">
+        <p class="lead">
+          Um prompt é sessão. Um loop é sistema. A diferença aparece na segunda vez que você
+          precisa da mesma coisa — e não quer explicar tudo de novo.
+        </p>
+        <LoopVsPrompt />
+      </Panel>
+
+      <Panel id="open" class="col-12" :tag="sectionTag('CH', 7)" title="Projeto open source" meta="comunidade">
+        <p class="lead">
+          O hicode é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
+          retribuir é <strong>deixar uma estrela</strong> (ajuda outras pessoas a encontrarem) e,
+          se puder, <strong>apoiar o desenvolvimento</strong>.
+        </p>
+        <div class="cta">
+          <Button variant="star" :href="starUrl" target="_blank" rel="noopener noreferrer">
+            ⭐ Star <span v-if="!loadingStars && stars !== null">· {{ fmtStars(stars) }}</span>
+          </Button>
+          <Button variant="pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Doar / Sponsor</Button>
+          <Button :href="repoUrl" target="_blank" rel="noopener noreferrer">Contribuir no repo</Button>
+        </div>
+      </Panel>
+
       <div id="comece" class="col-12">
-        <FinalCta :repo-url="repoUrl" :star-url="starUrl" :sponsor-url="sponsorUrl" />
+        <FinalCta />
       </div>
     </Container>
   </main>

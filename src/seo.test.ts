@@ -1,9 +1,10 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
+import { repoUrl } from './lib/github'
 
 const SITE_URL = 'https://rafaelvpolan.github.io/hicode-site/'
-const REPO_URL = 'https://github.com/rafaelvpolan/hicode'
+const BRAND = 'hicode'
 const DESCRIPTION_MAX = 160
 const TITLE_MAX = 60
 
@@ -16,6 +17,7 @@ function readRootFile(relativePath: string): string {
 const indexHtml = readRootFile('index.html')
 const robotsTxt = readRootFile('public/robots.txt')
 const sitemapXml = readRootFile('public/sitemap.xml')
+const ogImageSvg = readRootFile('public/og-image.svg')
 const viteConfig = readRootFile('vite.config.ts')
 
 function matchOnce(source: string, pattern: RegExp, label: string): string {
@@ -40,11 +42,19 @@ const jsonLd = JSON.parse(
     /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
     'JSON-LD block',
   ),
-) as { url?: string; sameAs?: string[] }
+) as { name?: string; url?: string; sameAs?: string[] }
+
+const title = matchOnce(indexHtml, /<title>([^<]*)<\/title>/g, '<title>')
+const description = metaContent('name', 'description')
+const ogImageAlt = metaContent('property', 'og:image:alt')
+const twitterImageAlt = metaContent('name', 'twitter:image:alt')
+const noscript = matchOnce(indexHtml, /<noscript>([\s\S]*?)<\/noscript>/g, '<noscript>')
+
+const ogImageText = [...ogImageSvg.matchAll(/<text[^>]*>([^<]*)<\/text>/g)]
+  .map((match) => match[1])
+  .join(' ')
 
 describe('metadata that identifies the page points at the deployed site', () => {
-  // O site e o produto vivem em repos diferentes: canonical cross-domain para o
-  // repo `hicode` pede ao Google para nao indexar o site inteiro.
   const pageUrls: Array<[string, string]> = [
     ['<link rel="canonical">', matchOnce(indexHtml, /<link rel="canonical" href="([^"]*)"/g, 'canonical link')],
     ['og:url', metaContent('property', 'og:url')],
@@ -57,25 +67,51 @@ describe('metadata that identifies the page points at the deployed site', () => 
   })
 
   it('JSON-LD — links the product repository as sameAs, not as url', () => {
-    expect(jsonLd.sameAs).toContain(REPO_URL)
+    expect(jsonLd.sameAs).toContain(repoUrl)
   })
 })
 
 describe('social preview images are served by the site itself', () => {
-  const imageUrls: Array<[string, string]> = [
-    ['og:image', metaContent('property', 'og:image')],
-    ['twitter:image', metaContent('name', 'twitter:image')],
+  const images: Array<[string, string, string]> = [
+    ['og:image', metaContent('property', 'og:image'), ogImageAlt],
+    ['twitter:image', metaContent('name', 'twitter:image'), twitterImageAlt],
   ]
 
-  it.each(imageUrls)('%s — is an absolute URL under the deployed site', (_label, url) => {
+  it.each(images)('%s — is an absolute URL under the deployed site', (_label, url) => {
     expect(url.startsWith(SITE_URL)).toBe(true)
   })
 
-  it.each(imageUrls)('%s — declares alternative text', (label) => {
-    const alt = label === 'og:image'
-      ? metaContent('property', 'og:image:alt')
-      : metaContent('name', 'twitter:image:alt')
+  it.each(images)('%s — declares alternative text', (_label, _url, alt) => {
     expect(alt.length).toBeGreaterThan(0)
+  })
+
+  it('og-image.svg — advertises the same repository as lib/github', () => {
+    expect(ogImageText).toContain(repoUrl.replace('https://', ''))
+  })
+})
+
+describe('every field that names the product says hicode', () => {
+  const brandFields: Array<[string, string]> = [
+    ['<title>', title],
+    ['meta description', description],
+    ['og:site_name', metaContent('property', 'og:site_name')],
+    ['og:title', metaContent('property', 'og:title')],
+    ['og:image:alt', ogImageAlt],
+    ['twitter:title', metaContent('name', 'twitter:title')],
+    ['twitter:image:alt', twitterImageAlt],
+    ['JSON-LD name', jsonLd.name ?? ''],
+    ['<noscript>', noscript],
+    ['og-image.svg text', ogImageText],
+  ]
+
+  it.each(brandFields)('%s — spells the product name as hicode', (_label, text) => {
+    expect(text).toContain(BRAND)
+  })
+
+  it.each(brandFields)('%s — carries no other hi-prefixed name', (_label, text) => {
+    const names = [...text.matchAll(/\bhi[a-z]+/gi)].map((match) => match[0].toLowerCase())
+    expect(names.length).toBeGreaterThan(0)
+    expect([...new Set(names)]).toEqual([BRAND])
   })
 })
 
@@ -88,13 +124,11 @@ describe('robots.txt', () => {
 
 describe('snippet length stays inside what search engines render', () => {
   it('<title> — is present and not truncated by search engines', () => {
-    const title = matchOnce(indexHtml, /<title>([^<]*)<\/title>/g, '<title>')
     expect(title.length).toBeGreaterThan(0)
     expect(title.length).toBeLessThanOrEqual(TITLE_MAX)
   })
 
   it('meta description — is present and not truncated by search engines', () => {
-    const description = metaContent('name', 'description')
     expect(description.length).toBeGreaterThan(0)
     expect(description.length).toBeLessThanOrEqual(DESCRIPTION_MAX)
   })

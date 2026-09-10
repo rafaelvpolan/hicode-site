@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { repoUrl, sponsorUrl, starUrl } from '../lib/github'
 import Button from './Button.vue'
 import { sectionTag } from '../sectionTag'
 
