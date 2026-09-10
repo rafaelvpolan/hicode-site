@@ -60,6 +60,9 @@
   --hud-h: 58px;
   --panel-head-h: 34px;
   --deck-gap: 18px;
+  --z-content: 0;
+  --z-header: 20;
+  --z-float: 30;
   --z-menu: 40;
 
   --iso-tilt: 56deg;

@@ -279,13 +279,14 @@ const pillars = [
 
 <style scoped>
 .skip { position: absolute; left: -999px; }
-.skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); z-index: 50; }
+.skip:focus { left: 12px; top: 12px; background: var(--acc); color: var(--white); padding: var(--space-2) var(--space-4); z-index: calc(var(--z-menu) + 10); }
 
 /* ---- barra de comando ---- */
 .cmdbar {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: var(--z-header);
+  isolation: isolate;
   backdrop-filter: blur(12px);
   background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 12%, var(--bg)) 0%, color-mix(in srgb, var(--bg) 88%, transparent) 100%);
   border-bottom: 1px solid color-mix(in srgb, var(--acc) 35%, var(--bd));
@@ -372,6 +373,8 @@ const pillars = [
 .rail { display: flex; align-items: center; justify-content: center; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--acc) 55%, transparent), transparent); }
 .rail span { width: 10px; height: 10px; background: var(--acc); transform: rotate(45deg); box-shadow: 0 0 18px var(--acc); }
 
+main { position: relative; z-index: var(--z-content); isolation: isolate; }
+
 /* ---- grade de painéis ---- */
 main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--deck-gap); align-items: start; padding-top: clamp(28px, 4vw, 46px); padding-bottom: clamp(28px, 4vw, 46px); }
 .deck > * { grid-column: span 12; }
@@ -417,7 +420,7 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 .status-live { display: inline-flex; align-items: center; gap: var(--space-2); }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
 
-.scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: 30; width: 44px; height: 44px; border: 1px solid var(--bd-acc); background: var(--panel2); color: var(--acc2); font-size: var(--fs-2xl); cursor: pointer; display: grid; place-items: center; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: border-color .15s ease, transform .06s ease; }
+.scroll-top { position: fixed; bottom: 28px; right: 28px; z-index: var(--z-float); width: 44px; height: 44px; border: 1px solid var(--bd-acc); background: var(--panel2); color: var(--acc2); font-size: var(--fs-2xl); cursor: pointer; display: grid; place-items: center; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); transition: border-color .15s ease, transform .06s ease; }
 .scroll-top:hover { border-color: var(--acc); transform: translateY(-2px); }
 
 @media (min-width: 901px) {
