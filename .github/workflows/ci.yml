@@ -1,0 +1,45 @@
+name: CI
+
+# O deploy.yml so dispara em push para main — ou seja, depois do merge. Ate aqui
+# nenhum PR era verificado, e `npm test` nao rodava em lugar nenhum: os testes do
+# repositorio nunca eram executados automaticamente, e um PR quebrado so aparecia
+# quando ja tinha quebrado o deploy.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# PR que recebe varios pushes seguidos nao precisa de uma fila de runs: o ultimo
+# e o que vale.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: Testes, typecheck e build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Teste antes do build: roda em ~2s e falha com mensagem de comportamento,
+      # nao de tipo. Build primeiro custaria o dobro para dizer menos.
+      - name: Testes
+        run: npm test
+
+      # `build` e `vue-tsc --noEmit && vite build`: o typecheck esta dentro dele.
+      - name: Typecheck e build
+        run: npm run build
