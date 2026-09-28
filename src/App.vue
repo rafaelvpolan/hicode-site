@@ -330,6 +330,10 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 .steps li:hover, .steps li:focus-visible { --iso-hover: 1; transform: translateY(-3px); border-color: color-mix(in srgb, var(--stage-color, var(--acc)) 50%, var(--bd)); border-left-color: var(--stage-color, var(--acc)); }
 /* o clip-path do card recortaria o outline do foco: o anel vem por dentro, via box-shadow, somado à elevação do hover */
 .steps li:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--acc2), var(--shadow-panel-hover); }
+/* em forced-colors o box-shadow e suprimido pelo SO: sem isto, `outline: none` deixaria as 6 fases focaveis sem nenhum indicador */
+@media (forced-colors: active) {
+  .steps li:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+}
 .stage-tag { position: absolute; top: 10px; right: 16px; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: .14em; color: var(--stage-color, var(--acc)); }
 /* o conteúdo empilha acima da barra de acento e dos cantos do Card */
 .stage-body { position: relative; }

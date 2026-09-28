@@ -30,7 +30,8 @@ const bracketsVisible = computed(() => showBrackets(props.variant, props.bracket
 <style scoped>
 .card {
   position: relative;
-  background: linear-gradient(180deg, var(--panel2) 0%, var(--panel) 60%);
+  --card-surface: linear-gradient(180deg, var(--panel2) 0%, var(--panel) 60%);
+  background: var(--card-surface);
   border: 1px solid var(--bd);
   clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
   padding: var(--space-10) var(--space-9) var(--space-9);
@@ -52,7 +53,7 @@ const bracketsVisible = computed(() => showBrackets(props.variant, props.bracket
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(180deg, var(--panel2) 0%, var(--panel) 60%);
+    var(--card-surface);
   background-size: var(--grid-cell) var(--grid-cell), var(--grid-cell) var(--grid-cell), auto;
 }
 
