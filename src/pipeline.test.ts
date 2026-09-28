@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createSSRApp } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import App from './App.vue'
@@ -84,7 +84,6 @@ describe('stepStyle', () => {
 
 const GLYPH_RENDERED_BY_THE_OS = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]/u
 const KEY_OUTSIDE_THE_ALPHABET = 'quimera'
-const COMPONENT_STILL_ABSENT_FROM_THE_REPO = 'LoopVsPrompt'
 
 function mountIcon(icon: string): Promise<string> {
   return renderToString(createSSRApp(StrokeIcon, { icon } as { icon: StrokeIconKey }))
@@ -97,9 +96,7 @@ function signatureOf(svg: string): string {
 }
 
 function mountApp(): Promise<string> {
-  const app = createSSRApp(App)
-  app.component(COMPONENT_STILL_ABSENT_FROM_THE_REPO, { render: () => null })
-  return renderToString(app)
+  return renderToString(createSSRApp(App))
 }
 
 function phaseRegionOf(html: string): string {
@@ -198,5 +195,34 @@ describe('nenhum emoji sobrou nas fases montadas', () => {
 
   it('a lista de fases montada — não traz glifo do SO em lugar nenhum', () => {
     expect(phaseRegion).not.toMatch(GLYPH_RENDERED_BY_THE_OS)
+  })
+})
+
+const UNRESOLVED_COMPONENT_WARNING = 'Failed to resolve component'
+
+async function warningsWhileMounting(): Promise<string[]> {
+  const collected: string[] = []
+  const spy = vi.spyOn(console, 'warn').mockImplementation((...args: unknown[]) => {
+    collected.push(args.map((arg) => String(arg)).join(' '))
+  })
+  try {
+    await mountApp()
+  } finally {
+    spy.mockRestore()
+  }
+  return collected
+}
+
+describe('o App.vue monta sem nenhum stub registrado', () => {
+  it('App.vue — sem stub global — monta e entrega a lista de fases', async () => {
+    const html = await mountApp()
+
+    expect(phaseCardsOf(phaseRegionOf(html))).toHaveLength(pipeline.length)
+  })
+
+  it('App.vue — sem stub global — não avisa componente não resolvido', async () => {
+    const warnings = await warningsWhileMounting()
+
+    expect(warnings.filter((w) => w.includes(UNRESOLVED_COMPONENT_WARNING))).toEqual([])
   })
 })

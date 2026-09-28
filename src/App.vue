@@ -132,17 +132,19 @@ const tabs = [
         <p class="lead">Executar primeiro, polir depois. Você vê o resultado antes de gastar esforço com testes e limpeza.</p>
         <ol class="steps">
           <!-- a fase não navega para lugar nenhum: continua um listitem, focável para leitura, não para ação -->
+          <!-- o nome vem do próprio texto visível: o listitem segue listitem e nada é duplicado para o leitor -->
           <Card
             v-for="(s, i) in pipeline"
             :key="s.k"
             as="li"
             textured
             tabindex="0"
+            :aria-labelledby="`fase-${i}-nome fase-${i}-desc`"
             :style="'--stage-color: ' + s.color"
           >
             <span class="stage-tag" aria-hidden="true">{{ sectionTag('STAGE', i) }}</span>
             <IsoBlock class="n" :style="stepStyle(s)" aria-hidden="true"><StrokeIcon :icon="s.icon" /></IsoBlock>
-            <div class="stage-body"><b>{{ s.k }}</b><span>{{ s.d }}</span></div>
+            <div class="stage-body"><b :id="`fase-${i}-nome`">{{ s.k }}</b><span :id="`fase-${i}-desc`">{{ s.d }}</span></div>
           </Card>
         </ol>
       </Panel>
@@ -168,7 +170,6 @@ const tabs = [
           Um prompt é sessão. Um loop é sistema. A diferença aparece na segunda vez que você
           precisa da mesma coisa — e não quer explicar tudo de novo.
         </p>
-        <LoopVsPrompt />
       </Panel>
 
       <Panel id="open" class="col-12" :tag="sectionTag('CH', 5)" title="Projeto open source" meta="comunidade">
