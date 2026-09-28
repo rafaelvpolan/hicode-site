@@ -24,6 +24,10 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   --iso-face: color-mix(in srgb, var(--iso-accent) 26%, var(--panel2));
   --iso-face-lo: color-mix(in srgb, var(--iso-accent) 12%, var(--bg2));
   --iso-edge: color-mix(in srgb, var(--iso-accent) 60%, var(--bd));
+  /* assento do conteúdo: a face de cima é a .iso-top, em translateZ(--iso-depth * 2);
+     inclinada em --iso-tilt, ela aparece na tela --iso-depth * 2 * sin(tilt) acima do centro.
+     O conteúdo repousa exatamente aí, em vez de subir um valor arbitrário. */
+  --iso-seat: calc(var(--iso-depth) * 2 * sin(var(--iso-tilt)));
   position: relative;
   flex: 0 0 auto;
   display: inline-grid;
@@ -76,7 +80,8 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   position: relative;
   z-index: 1;
   line-height: 1;
-  transform: translateY(calc((var(--iso-depth) * .5 + var(--iso-hover, 0) * var(--iso-lift)) * -1));
+  /* mesmo --iso-hover * --iso-lift da .iso-rig: laje e conteúdo sobem juntos, sem se separar */
+  transform: translateY(calc((var(--iso-seat) + var(--iso-hover, 0) * var(--iso-lift)) * -1));
   transition: transform var(--dur-soft) var(--ease-soft);
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--iso-accent) 55%, transparent));
 }

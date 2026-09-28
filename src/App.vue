@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { repoUrl, sponsorUrl, starUrl } from './lib/github'
 import { pipeline, stepStyle } from './pipeline'
+import { pillars } from './pillars'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
 import { useMobileMenu } from './useMobileMenu'
@@ -9,6 +10,7 @@ import Button from './components/Button.vue'
 import Card from './components/Card.vue'
 import Container from './components/Container.vue'
 import IsoBlock from './components/IsoBlock.vue'
+import PillarIcon from './components/PillarIcon.vue'
 import Panel from './components/Panel.vue'
 import BrandMark from './components/BrandMark.vue'
 import AgentGrid from './components/AgentGrid.vue'
@@ -24,24 +26,6 @@ const tabs = [
   { href: '#pipeline', label: 'Pipeline' },
   { href: '#agentes', label: 'Agentes' },
   { href: '#faq', label: 'FAQ' },
-]
-
-const pillars = [
-  {
-    icon: '🔁',
-    title: 'Loop Engineering',
-    text: 'Você para de promptar o agente e passa a desenhar o loop que o prompta. O estado vive em disco: o agente esquece, o repo lembra.',
-  },
-  {
-    icon: '🧩',
-    title: 'Agentes Nexus',
-    text: '15 agentes de escopo estreito (código, testes, segurança, banco, frontend…) e um gate adversarial, o Crivo, que aprova ou bloqueia o trabalho.',
-  },
-  {
-    icon: '👁️',
-    title: 'Executar primeiro',
-    text: 'Primeiro a tarefa funciona e você vê o preview; só depois vêm arquitetura, testes e limpeza. Valida-se a intenção cedo.',
-  },
 ]
 </script>
 
@@ -137,7 +121,7 @@ const pillars = [
         <div class="cards">
           <Card v-for="(p, i) in pillars" :key="p.title">
             <span class="card-tag" aria-hidden="true">{{ sectionTag('PILLAR', i) }}</span>
-            <IsoBlock class="ic" size="lg" aria-hidden="true">{{ p.icon }}</IsoBlock>
+            <IsoBlock class="ic" size="lg" aria-hidden="true"><PillarIcon :icon="p.icon" /></IsoBlock>
             <h3>{{ p.title }}</h3>
             <p>{{ p.text }}</p>
           </Card>
@@ -163,7 +147,7 @@ const pillars = [
         <AgentGrid />
       </Panel>
 
-      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 5)" title="Perguntas frequentes" meta="dúvidas">
+      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 3)" title="Perguntas frequentes" meta="dúvidas">
         <p class="lead">
           O essencial sobre merge, spec e o que o pipeline decide sozinho — sem precisar ler
           o código do motor.
@@ -171,7 +155,7 @@ const pillars = [
         <FaqList />
       </Panel>
 
-      <Panel id="por-que-loops" class="col-12" :tag="sectionTag('CH', 6)" title="Por que loops, não prompts" meta="tese">
+      <Panel id="por-que-loops" class="col-12" :tag="sectionTag('CH', 4)" title="Por que loops, não prompts" meta="tese">
         <p class="lead">
           Um prompt é sessão. Um loop é sistema. A diferença aparece na segunda vez que você
           precisa da mesma coisa — e não quer explicar tudo de novo.
@@ -179,7 +163,7 @@ const pillars = [
         <LoopVsPrompt />
       </Panel>
 
-      <Panel id="open" class="col-12" :tag="sectionTag('CH', 7)" title="Projeto open source" meta="comunidade">
+      <Panel id="open" class="col-12" :tag="sectionTag('CH', 5)" title="Projeto open source" meta="comunidade">
         <p class="lead">
           O hicode é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
           retribuir é <strong>deixar uma estrela</strong> (ajuda outras pessoas a encontrarem) e,
@@ -323,7 +307,8 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--deck-gap); }
 @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
 .card-tag { display: block; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: var(--track-ls); color: var(--acc2); margin-bottom: var(--space-3); }
-.card .ic { font-size: var(--fs-4xl); margin-left: calc(var(--space-2) * -1); }
+/* o PillarIcon mede 1em: a escala do ícone vem daqui, o alinhamento vem do assento do IsoBlock */
+.card .ic { font-size: var(--fs-4xl); }
 .card h3 { margin: var(--space-4) 0 var(--space-2); font-family: var(--font-display); font-size: var(--fs-2xl); letter-spacing: .06em; text-transform: uppercase; }
 .card h3::after { content: ''; display: block; width: 100%; height: 1px; margin-top: var(--space-3); background: var(--scan-line); opacity: .55; }
 .card p { margin: var(--space-4) 0 0; color: var(--mut); }
