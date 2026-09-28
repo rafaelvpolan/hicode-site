@@ -35,18 +35,19 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   text-transform: uppercase;
   letter-spacing: .04em;
   line-height: 1.6;
-  background: var(--panel2);
-  border: 1px solid var(--bd);
+  background: color-mix(in srgb, var(--acc) 12%, var(--panel2));
+  border: 1px solid var(--bd-acc);
   color: var(--tx);
-  padding: 11px var(--space-7);
-  clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+  padding: 11px var(--space-8);
+  letter-spacing: .1em;
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
   font-weight: var(--fw-700);
-  font-size: var(--fs-base);
+  font-size: var(--fs-md);
   cursor: pointer;
-  transition: transform .06s ease, border-color .15s ease;
+  transition: transform .06s ease, border-color .15s ease, box-shadow .2s ease;
 }
-.btn:hover { text-decoration: none; border-color: var(--acc); transform: translateY(-1px); }
-.btn.primary { background: linear-gradient(180deg, var(--acc2), var(--acc)); border-color: var(--acc); color: var(--ink-acc); }
+.btn:hover { text-decoration: none; border-color: var(--acc); transform: translateY(-1px); box-shadow: 0 0 22px -6px var(--acc); }
+.btn.primary { background: linear-gradient(180deg, var(--acc2), var(--acc)); border-color: var(--acc2); color: var(--ink-acc); box-shadow: 0 0 26px -8px var(--acc); }
 .btn.primary:hover { filter: brightness(1.08); }
 .btn.pink { border-color: color-mix(in srgb, var(--pink) 55%, transparent); color: var(--pink-soft); }
 .btn.pink:hover { border-color: var(--pink); }
@@ -54,7 +55,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   --star-glow-rest: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 75%, transparent), 0 6px 28px color-mix(in srgb, var(--gold-bright) 65%, transparent), 0 0 40px color-mix(in srgb, var(--gold-bright) 35%, transparent);
   --star-glow-peak: 0 0 0 2px color-mix(in srgb, var(--gold-bright) 95%, transparent), 0 6px 34px color-mix(in srgb, var(--gold-bright) 80%, transparent), 0 0 60px color-mix(in srgb, var(--gold-bright) 55%, transparent);
   clip-path: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   background: linear-gradient(180deg, var(--gold-bright2), var(--gold-bright));
   border-color: var(--gold-bright);
   color: var(--ink-star);
