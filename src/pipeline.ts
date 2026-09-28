@@ -9,12 +9,12 @@ export interface PipelineStep {
 }
 
 export const pipeline: PipelineStep[] = [
-  { k: 'Executar', d: 'a tarefa vira um resultado funcional mínimo', icon: 'run', color: '#ff6a1a' },
-  { k: 'Preview', d: 'você vê a página rodando antes de qualquer teste', icon: 'preview', color: '#ff8f3f' },
-  { k: 'Aprovar', d: 'confirma que é o resultado certo', icon: 'approve', color: '#ffb020' },
-  { k: 'Polir', d: 'arquitetura, testes, segurança, review, limpeza', icon: 'polish', color: '#ff9e1a' },
-  { k: 'PR', d: 'a única porta humana: você revisa e dá merge', icon: 'merge', color: '#ffcf5c' },
-  { k: 'Deploy', d: 'CI publica e verifica o resultado', icon: 'deploy', color: '#ff5a2e' },
+  { k: 'Executar', d: 'a tarefa vira um resultado funcional mínimo', icon: 'run', color: '#2f81f7' },
+  { k: 'Preview', d: 'você vê a página rodando antes de qualquer teste', icon: 'preview', color: '#4ea3ff' },
+  { k: 'Aprovar', d: 'confirma que é o resultado certo', icon: 'approve', color: '#56d6ff' },
+  { k: 'Polir', d: 'arquitetura, testes, segurança, review, limpeza', icon: 'polish', color: '#7cbcff' },
+  { k: 'PR', d: 'a única porta humana: você revisa e dá merge', icon: 'merge', color: '#9fe4ff' },
+  { k: 'Deploy', d: 'CI publica e verifica o resultado', icon: 'deploy', color: '#38c6f4' },
 ]
 
 export function stepStyle(step: PipelineStep): CSSProperties {
