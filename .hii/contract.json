@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "generated": "2026-08-14T09:09:32Z",
+  "hash": "58008494c93c0095",
+  "shape": "single",
+  "packageManager": "npm",
+  "monorepo": false,
+  "main": "",
+  "packages": [
+    {
+      "name": "hicode-site",
+      "path": "",
+      "framework": "Vue 3",
+      "language": "TypeScript",
+      "packageManager": "npm",
+      "scripts": [
+        "dev",
+        "build",
+        "preview",
+        "test"
+      ],
+      "devPort": 5173,
+      "commands": {
+        "install": "npm install",
+        "build": "npm run build",
+        "test": "npm run test",
+        "lint": "",
+        "typecheck": "",
+        "dev": "npm run dev"
+      }
+    }
+  ],
+  "stack": "Vite + Vue 3 + TypeScript (npm)",
+  "commands": {
+    "install": "npm install",
+    "build": "npm run build",
+    "test": "npm run test",
+    "lint": "",
+    "typecheck": "",
+    "dev": "npm run dev"
+  },
+  "sources": [
+    {
+      "kind": "repo",
+      "ref": "package.json",
+      "hash": "310815e9b940"
+    },
+    {
+      "kind": "repo",
+      "ref": "package-lock.json",
+      "hash": "650b9797c1c2"
+    },
+    {
+      "kind": "repo",
+      "ref": "tsconfig.json",
+      "hash": "e2bc127014c4"
+    }
+  ]
+}
