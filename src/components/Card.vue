@@ -3,14 +3,17 @@ import { computed } from 'vue'
 import { showBrackets, type CardVariant } from '../cardBrackets'
 
 interface CardProps {
-  as?: 'article' | 'div' | 'section' | 'aside'
+  as?: 'article' | 'div' | 'section' | 'aside' | 'li'
   bracketed?: boolean
+  /** liga a malha técnica sobre a superfície do card, sem redeclarar o gradiente do painel */
+  textured?: boolean
   variant?: CardVariant
 }
 
 const props = withDefaults(defineProps<CardProps>(), {
   as: 'article',
   bracketed: true,
+  textured: false,
   variant: 'default',
 })
 
@@ -18,7 +21,7 @@ const bracketsVisible = computed(() => showBrackets(props.variant, props.bracket
 </script>
 
 <template>
-  <component :is="as" class="card" :class="[variant, { 'is-bracketed': bracketsVisible }]">
+  <component :is="as" class="card" :class="[variant, { 'is-bracketed': bracketsVisible, 'is-textured': textured }]">
     <span v-if="bracketsVisible" class="card-accent" aria-hidden="true" />
     <slot />
   </component>
@@ -42,6 +45,15 @@ const bracketsVisible = computed(() => showBrackets(props.variant, props.bracket
   border-color: color-mix(in srgb, var(--acc) 55%, var(--bd));
   box-shadow: var(--shadow-panel-hover);
   transform: translateY(-3px);
+}
+
+/* a malha entra como camada acima do mesmo gradiente do .card: uma fonte só para a superfície */
+.card.is-textured {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(180deg, var(--panel2) 0%, var(--panel) 60%);
+  background-size: var(--grid-cell) var(--grid-cell), var(--grid-cell) var(--grid-cell), auto;
 }
 
 .card.star {

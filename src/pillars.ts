@@ -1,4 +1,6 @@
-export type PillarIconKey = 'loop' | 'nodes' | 'play'
+import type { PillarIconKey } from './strokeIcons'
+
+export type { PillarIconKey }
 
 export interface Pillar {
   icon: PillarIconKey

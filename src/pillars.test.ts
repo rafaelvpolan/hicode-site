@@ -10,7 +10,7 @@ function readSource(relativePath: string): string {
 }
 
 const pillarsSource = readSource('src/pillars.ts')
-const iconSource = readSource('src/components/PillarIcon.vue')
+const iconSource = readSource('src/components/StrokeIcon.vue')
 const appSource = readSource('src/App.vue')
 
 const GLYPH_RENDERED_BY_THE_OS = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]/u
@@ -55,31 +55,31 @@ describe('nenhum emoji sobrou nos pilares', () => {
     expect(pillarsSource).not.toMatch(GLYPH_RENDERED_BY_THE_OS)
   })
 
-  it('App.vue — o IsoBlock dos pilares — renderiza PillarIcon em vez de glifo do SO', () => {
+  it('App.vue — o IsoBlock dos pilares — renderiza StrokeIcon em vez de glifo do SO', () => {
     const block = appSource.match(/<IsoBlock class="ic"[\s\S]*?<\/IsoBlock>/)
     expect(block).not.toBeNull()
-    expect(block?.[0]).toContain('<PillarIcon :icon="p.icon" />')
+    expect(block?.[0]).toContain('<StrokeIcon :icon="p.icon" />')
     expect(block?.[0]).not.toMatch(GLYPH_RENDERED_BY_THE_OS)
   })
 })
 
-describe('PillarIcon cobre exatamente as chaves declaradas em pillars.ts', () => {
+describe('StrokeIcon cobre as chaves declaradas em pillars.ts', () => {
   const handled = [...iconSource.matchAll(/props\.icon === '([a-z-]+)'/g)].map((match) => match[1])
 
-  it('PillarIcon.vue — ramos do template — foram encontrados', () => {
+  it('StrokeIcon.vue — ramos do template — foram encontrados', () => {
     expect(handled.length).toBeGreaterThan(0)
   })
 
-  it('PillarIcon.vue — ramos do template — não repetem chave', () => {
+  it('StrokeIcon.vue — ramos do template — não repetem chave', () => {
     expect(new Set(handled).size).toBe(handled.length)
   })
 
-  it('PillarIcon.vue — ramos do template — cobrem todas as chaves e nenhuma a mais', () => {
-    expect([...handled].sort()).toEqual([...new Set(pillars.map((pillar) => pillar.icon))].sort())
+  it.each(named)('StrokeIcon.vue — pilar %s — tem ramo para a sua chave', (_title, pillar) => {
+    expect(handled).toContain(pillar.icon)
   })
 })
 
-describe('PillarIcon fala o idioma de traço do BrandMark', () => {
+describe('StrokeIcon fala o idioma de traço do BrandMark', () => {
   const strokeRules: Array<[string, RegExp]> = [
     ['stroke: currentColor', /stroke:\s*currentColor\s*;/],
     ['stroke-width: 2', /stroke-width:\s*2\s*;/],
@@ -90,11 +90,11 @@ describe('PillarIcon fala o idioma de traço do BrandMark', () => {
     ['focusable="false"', /focusable="false"/],
   ]
 
-  it.each(strokeRules)('PillarIcon.vue — declara %s', (_label, pattern) => {
+  it.each(strokeRules)('StrokeIcon.vue — declara %s', (_label, pattern) => {
     expect(iconSource).toMatch(pattern)
   })
 
-  it('PillarIcon.vue — todo preenchimento — é none, nunca uma cor', () => {
+  it('StrokeIcon.vue — todo preenchimento — é none, nunca uma cor', () => {
     const attributeFills = [...iconSource.matchAll(/\bfill="([^"]*)"/g)].map((match) => match[1])
     const declaredFills = [...iconSource.matchAll(/(?:^|[\s;{])fill:\s*([^;\n]+)/gm)].map((match) =>
       match[1].trim(),
@@ -105,13 +105,13 @@ describe('PillarIcon fala o idioma de traço do BrandMark', () => {
     expect([...new Set(fills)]).toEqual(['none'])
   })
 
-  it('PillarIcon.vue — a animação de traço — respeita prefers-reduced-motion', () => {
+  it('StrokeIcon.vue — a animação de traço — respeita prefers-reduced-motion', () => {
     const reduced = iconSource.match(/@media \(prefers-reduced-motion: reduce\)\s*\{([\s\S]*?)\n\}/)
     expect(reduced).not.toBeNull()
-    expect(reduced?.[1]).toContain('pillar-icon-flow')
+    expect(reduced?.[1]).toContain('stroke-icon-flow')
   })
 
-  it('PillarIcon.vue — o hover do card — move o traço via --iso-hover', () => {
+  it('StrokeIcon.vue — o hover do card — move o traço via --iso-hover', () => {
     expect(iconSource).toMatch(/stroke-dashoffset:[^;]*var\(--iso-hover/)
   })
 })
