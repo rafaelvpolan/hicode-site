@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 const rootDir = fileURLToPath(new URL('..', import.meta.url))
 const isoSource = readFileSync(`${rootDir}/src/components/IsoBlock.vue`, 'utf-8')
 const styleSource = readFileSync(`${rootDir}/src/style.css`, 'utf-8')
+const strokeSource = readFileSync(`${rootDir}/src/components/StrokeIcon.vue`, 'utf-8')
 
 function ruleBody(selector: string): string {
   const match = isoSource.match(new RegExp(`\\${selector} \\{([^}]*)\\}`))
@@ -77,6 +78,18 @@ describe('o degrau tem a medida de uma laje, e é medido onde o tamanho já se c
   // sempre o do tamanho médio, e o ícone grande subiria o degrau do pequeno
   it('--iso-lift — não vive no :root, senão todo tamanho herdaria o degrau do médio', () => {
     expect(styleSource).not.toContain('--iso-lift')
+  })
+})
+
+describe('o traço corrente depende de um token que precisa existir', () => {
+  it('StrokeIcon — o traço corre por --iso-flow, e não por um número solto', () => {
+    expect(strokeSource).toMatch(/stroke-dashoffset:\s*calc\(var\(--iso-hover, 0\) \* var\(--iso-flow\)\)/)
+  })
+
+  // sem a declaração o calc() fica inválido e o traço para de correr sem erro nenhum:
+  // é o tipo de falha que nenhum build acusa e nenhum olho nota de imediato
+  it('--iso-flow — é declarado em style.css, senão o calc morre calado', () => {
+    expect(styleSource).toMatch(/--iso-flow:\s*-?\d/)
   })
 })
 
