@@ -19,9 +19,7 @@ export const pipeline: PipelineStep[] = [
 
 export function stepStyle(step: PipelineStep): CSSProperties {
   return {
-    background: `color-mix(in srgb, ${step.color} 18%, transparent)`,
     color: step.color,
-    borderColor: `color-mix(in srgb, ${step.color} 40%, transparent)`,
     '--iso-accent': step.color,
   }
 }

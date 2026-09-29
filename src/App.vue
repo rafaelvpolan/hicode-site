@@ -341,7 +341,7 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 /* o conteúdo empilha acima da barra de acento e dos cantos do Card */
 .stage-body { position: relative; }
 /* o ícone mede 1em; num assento de 46px o traço pede um pouco mais de corpo que o emoji antigo */
-.steps .n { border: 1px solid; border-radius: var(--radius-md); font-size: var(--fs-2xl); }
+.steps .n { font-size: var(--fs-2xl); }
 /* preso ao corpo da fase: um `.steps span` solto também pintaria a tag do estágio e a barra de acento do Card */
 .stage-body b { display: block; }
 .stage-body span { color: var(--mut); font-size: var(--fs-base); }

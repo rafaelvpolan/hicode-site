@@ -28,6 +28,10 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
      inclinada em --iso-tilt, ela aparece na tela --iso-depth * 2 * sin(tilt) acima do centro.
      O conteúdo repousa exatamente aí, em vez de subir um valor arbitrário. */
   --iso-seat: calc(var(--iso-depth) * 2 * sin(var(--iso-tilt)));
+  /* um degrau: a altura de UMA laje, na mesma projeção do assento. Vive aqui, e não no :root,
+     porque var() dentro de custom property resolve onde ela é declarada — no :root o
+     --iso-depth seria sempre o do tamanho médio, e o ícone grande subiria o degrau do pequeno */
+  --iso-lift: calc(var(--iso-depth) * sin(var(--iso-tilt)));
   position: relative;
   flex: 0 0 auto;
   display: inline-grid;
@@ -49,11 +53,7 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
-  transform:
-    scale(calc(1 + var(--iso-hover, 0) * var(--iso-pop)))
-    translateY(calc(var(--iso-hover, 0) * var(--iso-lift) * -1))
-    rotateX(var(--iso-tilt))
-    rotateZ(calc(var(--iso-spin) + var(--iso-hover, 0) * var(--iso-spin-hover)));
+  transform: rotateX(var(--iso-tilt)) rotateZ(var(--iso-spin));
   transition: transform var(--dur-soft) var(--ease-soft);
 }
 
@@ -86,8 +86,11 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   position: relative;
   z-index: 1;
   line-height: 1;
-  /* mesmo --iso-hover * --iso-lift da .iso-rig: laje e conteúdo sobem juntos, sem se separar */
-  transform: translateY(calc((var(--iso-seat) + var(--iso-hover, 0) * var(--iso-lift)) * -1));
+  /* a plataforma fica parada e só o conteúdo sobe: é essa separação que dá o encaixe.
+     No repouso ele assenta no --iso-seat, a face de cima; no hover sobe UM degrau — a altura de
+     uma laje, na mesma projeção — e para. O min() é o "para": intensidade acima de 1, que vem do
+     hover direto no ícone, acende mais o halo em vez de levantar o ícone mais alto */
+  transform: translateY(calc((var(--iso-seat) + min(var(--iso-hover, 0), 1) * var(--iso-lift)) * -1));
   transition: transform var(--dur-soft) var(--ease-soft);
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--iso-accent) 55%, transparent));
 }

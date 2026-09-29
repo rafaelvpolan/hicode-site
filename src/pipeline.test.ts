@@ -55,20 +55,23 @@ describe('stepStyle', () => {
     expect(style.color).toBe('#123456')
   })
 
-  it('stepStyle — with a given step — mixes the step color into the background', () => {
+  it('stepStyle — with a given step — tints the isometric slabs with the phase accent', () => {
     const step: PipelineStep = { k: 'Teste', d: 'descricao', icon: 'run', color: '#123456' }
 
     const style = stepStyle(step)
 
-    expect(style.background).toBe('color-mix(in srgb, #123456 18%, transparent)')
+    expect(style['--iso-accent']).toBe('#123456')
   })
 
-  it('stepStyle — with a given step — mixes the step color into the border color', () => {
+  // a cor da fase mora no traço e no acento das lajes; placa de fundo desenhava um quadrado
+  // atrás do ícone, que é justamente o que saiu
+  it('stepStyle — with a given step — paints no background plate behind the icon', () => {
     const step: PipelineStep = { k: 'Teste', d: 'descricao', icon: 'run', color: '#123456' }
 
     const style = stepStyle(step)
 
-    expect(style.borderColor).toBe('color-mix(in srgb, #123456 40%, transparent)')
+    expect(style.background).toBeUndefined()
+    expect(style.borderColor).toBeUndefined()
   })
 
   it('stepStyle — with two different steps — produces different styles', () => {
