@@ -53,6 +53,22 @@ describe('no hover a laje e o conteúdo sobem juntos', () => {
   })
 })
 
+describe('o ícone acende o próprio gatilho, sem depender do card ao redor', () => {
+  const hover = isoSource.match(/(^|[\s,}])\.iso:hover\s*\{([^}]*)\}/m)
+
+  it('IsoBlock.vue — declara .iso:hover, com o seletor começando no próprio .iso', () => {
+    expect(hover).not.toBeNull()
+  })
+
+  it('.iso — sob o mouse — acende --iso-hover sem esperar por um ancestral', () => {
+    expect(hover?.[2]).toMatch(/--iso-hover:\s*1/)
+  })
+
+  it('IsoBlock — decorativo e aria-hidden — não virou focável para ganhar o hover', () => {
+    expect(isoSource).not.toContain('tabindex')
+  })
+})
+
 describe('o que é animado tem saída para prefers-reduced-motion', () => {
   const reduced = isoSource.match(/@media \(prefers-reduced-motion: reduce\)\s*\{([\s\S]*?)\n\}/)
 

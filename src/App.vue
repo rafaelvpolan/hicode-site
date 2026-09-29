@@ -178,7 +178,7 @@ const tabs = [
           retribuir é <strong>deixar uma estrela</strong> (ajuda outras pessoas a encontrarem) e,
           se puder, <strong>apoiar o desenvolvimento</strong>.
         </p>
-        <div class="cta">
+        <div class="cta is-stacked">
           <Button variant="star" :href="starUrl" target="_blank" rel="noopener noreferrer">
             ⭐ Star <span v-if="!loadingStars && stars !== null">· {{ fmtStars(stars) }}</span>
           </Button>
@@ -229,7 +229,9 @@ const tabs = [
 }
 /* seletor descendente: vence o padding do primitivo Container sem depender da ordem do bundle */
 .cmdbar .cmdbar-wrap { padding-top: var(--space-2); padding-bottom: var(--space-2); }
-.cmdbar-row { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--space-6); min-height: var(--hud-h); }
+/* a nav encosta na direita pela trilha, nao por justify-content nem margem automatica: essas duas deixam os primeiros itens
+   inalcancaveis pela rolagem quando a barra aperta. Com minmax(0, max-content) a trilha cede ate zero e o overflow-x da .tabs volta a comecar do primeiro item */
+.cmdbar-row { display: grid; grid-template-columns: auto minmax(0, max-content); justify-content: space-between; align-items: center; gap: var(--space-6); min-height: var(--hud-h); }
 
 .brand { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--tx); }
 .brand:hover { text-decoration: none; }
@@ -241,7 +243,7 @@ const tabs = [
 .tabs { display: flex; align-items: stretch; gap: 2px; overflow-x: auto; padding-bottom: 2px; transition: opacity var(--dur-soft) var(--ease-soft), transform var(--dur-soft) var(--ease-soft); }
 .tabs a { flex: 0 0 auto; padding: var(--space-2) var(--space-7); font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .1em; text-transform: uppercase; color: var(--mut); background: color-mix(in srgb, var(--panel2) 70%, transparent); border: 1px solid var(--bd); border-bottom: none; clip-path: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%); transition: color var(--dur-micro) ease, background var(--dur-micro) ease, border-color var(--dur-micro) ease, transform var(--dur-micro) ease; }
 .tabs a:hover, .tabs a:focus-visible { color: var(--tx); text-decoration: none; background: color-mix(in srgb, var(--acc) 20%, var(--panel2)); border-color: var(--bd-acc); transform: translateX(4px); }
-.tab-gh { margin-left: auto; color: var(--tx) !important; border-color: var(--bd-acc) !important; background: color-mix(in srgb, var(--acc) 18%, transparent) !important; }
+.tab-gh { color: var(--tx) !important; border-color: var(--bd-acc) !important; background: color-mix(in srgb, var(--acc) 18%, transparent) !important; }
 
 .menu-toggle { display: none; width: 40px; height: 40px; padding: 0; border: 1px solid var(--bd-acc); background: var(--panel2); cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 6px; clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px); }
 .menu-toggle span { width: 20px; height: 2px; background: var(--acc2); transition: transform var(--dur-micro) var(--ease-soft), opacity var(--dur-micro) var(--ease-soft); }
@@ -362,7 +364,7 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 }
 
 @media (max-width: 900px) {
-  .cmdbar-row { grid-template-columns: auto auto; justify-content: space-between; }
+  .cmdbar-row { grid-template-columns: auto auto; }
   .menu-toggle { display: inline-flex; position: relative; z-index: calc(var(--z-menu) + 1); }
   /* o backdrop-filter do .cmdbar vira containing block do fixed: `inset: 0` cobriria só o header. Como o .cmdbar é sticky em top:0, medir pelo viewport dá o fullscreen */
   .tabs {
@@ -382,7 +384,6 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
     background: linear-gradient(180deg, color-mix(in srgb, var(--acc) 14%, var(--bg)) 0%, var(--bg) 100%);
   }
   .tabs a { flex: none; text-align: center; font-size: var(--fs-2xl); padding: var(--space-5) var(--space-6); }
-  .tab-gh { margin-left: 0; }
 }
 @media (max-width: 520px) {
   .brand-name { font-size: var(--fs-2xl); }

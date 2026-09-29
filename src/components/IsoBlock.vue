@@ -38,6 +38,9 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   animation: isoFloat var(--iso-float-dur) ease-in-out infinite;
 }
 
+/* o icone acende o proprio gatilho: quem leva o mouse ate ele ve a animacao sem depender de um card ao redor que acenda --iso-hover */
+.iso:hover { --iso-hover: 1; }
+
 .iso-sm { --iso-size: 34px; --iso-depth: 6px; }
 .iso-lg { --iso-size: 74px; --iso-depth: 14px; }
 

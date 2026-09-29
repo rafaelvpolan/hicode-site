@@ -12,7 +12,7 @@ import { sectionTag } from '../sectionTag'
       hicode é grátis e aberto. Clone o repo, suba o heartbeat e deixe o primeiro
       card virar preview, depois PR — sem precisar reexplicar nada na próxima sessão.
     </p>
-    <div class="cta">
+    <div class="cta is-stacked">
       <Button variant="primary" :href="repoUrl" target="_blank" rel="noopener noreferrer">Começar no GitHub →</Button>
       <Button variant="star" :href="starUrl" target="_blank" rel="noopener noreferrer">⭐ Dar uma estrela</Button>
       <Button variant="pink" :href="sponsorUrl" target="_blank" rel="noopener noreferrer">💖 Apoiar</Button>
