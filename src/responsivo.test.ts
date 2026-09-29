@@ -59,6 +59,16 @@ describe('telefone — a pilha de botões é declarada uma vez, no global', () =
   it('620px — o limiar da pilha — é o mesmo que o Panel já usa', () => {
     expect(panelSource).toContain('@media (max-width: 620px)')
   })
+
+  // o menu vira hambúrguer a 900px e a pilha só liga a 620px: entre as duas larguras os botões
+  // seguem lado a lado, e com flex-wrap quebram sozinhos. É escolha, não esquecimento
+  it('entre 621 e 900px — os botões seguem lado a lado: a pilha liga só no bloco de 620px', () => {
+    const noArquivo = [...styleSource.matchAll(/is-stacked/g)].length
+    const noBloco = [...phoneBlock.matchAll(/is-stacked/g)].length
+
+    expect(noBloco).toBeGreaterThan(0)
+    expect(noArquivo).toBe(noBloco)
+  })
 })
 
 describe('telefone — quem opta pela pilha, e quem fica de fora', () => {
