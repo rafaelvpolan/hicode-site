@@ -109,7 +109,7 @@ const props = defineProps<StrokeIconProps>()
 /* o traço que corre: no repouso é tracejado, no hover/foco do card (--iso-hover: 1) avança um ciclo inteiro do padrão */
 .stroke-icon-flow {
   stroke-dasharray: 3 3;
-  stroke-dashoffset: calc(var(--iso-hover, 0) * -12);
+  stroke-dashoffset: calc(var(--iso-hover, 0) * var(--iso-flow));
   transition: stroke-dashoffset var(--dur-soft) var(--ease-soft);
 }
 

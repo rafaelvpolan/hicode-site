@@ -60,8 +60,16 @@ describe('o ícone acende o próprio gatilho, sem depender do card ao redor', ()
     expect(hover).not.toBeNull()
   })
 
-  it('.iso — sob o mouse — acende --iso-hover sem esperar por um ancestral', () => {
-    expect(hover?.[2]).toMatch(/--iso-hover:\s*1/)
+  // o card acende 1; o ícone precisa passar disso, senão chegar com o mouse nele não muda nada na tela
+  it('.iso — sob o mouse — acende --iso-hover acima do 1 que o card já acende', () => {
+    const intensidade = Number(/--iso-hover:\s*([\d.]+)/.exec(hover?.[2] ?? '')?.[1])
+
+    expect(intensidade).toBeGreaterThan(1)
+  })
+
+  it('.iso-rig — o giro do hover — vem de token, não de grau solto no meio do calc', () => {
+    expect(rig).toContain('var(--iso-spin-hover)')
+    expect(rig).not.toMatch(/\*\s*\d+deg/)
   })
 
   it('IsoBlock — decorativo e aria-hidden — não virou focável para ganhar o hover', () => {

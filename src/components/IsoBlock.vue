@@ -38,8 +38,9 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   animation: isoFloat var(--iso-float-dur) ease-in-out infinite;
 }
 
-/* o icone acende o proprio gatilho: quem leva o mouse ate ele ve a animacao sem depender de um card ao redor que acenda --iso-hover */
-.iso:hover { --iso-hover: 1; }
+/* --iso-hover e intensidade, nao liga-desliga: o card acende 1, e chegar com o mouse no proprio icone passa de 1, entao
+   o mesmo calc rende um passo a mais de giro, altura e brilho — e o gesto de mirar o icone tem resposta propria */
+.iso:hover { --iso-hover: 1.45; }
 
 .iso-sm { --iso-size: 34px; --iso-depth: 6px; }
 .iso-lg { --iso-size: 74px; --iso-depth: 14px; }
@@ -49,9 +50,10 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   inset: 0;
   transform-style: preserve-3d;
   transform:
+    scale(calc(1 + var(--iso-hover, 0) * var(--iso-pop)))
     translateY(calc(var(--iso-hover, 0) * var(--iso-lift) * -1))
     rotateX(var(--iso-tilt))
-    rotateZ(calc(var(--iso-spin) + var(--iso-hover, 0) * 16deg));
+    rotateZ(calc(var(--iso-spin) + var(--iso-hover, 0) * var(--iso-spin-hover)));
   transition: transform var(--dur-soft) var(--ease-soft);
 }
 
@@ -75,7 +77,8 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
   inset: 0;
   border-radius: 50%;
   background: radial-gradient(closest-side, color-mix(in srgb, var(--iso-accent) 55%, transparent), transparent 78%);
-  transform: translateZ(calc(var(--iso-depth) * -1));
+  transform: translateZ(calc(var(--iso-depth) * -1)) scale(calc(1 + var(--iso-hover, 0) * var(--iso-glow-pop)));
+  transition: transform var(--dur-soft) var(--ease-soft);
   animation: isoGlowPulse var(--iso-float-dur) ease-in-out infinite;
 }
 
@@ -105,7 +108,8 @@ withDefaults(defineProps<IsoBlockProps>(), { size: 'md' })
     animation: none;
   }
   .iso-rig,
-  .iso-cap {
+  .iso-cap,
+  .iso-glow {
     transition: none;
   }
 }
