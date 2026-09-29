@@ -6,3 +6,4 @@ dist/
 .vite/
 .vite-cache/
 *.tsbuildinfo
+.playwright-mcp/

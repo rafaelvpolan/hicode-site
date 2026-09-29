@@ -334,3 +334,21 @@ describe('o leitor do nome acessível reclama de entrada e de saída inválidas'
     expect(componentTagsOf('<div class="x"><p>texto</p></div>')).toEqual([])
   })
 })
+
+describe('o ícone da fase não tem placa quadrada atrás', () => {
+  const regra = /\.steps \.n \{([^}]*)\}/.exec(appSource)
+
+  it('a varredura — encontra a regra .steps .n em App.vue', () => {
+    expect(regra).not.toBeNull()
+  })
+
+  // a moldura desenhava um quadrado em volta do bloco isométrico, que nos pilares nunca existiu
+  it('.steps .n — não declara borda nem raio: a moldura quadrada saiu', () => {
+    expect(regra?.[1]).not.toMatch(/border/)
+  })
+
+  // apagar a regra inteira também faria o caso acima passar, e levaria a escala do ícone junto
+  it('.steps .n — segue declarando a escala do ícone', () => {
+    expect(regra?.[1]).toMatch(/font-size:/)
+  })
+})

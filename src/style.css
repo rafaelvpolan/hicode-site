@@ -70,7 +70,8 @@
   --iso-spin: 45deg;
   --iso-size: 46px;
   --iso-depth: 9px;
-  --iso-lift: 6px;
+  --iso-glow-pop: .35;
+  --iso-flow: -26;
   --iso-perspective: 420px;
   --iso-float-dur: 6s;
   --grid-cell: 22px;
@@ -139,6 +140,11 @@ h1, h2, h3 { line-height: 1.2; }
 }
 
 .cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+/* no telefone tres botoes lado a lado viram tres alvos estreitos: nos blocos que fecham a pagina eles empilham e cada um recebe a linha inteira */
+@media (max-width: 620px) {
+  .cta.is-stacked { flex-direction: column; align-items: stretch; }
+  .cta.is-stacked > * { width: 100%; justify-content: center; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
