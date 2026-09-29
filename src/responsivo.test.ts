@@ -77,10 +77,11 @@ describe('telefone — quem opta pela pilha, e quem fica de fora', () => {
     expect(stageSection).not.toMatch(/is-stacked/)
   })
 
-  it('App.vue — no total — tem um .cta solto e um empilhado, nessa ordem', () => {
-    const ctas = [...appSource.matchAll(/<div class="(cta[^"]*)">/g)].map((match) => match[1])
+  // conta só os empilhados: congelar o total de .cta faria um bloco novo e sem relação com a pilha reprovar sem haver regressão
+  it('App.vue — no total — empilha um .cta e nenhum outro', () => {
+    const stacked = [...appSource.matchAll(/<div class="cta[^"]*\bis-stacked\b[^"]*">/g)]
 
-    expect(ctas).toEqual(['cta', 'cta is-stacked'])
+    expect(stacked).toHaveLength(1)
   })
 })
 
