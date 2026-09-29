@@ -1,0 +1,33 @@
+{
+  "id": "hicode-site",
+  "sobre": "Como este repositorio quer ser verificado pelo motor. Vence a deteccao automatica. A deteccao por npm-scripts classificava 'build' como informativo, e aqui 'build' e 'vue-tsc --noEmit && vite build' — ou seja, o typecheck do projeto nao bloqueava. Separado em criterios proprios, cada um com o seu veredito.",
+  "criterios": {
+    "fonte": "comandos",
+    "comandos": [
+      {
+        "id": "typecheck",
+        "binario": "./node_modules/.bin/vue-tsc",
+        "argumentos": ["--noEmit"],
+        "diretorio": ".",
+        "obrigatorio": true,
+        "timeoutMs": 300000
+      },
+      {
+        "id": "test",
+        "binario": "./node_modules/.bin/vitest",
+        "argumentos": ["run"],
+        "diretorio": ".",
+        "obrigatorio": true,
+        "timeoutMs": 600000
+      },
+      {
+        "id": "build",
+        "binario": "./node_modules/.bin/vite",
+        "argumentos": ["build"],
+        "diretorio": ".",
+        "obrigatorio": true,
+        "timeoutMs": 600000
+      }
+    ]
+  }
+}

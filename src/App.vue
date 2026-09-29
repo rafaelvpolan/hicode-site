@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { repoUrl, sponsorUrl, starUrl } from './lib/github'
 import { pipeline, stepStyle } from './pipeline'
+import { pillars } from './pillars'
 import { useGithubStars } from './useGithubStars'
 import { useScrollTop } from './useScrollTop'
 import { useMobileMenu } from './useMobileMenu'
@@ -9,6 +10,7 @@ import Button from './components/Button.vue'
 import Card from './components/Card.vue'
 import Container from './components/Container.vue'
 import IsoBlock from './components/IsoBlock.vue'
+import StrokeIcon from './components/StrokeIcon.vue'
 import Panel from './components/Panel.vue'
 import BrandMark from './components/BrandMark.vue'
 import AgentGrid from './components/AgentGrid.vue'
@@ -24,24 +26,6 @@ const tabs = [
   { href: '#pipeline', label: 'Pipeline' },
   { href: '#agentes', label: 'Agentes' },
   { href: '#faq', label: 'FAQ' },
-]
-
-const pillars = [
-  {
-    icon: '🔁',
-    title: 'Loop Engineering',
-    text: 'Você para de promptar o agente e passa a desenhar o loop que o prompta. O estado vive em disco: o agente esquece, o repo lembra.',
-  },
-  {
-    icon: '🧩',
-    title: 'Agentes Nexus',
-    text: '15 agentes de escopo estreito (código, testes, segurança, banco, frontend…) e um gate adversarial, o Crivo, que aprova ou bloqueia o trabalho.',
-  },
-  {
-    icon: '👁️',
-    title: 'Executar primeiro',
-    text: 'Primeiro a tarefa funciona e você vê o preview; só depois vêm arquitetura, testes e limpeza. Valida-se a intenção cedo.',
-  },
 ]
 </script>
 
@@ -137,7 +121,7 @@ const pillars = [
         <div class="cards">
           <Card v-for="(p, i) in pillars" :key="p.title">
             <span class="card-tag" aria-hidden="true">{{ sectionTag('PILLAR', i) }}</span>
-            <IsoBlock class="ic" size="lg" aria-hidden="true">{{ p.icon }}</IsoBlock>
+            <IsoBlock class="ic" size="lg" aria-hidden="true"><StrokeIcon :icon="p.icon" /></IsoBlock>
             <h3>{{ p.title }}</h3>
             <p>{{ p.text }}</p>
           </Card>
@@ -147,11 +131,21 @@ const pillars = [
       <Panel id="pipeline" class="col-12" :tag="sectionTag('CH', 1)" title="O pipeline" meta="fases">
         <p class="lead">Executar primeiro, polir depois. Você vê o resultado antes de gastar esforço com testes e limpeza.</p>
         <ol class="steps">
-          <li v-for="(s, i) in pipeline" :key="s.k" :style="'--stage-color: ' + s.color">
+          <!-- a fase não navega para lugar nenhum: continua um listitem, focável para leitura, não para ação -->
+          <!-- o nome vem do próprio texto visível: o listitem segue listitem e nada é duplicado para o leitor -->
+          <Card
+            v-for="(s, i) in pipeline"
+            :key="s.k"
+            as="li"
+            textured
+            tabindex="0"
+            :aria-labelledby="`fase-${i}-nome fase-${i}-desc`"
+            :style="'--stage-color: ' + s.color"
+          >
             <span class="stage-tag" aria-hidden="true">{{ sectionTag('STAGE', i) }}</span>
-            <IsoBlock class="n" :style="stepStyle(s)" aria-hidden="true">{{ s.icon }}</IsoBlock>
-            <div><b>{{ s.k }}</b><span>{{ s.d }}</span></div>
-          </li>
+            <IsoBlock class="n" :style="stepStyle(s)" aria-hidden="true"><StrokeIcon :icon="s.icon" /></IsoBlock>
+            <div class="stage-body"><b :id="`fase-${i}-nome`">{{ s.k }}</b><span :id="`fase-${i}-desc`">{{ s.d }}</span></div>
+          </Card>
         </ol>
       </Panel>
 
@@ -163,7 +157,7 @@ const pillars = [
         <AgentGrid />
       </Panel>
 
-      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 5)" title="Perguntas frequentes" meta="dúvidas">
+      <Panel id="faq" class="col-5" :tag="sectionTag('CH', 3)" title="Perguntas frequentes" meta="dúvidas">
         <p class="lead">
           O essencial sobre merge, spec e o que o pipeline decide sozinho — sem precisar ler
           o código do motor.
@@ -171,15 +165,14 @@ const pillars = [
         <FaqList />
       </Panel>
 
-      <Panel id="por-que-loops" class="col-12" :tag="sectionTag('CH', 6)" title="Por que loops, não prompts" meta="tese">
+      <Panel id="por-que-loops" class="col-12" :tag="sectionTag('CH', 4)" title="Por que loops, não prompts" meta="tese">
         <p class="lead">
           Um prompt é sessão. Um loop é sistema. A diferença aparece na segunda vez que você
           precisa da mesma coisa — e não quer explicar tudo de novo.
         </p>
-        <LoopVsPrompt />
       </Panel>
 
-      <Panel id="open" class="col-12" :tag="sectionTag('CH', 7)" title="Projeto open source" meta="comunidade">
+      <Panel id="open" class="col-12" :tag="sectionTag('CH', 5)" title="Projeto open source" meta="comunidade">
         <p class="lead">
           O hicode é livre e construído à vista de todos. Se ele te ajuda, a melhor forma de
           retribuir é <strong>deixar uma estrela</strong> (ajuda outras pessoas a encontrarem) e,
@@ -323,19 +316,32 @@ main .deck { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); g
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--deck-gap); }
 @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
 .card-tag { display: block; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: var(--track-ls); color: var(--acc2); margin-bottom: var(--space-3); }
-.card .ic { font-size: var(--fs-4xl); margin-left: calc(var(--space-2) * -1); }
+/* o StrokeIcon mede 1em: a escala do ícone vem daqui, o alinhamento vem do assento do IsoBlock */
+.card .ic { font-size: var(--fs-4xl); }
 .card h3 { margin: var(--space-4) 0 var(--space-2); font-family: var(--font-display); font-size: var(--fs-2xl); letter-spacing: .06em; text-transform: uppercase; }
 .card h3::after { content: ''; display: block; width: 100%; height: 1px; margin-top: var(--space-3); background: var(--scan-line); opacity: .55; }
 .card p { margin: var(--space-4) 0 0; color: var(--mut); }
 
 .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
 @media (max-width: 820px) { .steps { grid-template-columns: 1fr; } }
-.steps li { position: relative; display: flex; gap: var(--space-5); align-items: flex-start; background: var(--panel); background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: var(--grid-cell) var(--grid-cell); border: 1px solid var(--bd); border-left: 3px solid var(--stage-color, var(--acc)); clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch)); padding: var(--space-7) var(--space-8); transition: transform var(--dur-soft) var(--ease-soft), border-color var(--dur-micro) ease; }
-.steps li:hover { --iso-hover: 1; transform: translateY(-3px); border-color: color-mix(in srgb, var(--stage-color, var(--acc)) 50%, var(--bd)); }
+/* recorte, cantos, barra de acento, sombra por token e transição vêm do Card; aqui fica só o que é da fase */
+.steps li.card { display: flex; gap: var(--space-5); align-items: flex-start; border-left: 3px solid var(--stage-color, var(--acc)); padding: var(--space-7) var(--space-8); }
+/* mouse e teclado chegam ao mesmo estado: o card sobe, a borda acende e o traço do ícone corre por --iso-hover */
+.steps li:hover, .steps li:focus-visible { --iso-hover: 1; transform: translateY(-3px); border-color: color-mix(in srgb, var(--stage-color, var(--acc)) 50%, var(--bd)); border-left-color: var(--stage-color, var(--acc)); }
+/* o clip-path do card recortaria o outline do foco: o anel vem por dentro, via box-shadow, somado à elevação do hover */
+.steps li:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--acc2), var(--shadow-panel-hover); }
+/* em forced-colors o box-shadow e suprimido pelo SO: sem isto, `outline: none` deixaria as 6 fases focaveis sem nenhum indicador */
+@media (forced-colors: active) {
+  .steps li:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+}
 .stage-tag { position: absolute; top: 10px; right: 16px; font-family: var(--font-mono); font-size: var(--fs-2xs); letter-spacing: .14em; color: var(--stage-color, var(--acc)); }
-.steps .n { border: 1px solid; border-radius: var(--radius-md); font-size: var(--fs-lg); }
-.steps b { display: block; }
-.steps span { color: var(--mut); font-size: var(--fs-base); }
+/* o conteúdo empilha acima da barra de acento e dos cantos do Card */
+.stage-body { position: relative; }
+/* o ícone mede 1em; num assento de 46px o traço pede um pouco mais de corpo que o emoji antigo */
+.steps .n { border: 1px solid; border-radius: var(--radius-md); font-size: var(--fs-2xl); }
+/* preso ao corpo da fase: um `.steps span` solto também pintaria a tag do estágio e a barra de acento do Card */
+.stage-body b { display: block; }
+.stage-body span { color: var(--mut); font-size: var(--fs-base); }
 
 /* ---- barra de status ---- */
 .statusbar { border-top: 1px solid color-mix(in srgb, var(--acc) 30%, var(--bd)); background: linear-gradient(0deg, color-mix(in srgb, var(--acc) 10%, var(--bg)) 0%, transparent 100%); }
