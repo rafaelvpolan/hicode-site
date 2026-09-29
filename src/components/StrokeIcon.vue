@@ -106,7 +106,9 @@ const props = defineProps<StrokeIconProps>()
   fill: none;
 }
 
-/* o traço que corre: no repouso é tracejado, no hover/foco do card (--iso-hover: 1) avança um ciclo inteiro do padrão */
+/* o traço que corre: no repouso é tracejado; sob o mouse avança --iso-flow. O passo NÃO fecha o ciclo
+   de 6 do dasharray de propósito — parar fora da grade do padrão é o que faz o traço parecer em curso,
+   e não reiniciado. A intensidade acima de 1, do hover direto no ícone, corre proporcionalmente mais */
 .stroke-icon-flow {
   stroke-dasharray: 3 3;
   stroke-dashoffset: calc(var(--iso-hover, 0) * var(--iso-flow));
