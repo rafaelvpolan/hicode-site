@@ -9,6 +9,7 @@ function readSource(relativePath: string): string {
 const styleSource = readSource('./style.css')
 const appSource = readSource('./App.vue')
 const finalCtaSource = readSource('./components/FinalCta.vue')
+const panelSource = readSource('./components/Panel.vue')
 
 /** o corpo de uma regra ou media query, contando as chaves internas: `[^}]*` pararia na primeira chave aninhada */
 function bodyOf(source: string, header: string): string {
@@ -53,6 +54,11 @@ describe('telefone — a pilha de botões é declarada uma vez, no global', () =
   it('.cta — sem o modificador — não empilha em largura nenhuma: a pilha é opt-in', () => {
     expect(bodyOf(styleSource, '\n.cta ')).not.toMatch(/flex-direction:\s*column/)
   })
+
+  // 620px não é número novo: é o limiar em que o Panel já troca para o modo estreito
+  it('620px — o limiar da pilha — é o mesmo que o Panel já usa', () => {
+    expect(panelSource).toContain('@media (max-width: 620px)')
+  })
 })
 
 describe('telefone — quem opta pela pilha, e quem fica de fora', () => {
@@ -88,10 +94,14 @@ describe('telefone — quem opta pela pilha, e quem fica de fora', () => {
 describe('desktop — o menu encosta na direita sem quebrar a rolagem da nav', () => {
   const cmdbarRow = bodyOf(appSource, '\n.cmdbar-row')
   const phoneBlock = bodyOf(appSource, '@media (max-width: 900px)')
+  const tabsBase = bodyOf(appSource, '\n.tabs ')
+  const tabGh = bodyOf(appSource, '\n.tab-gh')
 
-  it('a varredura — encontra a regra base do .cmdbar-row e o bloco estreito em App.vue', () => {
+  it('a varredura — encontra as regras base do .cmdbar-row, da .tabs e do .tab-gh, e o bloco estreito', () => {
     expect(cmdbarRow).not.toBe('')
     expect(phoneBlock).not.toBe('')
+    expect(tabsBase).not.toBe('')
+    expect(tabGh).not.toBe('')
   })
 
   it('.cmdbar-row — no desktop — dá à nav uma trilha do tamanho do conteúdo, que cede a zero quando aperta', () => {
@@ -102,11 +112,21 @@ describe('desktop — o menu encosta na direita sem quebrar a rolagem da nav', (
     expect(cmdbarRow).toMatch(/justify-content:\s*space-between/)
   })
 
+  // a âncora positiva vem antes da negativa: sem ela, apagar a própria regra deixaria a guarda verde sem guardar nada
+  it('.tabs — rola na horizontal — é essa rolagem que o flex-end quebraria', () => {
+    expect(tabsBase).toMatch(/overflow-x:\s*auto/)
+  })
+
   it('.tabs — em largura nenhuma — usa flex-end: ele deixaria as primeiras abas inalcançáveis pela rolagem', () => {
     expect(appSource).not.toMatch(/\.tabs[^{]*\{[^}]*justify-content:\s*flex-end/)
   })
 
+  it('.tab-gh — segue sendo a aba destacada do GitHub', () => {
+    expect(tabGh).toMatch(/border-color:\s*var\(--bd-acc\)/)
+  })
+
   it('.tab-gh — em largura nenhuma — carrega margem automática: a nav inteira já está na direita', () => {
+    expect(tabGh).not.toMatch(/margin-left/)
     expect(appSource).not.toMatch(/\.tab-gh[^{]*\{[^}]*margin-left/)
   })
 
