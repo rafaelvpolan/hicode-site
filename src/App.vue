@@ -229,8 +229,9 @@ const tabs = [
 }
 /* seletor descendente: vence o padding do primitivo Container sem depender da ordem do bundle */
 .cmdbar .cmdbar-wrap { padding-top: var(--space-2); padding-bottom: var(--space-2); }
-/* a nav encosta na direita pela trilha, nao por justify-content nem margem automatica: essas duas deixam os primeiros itens
-   inalcancaveis pela rolagem quando a barra aperta. Com minmax(0, max-content) a trilha cede ate zero e o overflow-x da .tabs volta a comecar do primeiro item */
+/* duas declarações, dois papéis: o space-between é o que joga a nav para a direita, e a trilha em minmax(0, max-content)
+   é o que a deixa ceder até zero quando a barra aperta. Alinhar pela própria .tabs, com justify-content: flex-end ou margem
+   automática, encostaria igual mas mataria o overflow-x dela: as primeiras abas ficariam inalcançáveis pela rolagem */
 .cmdbar-row { display: grid; grid-template-columns: auto minmax(0, max-content); justify-content: space-between; align-items: center; gap: var(--space-6); min-height: var(--hud-h); }
 
 .brand { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--tx); }
