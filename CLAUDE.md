@@ -1,3 +1,6 @@
+<!-- hii:inicio — gerado por `hii projetar`; edite .hii/rules.md, nao este bloco -->
+## Regras do projeto (fonte: .hii/rules.md)
+
 # Regras do projeto para o motor hii
 
 Site institucional do hicode: Vite + Vue 3 + TypeScript, publicado no GitHub Pages pelo workflow `.github/workflows/deploy.yml` a cada push em `main`.
@@ -7,3 +10,8 @@ Site institucional do hicode: Vite + Vue 3 + TypeScript, publicado no GitHub Pag
 - Nada de `any`; tipos explicitos nas funcoes exportadas.
 - SEO e metadados ficam em `index.html` e `public/` (robots, sitemap, og-image); mantenha-os coerentes com o conteudo.
 - Nao adicione dependencias de runtime sem necessidade; o site e estatico.
+
+## Memoria do projeto
+
+Leia .hii/memory/ antes de mudar convencoes, e registre ali as decisoes duraveis.
+<!-- hii:fim -->
